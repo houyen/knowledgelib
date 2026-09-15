@@ -85,19 +85,6 @@ python3 sync_knowledgelib.py
 
 ---
 
-## 🛠️ Local Tools & Ingestion Scripts (`scripts/`)
-*(Thư mục `scripts/` được quản lý cục bộ và bỏ qua trong `.gitignore` để bảo vệ các cấu hình bot và biến môi trường cá nhân)*
-
-* `scripts/process_batch_1_payment.py`: Batch processor for payment domain documents.
-* `scripts/process_batch_2_capital_market.py`: Batch processor for capital markets manuals.
-* `scripts/process_batch_3_banking.py`: Batch processor for commercial banking and lending.
-* `scripts/process_batch_4_insurance.py`: Batch processor for insurance and health coverage.
-* `scripts/process_remaining_batches.py`: Master processor for Salesforce, ServiceNow, ITAM, BCP, ESG, Ecommerce, Telecom.
-* `scripts/ingest_dedp_book.py`: Web crawler and processor for the complete *Patterns of Data Engineering* book.
-
-
----
-
 ## 📄 License
 
 This repository is licensed under the MIT License. See [LICENSE](LICENSE) for details.
