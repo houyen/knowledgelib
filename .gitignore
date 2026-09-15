@@ -1,0 +1,77 @@
+# Vector Database & Local Embeddings (large binary files, regenerable locally via sync_knowledgelib.py)
+.chroma_db/
+*.parquet
+
+# Python Cache & Bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environments
+venv/
+.venv/
+env/
+ENV/
+
+# Environment Variables & Secrets (Keep .env.example)
+.env
+.env.local
+.env.*.local
+*.env
+*.pem
+*.key
+*.p12
+*.pfx
+*token*
+*secret*
+*credential*
+credentials.json
+
+
+# Runtime State & Logs
+*.log
+scripts/triage_state.json
+
+# Operating System & IDE Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Scratch & Temporary Directories
+scratch/
+tmp/
+temp/
+*.tmp
+*.temp
+.system_generated/
+
+# Excluded folders
+games/
+scripts/
+
+
