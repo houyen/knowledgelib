@@ -33,6 +33,13 @@ KNOWLEDGE_ROUTER_KEYWORDS = {
     "gtm", "saas", "pricing", "valuation", "benchmark", "metrics", "compliance", "iso", "gdpr", "soc2"
 }
 
+# Ngưỡng vector distance (cosine) để coi câu hỏi "trong scope" khi không match whitelist.
+# Calibrated: câu hỏi liên quan tri thức trong kho -> distance ~0.25-0.55; câu hỏi ngoài scope -> ~0.7-0.85.
+VECTOR_SCOPE_DISTANCE_THRESHOLD = 0.6
+
+# Reciprocal Rank Fusion constant cho hybrid search (giá trị chuẩn theo paper RRF, ít nhạy với k).
+RRF_K = 60
+
 class KnowledgeLibClient:
     def __init__(self, data_path: str = DEFAULT_KNOWLEDGELIB_PATH):
         self.data_path = os.path.abspath(data_path)
@@ -57,9 +64,20 @@ class KnowledgeLibClient:
             return json.load(f)
 
     def is_knowledge_query(self, query: str) -> bool:
-        """Kiểm tra nhanh xem câu hỏi có nằm trong scope tri thức không."""
+        """
+        Kiểm tra nhanh xem câu hỏi có nằm trong scope tri thức không.
+        Pass nếu match whitelist từ khóa HOẶC vector distance đủ gần (semantic gate),
+        để câu hỏi hợp lệ nhưng thiếu đúng từ khóa trong danh sách vẫn lọt qua.
+        """
         query_lower = query.lower()
-        return any(kw in query_lower for kw in KNOWLEDGE_ROUTER_KEYWORDS)
+        if any(kw in query_lower for kw in KNOWLEDGE_ROUTER_KEYWORDS):
+            return True
+
+        vec_results = self.vector_search(query, top_k=1)
+        if vec_results and vec_results[0]["distance"] < VECTOR_SCOPE_DISTANCE_THRESHOLD:
+            return True
+
+        return False
 
     def vector_search(self, query: str, top_k: int = 3) -> list:
         """Tìm kiếm ngữ nghĩa (Semantic Vector Search) qua ChromaDB."""
@@ -124,11 +142,49 @@ class KnowledgeLibClient:
         return [unit for score, unit in results[:top_k]]
 
     def search(self, query: str, top_k: int = 3) -> list:
-        """Hybrid Search: Ưu tiên Vector Search, nếu không tìm thấy sẽ dùng Keyword Search."""
-        vec_results = self.vector_search(query, top_k=top_k)
-        if vec_results:
-            return vec_results
-        return self.keyword_search(query, top_k=top_k)
+        """
+        Hybrid Search thật: chạy song song Vector + Keyword search, kết hợp điểm
+        bằng Reciprocal Rank Fusion (RRF) thay vì chỉ OR (vector trước, rỗng mới fallback).
+        RRF không cần chuẩn hoá thang điểm giữa 2 nguồn khác nhau (distance vs keyword score).
+        """
+        pool_size = max(top_k * 3, 10)
+        vec_results = self.vector_search(query, top_k=pool_size)
+        kw_results = self.keyword_search(query, top_k=pool_size)
+
+        rrf_scores = {}
+        merged = {}
+
+        for rank, r in enumerate(vec_results):
+            unit_id = r["id"]
+            rrf_scores[unit_id] = rrf_scores.get(unit_id, 0.0) + 1.0 / (RRF_K + rank + 1)
+            d = merged.setdefault(unit_id, {"id": unit_id, "sources": set()})
+            d["canonical_question"] = r.get("canonical_question", "")
+            d["domain"] = r.get("domain", "")
+            d["entity_type"] = r.get("entity_type", "")
+            d["distance"] = r.get("distance")
+            d["sources"].add("vector")
+
+        for rank, r in enumerate(kw_results):
+            unit_id = r["id"]
+            rrf_scores[unit_id] = rrf_scores.get(unit_id, 0.0) + 1.0 / (RRF_K + rank + 1)
+            d = merged.setdefault(unit_id, {"id": unit_id, "sources": set()})
+            d["canonical_question"] = r.get("canonical_question", d.get("canonical_question", ""))
+            d["domain"] = r.get("domain", d.get("domain", ""))
+            d["entity_type"] = r.get("entity_type", d.get("entity_type", ""))
+            d["aliases"] = r.get("aliases", [])
+            d["score"] = r.get("score")
+            d["sources"].add("keyword")
+
+        ranked_ids = sorted(rrf_scores, key=lambda uid: rrf_scores[uid], reverse=True)[:top_k]
+
+        results = []
+        for unit_id in ranked_ids:
+            d = merged[unit_id]
+            sources = d.pop("sources")
+            d["search_type"] = "hybrid" if len(sources) > 1 else next(iter(sources))
+            d["rrf_score"] = rrf_scores[unit_id]
+            results.append(d)
+        return results
 
     def get_unit_content(self, unit_id: str) -> str:
         """Đọc toàn bộ nội dung tệp Markdown của Unit."""
@@ -138,29 +194,46 @@ class KnowledgeLibClient:
         with open(file_path, "r", encoding="utf-8") as f:
             return f.read()
 
-    def query_and_get(self, query: str) -> dict:
+    def query_and_get(self, query: str, top_k: int = 1) -> dict:
         """
         Hàm giao tiếp chuẩn cho Agent:
-        Tra cứu Hybrid Vector Search -> Trả về Metadata & Content Markdown.
+        Tra cứu Hybrid Search -> Trả về Metadata & Content Markdown.
+
+        top_k=1 (mặc định, tương thích ngược): trả schema đơn (unit_id/metadata/content ở top-level).
+        top_k>1: trả "matches": [{unit_id, search_type, metadata, content}, ...] để agent tự chọn.
         """
-        matched_units = self.search(query, top_k=1)
+        matched_units = self.search(query, top_k=top_k)
         if not matched_units:
             return {
                 "status": "not_found",
                 "message": "No matching knowledge unit found.",
                 "should_fallback_to_llm": True
             }
-        
-        top_unit = matched_units[0]
-        unit_id = top_unit["id"]
-        content = self.get_unit_content(unit_id)
-        
+
+        if top_k == 1:
+            top_unit = matched_units[0]
+            unit_id = top_unit["id"]
+            content = self.get_unit_content(unit_id)
+            return {
+                "status": "success",
+                "unit_id": unit_id,
+                "search_type": top_unit.get("search_type", "hybrid"),
+                "metadata": top_unit,
+                "content": content,
+                "should_fallback_to_llm": False
+            }
+
+        matches = []
+        for unit in matched_units:
+            matches.append({
+                "unit_id": unit["id"],
+                "search_type": unit.get("search_type", "hybrid"),
+                "metadata": unit,
+                "content": self.get_unit_content(unit["id"]),
+            })
         return {
             "status": "success",
-            "unit_id": unit_id,
-            "search_type": top_unit.get("search_type", "hybrid"),
-            "metadata": top_unit,
-            "content": content,
+            "matches": matches,
             "should_fallback_to_llm": False
         }
 

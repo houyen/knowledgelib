@@ -16,7 +16,14 @@ CATALOG = {
             "aliases": ["pytest config", "pytest.ini"],
             "domain": "software > devops > testing",
             "entity_type": "book_chapter",
-        }
+        },
+        {
+            "id": "software/devops/pytest-fixtures",
+            "canonical_question": "How to use pytest fixtures",
+            "aliases": ["pytest fixture"],
+            "domain": "software > devops > testing",
+            "entity_type": "book_chapter",
+        },
     ]
 }
 
@@ -28,13 +35,16 @@ def client(tmp_path):
     (tmp_path / "software" / "devops" / "pytest-configuration.md").write_text(
         "# How to configure pytest\n\nBody.", encoding="utf-8"
     )
+    (tmp_path / "software" / "devops" / "pytest-fixtures.md").write_text(
+        "# How to use pytest fixtures\n\nBody.", encoding="utf-8"
+    )
     return KnowledgeLibClient(data_path=str(tmp_path))
 
 
 def test_no_chroma_db_falls_back_to_keyword_search(client):
     assert client.collection is None
     results = client.keyword_search("pytest config", top_k=3)
-    assert len(results) == 1
+    assert len(results) == 2
     assert results[0]["id"] == "software/devops/pytest-configuration"
     assert results[0]["search_type"] == "keyword"
 
@@ -61,3 +71,27 @@ def test_query_and_get_not_found_schema(client):
 def test_is_knowledge_query_whitelist(client):
     assert client.is_knowledge_query("best laptop 2025") is True
     assert client.is_knowledge_query("xin chào bạn khỏe không") is False
+
+
+def test_is_knowledge_query_no_collection_skips_vector_gate(client):
+    # No .chroma_db in fixture -> collection is None -> vector_search always [] ->
+    # gate falls back to whitelist-only (no crash, no false positive from missing vector data).
+    assert client.collection is None
+    assert client.is_knowledge_query("pytest config") is False
+
+
+def test_search_hybrid_returns_rrf_score_and_search_type(client):
+    results = client.search("pytest config", top_k=2)
+    assert results
+    assert all("rrf_score" in r and "search_type" in r for r in results)
+    # Stronger keyword match ("pytest config" hits both alias + canonical) ranks first.
+    assert results[0]["id"] == "software/devops/pytest-configuration"
+
+
+def test_query_and_get_top_k_multiple_returns_matches_list(client):
+    res = client.query_and_get("pytest", top_k=2)
+    assert res["status"] == "success"
+    assert len(res["matches"]) == 2
+    ids = {m["unit_id"] for m in res["matches"]}
+    assert ids == {"software/devops/pytest-configuration", "software/devops/pytest-fixtures"}
+    assert all(m["content"] for m in res["matches"])
