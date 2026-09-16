@@ -117,6 +117,7 @@ class KnowledgeLibClient:
             if score > 0:
                 unit_copy = dict(unit)
                 unit_copy["search_type"] = "keyword"
+                unit_copy["score"] = score
                 results.append((score, unit_copy))
 
         results.sort(key=lambda x: x[0], reverse=True)

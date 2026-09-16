@@ -224,35 +224,31 @@ def update_catalog_and_vector_db(new_unit_entries: list = None, sync_only: bool 
     except Exception as e:
         print(f"⚠️ ChromaDB sync warning: {e}")
 
-def main():
-    parser = argparse.ArgumentParser(description="Import & Sync knowledge document into KnowledgeLib")
-    parser.add_argument("file_path", nargs="?", help="Path to PDF, EPUB, TXT, or MD file")
-    parser.add_argument("--domain-path", default="software/imported-books", help="Directory tree path inside repo (e.g. software/system-design/my-book)")
-    parser.add_argument("--domain", default="software > imported_knowledge", help="Domain string for metadata")
-    parser.add_argument("--type", default="book_chapter", help="Entity type (e.g. book_chapter, reference)")
-    parser.add_argument("--sync-only", action="store_true", help="Re-scan repo markdown files, update catalog.json and ChromaDB without importing new file")
-    
-    args = parser.parse_args()
-    
-    if args.sync_only:
-        print("🚀 Starting Repository Sync-Only Mode...")
+def run_import(
+    file_path: str | None,
+    domain_path: str = "software/imported-books",
+    domain: str = "software > imported_knowledge",
+    entity_type: str = "book_chapter",
+    sync_only: bool = False,
+) -> dict:
+    """
+    Callable core of the ingestion pipeline (no argparse, no sys.exit).
+    Used by both the CLI (`main()`) and the MCP `knowledgelib_ingest` tool.
+    Returns a status dict instead of printing-and-exiting on error.
+    """
+    if sync_only:
         update_catalog_and_vector_db(sync_only=True)
-        print("\n🎉 Repository catalog & vector database sync completed!")
-        return
+        return {"status": "success", "mode": "sync_only"}
 
-    if not args.file_path:
-        parser.print_help()
-        sys.exit(1)
-        
-    input_file = os.path.abspath(args.file_path)
+    if not file_path:
+        return {"status": "error", "message": "file_path is required unless sync_only=True"}
+
+    input_file = os.path.abspath(file_path)
     if not os.path.exists(input_file):
-        print(f"❌ Error: Input file not found at {input_file}")
-        sys.exit(1)
-        
+        return {"status": "error", "message": f"Input file not found at {input_file}"}
+
     doc_name = os.path.splitext(os.path.basename(input_file))[0]
-    print(f"🚀 Starting Ingestion for: {input_file}")
-    
-    pages = []
+
     if input_file.lower().endswith(".pdf"):
         pages = parse_pdf_pages(input_file)
     elif input_file.lower().endswith((".md", ".txt")):
@@ -263,12 +259,56 @@ def main():
             with open(input_file, "r", encoding="utf-8", errors="ignore") as f:
                 pages = [(1, f.read())]
         except Exception as e:
-            print(f"❌ Failed to read file: {e}")
-            sys.exit(1)
-            
+            return {"status": "error", "message": f"Failed to read file: {e}"}
+
     units = split_text_into_units(pages, doc_name)
-    new_entries = save_units_to_tree(units, args.domain_path, args.type, args.domain)
+    new_entries = save_units_to_tree(units, domain_path, entity_type, domain)
     update_catalog_and_vector_db(new_entries)
+
+    return {
+        "status": "success",
+        "mode": "import",
+        "file": input_file,
+        "unit_ids": [e["id"] for e in new_entries],
+        "unit_count": len(new_entries),
+    }
+
+
+def main():
+    parser = argparse.ArgumentParser(description="Import & Sync knowledge document into KnowledgeLib")
+    parser.add_argument("file_path", nargs="?", help="Path to PDF, EPUB, TXT, or MD file")
+    parser.add_argument("--domain-path", default="software/imported-books", help="Directory tree path inside repo (e.g. software/system-design/my-book)")
+    parser.add_argument("--domain", default="software > imported_knowledge", help="Domain string for metadata")
+    parser.add_argument("--type", default="book_chapter", help="Entity type (e.g. book_chapter, reference)")
+    parser.add_argument("--sync-only", action="store_true", help="Re-scan repo markdown files, update catalog.json and ChromaDB without importing new file")
+
+    args = parser.parse_args()
+
+    if args.sync_only:
+        print("🚀 Starting Repository Sync-Only Mode...")
+        result = run_import(None, sync_only=True)
+        if result["status"] != "success":
+            print(f"❌ {result['message']}")
+            sys.exit(1)
+        print("\n🎉 Repository catalog & vector database sync completed!")
+        return
+
+    if not args.file_path:
+        parser.print_help()
+        sys.exit(1)
+
+    print(f"🚀 Starting Ingestion for: {os.path.abspath(args.file_path)}")
+    result = run_import(
+        args.file_path,
+        domain_path=args.domain_path,
+        domain=args.domain,
+        entity_type=args.type,
+    )
+    if result["status"] != "success":
+        print(f"❌ {result['message']}")
+        sys.exit(1)
+
+    print(f"✅ Created {result['unit_count']} unit(s): {result['unit_ids']}")
     print("\n🎉 Import & Ingestion process successfully completed!")
 
 if __name__ == "__main__":

@@ -29,14 +29,18 @@ Khi người dùng hỏi hoặc yêu cầu tra cứu tri thức local:
 
 ```mermaid
 flowchart TD
-    A[Nhận câu hỏi tra cứu dưới skill knowledgelib] --> B[Gọi agent_client.py / Hybrid Search]
+    A[Nhận câu hỏi tra cứu dưới skill knowledgelib] --> B[Gọi MCP tool knowledgelib_search / Hybrid Search]
     B --> C{Tra cứu catalog.json & ChromaDB}
-    C -- Match thành công --> D[Đọc File Markdown & Kiểm tra Skip Conditions]
+    C -- Match thành công --> D[Đọc nội dung qua knowledgelib_get_content & Kiểm tra Skip Conditions]
     D -- Không Skip --> E[Trả về câu trả lời chuẩn kèm trích dẫn nguồn]
     C -- Không match --> F[Báo chưa có data local / Trả lời từ mô hình LLM]
 ```
 
-Lệnh thực thi tra cứu:
+**Cách ưu tiên — MCP tool** (server `knowledgelib` đăng ký qua `.mcp.json`, cần restart Claude Code sau khi cài để nạp server):
+- `knowledgelib_search(query, top_k=3)` — trả về nhiều kết quả kèm `score`/`distance`, agent tự chọn thay vì chỉ nhận top-1.
+- `knowledgelib_get_content(unit_id)` — đọc nội dung Markdown đầy đủ của unit đã chọn.
+
+**Fallback — CLI shell command** (dùng khi MCP server chưa đăng ký/không khả dụng, hoặc để debug tay):
 ```bash
 python3 "$KNOWLEDGELIB_PATH/agent_client.py" "câu hỏi của người dùng"
 # KNOWLEDGELIB_PATH = đường dẫn tới thư mục knowledgelib_data trên máy hiện tại
@@ -80,8 +84,12 @@ last_verified: YYYY-MM-DD
 ```
 
 ### 📍 Quy tắc 4: Kích hoạt Auto Sync sau khi tạo file
-Sau khi AI Agent ghi các tệp `.md` vào đường dẫn do Agent quyết định, Agent thực thi lệnh sau để tự động nạp vào `catalog.json` và ChromaDB Vector Database (`.chroma_db`):
+Sau khi AI Agent ghi các tệp `.md` vào đường dẫn do Agent quyết định, Agent gọi tool MCP để tự động nạp vào `catalog.json` và ChromaDB Vector Database (`.chroma_db`):
 
+- `knowledgelib_ingest(sync_only=True)` — re-scan `.md` đã ghi tay, sync catalog + vector.
+- `knowledgelib_ingest(file_path="/path/to/document.pdf", domain_path="<path-do-agent-chon>", domain="<domain-do-agent-chon>")` — import trực tiếp file PDF/MD/TXT.
+
+**Fallback CLI** (khi MCP server chưa khả dụng):
 ```bash
 python3 "$KNOWLEDGELIB_PATH/import_knowledge.py" --sync-only
 ```
