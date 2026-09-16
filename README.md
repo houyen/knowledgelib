@@ -69,7 +69,14 @@ Or invoke the skill in your AI assistant:
 /knowledgelib What are the 7 core legal principles of insurance?
 ```
 
-### 3. Ingesting New Knowledge
+### 3. Interactive Web UI
+For human browsing and interactive search, launch the local Web UI:
+```bash
+python3 web_ui.py
+```
+Then navigate to `http://127.0.0.1:8000`.
+
+### 4. Ingesting New Knowledge
 To import a new document (PDF, DOCX, MD, TXT, EPUB):
 ```bash
 python3 import_knowledge.py "/path/to/document.pdf" \

@@ -183,6 +183,9 @@ class KnowledgeLibClient:
             sources = d.pop("sources")
             d["search_type"] = "hybrid" if len(sources) > 1 else next(iter(sources))
             d["rrf_score"] = rrf_scores[unit_id]
+            d.setdefault("distance", None)
+            d.setdefault("score", None)
+            d.setdefault("aliases", [])
             results.append(d)
         return results
 

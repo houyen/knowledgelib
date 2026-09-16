@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>KnowledgeLib</h1>
+  <h2>Search</h2>
+  <input
+    type="search"
+    name="q"
+    placeholder="Search KnowledgeLib..."
+    hx-get="/search"
+    hx-trigger="input changed delay:300ms, search"
+    hx-target="#results"
+    autofocus
+  />
+  <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 1rem;">
+    <div id="results"></div>
+    <div id="detail"></div>
+  </div>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% if query and not results %}
+  <p><em>No knowledge units found for "{{ query }}".</em></p>
+{% endif %}
+<ul>
+  {% for r in results %}
+  <li>
+    <a href="/unit/{{ r.id }}" hx-get="/unit/{{ r.id }}" hx-target="#detail">
+      {{ r.canonical_question or r.id }}
+    </a>
+    <br />
+    <small>
+      {{ r.id }} · {{ r.domain }} · {{ r.search_type }}
+      {% if 'distance' in r and r.distance is not none %}· distance {{ "%.3f"|format(r.distance) }}{% endif %}
+      {% if 'score' in r and r.score is not none %}· score {{ r.score }}{% endif %}
+      {% if 'rrf_score' in r and r.rrf_score is not none %}· rrf {{ "%.4f"|format(r.rrf_score) }}{% endif %}
+    </small>
+  </li>
+  {% endfor %}
+</ul>

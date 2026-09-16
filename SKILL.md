@@ -46,6 +46,12 @@ python3 "$KNOWLEDGELIB_PATH/agent_client.py" "câu hỏi của người dùng"
 # KNOWLEDGELIB_PATH = đường dẫn tới thư mục knowledgelib_data trên máy hiện tại
 ```
 
+**Web UI (Duyệt tương tác cho người dùng):**
+```bash
+python3 "$KNOWLEDGELIB_PATH/web_ui.py"
+# Mở trình duyệt tại http://127.0.0.1:8000
+```
+
 ---
 
 ## 3. Giao thức Nạp & Chuyển đổi Tài liệu Mới (Inbound Ingestion Protocol)
