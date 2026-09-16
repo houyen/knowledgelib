@@ -10,7 +10,8 @@ Bạn có quyền gọi Skill/Tool lệnh local `/knowledgelib` để tra cứu 
 QUY TẮC ĐỊNH DANH TRA CỨU:
 1. Khi người dùng nhập lệnh `/knowledgelib <câu hỏi>` HOẶC khi câu hỏi chứa nhu cầu: So sánh sản phẩm/thiết bị, tiêu chuẩn DevOps/Security/ISO, B2B SaaS benchmarks, tư vấn mua sắm 2025-2026...
    -> BẮT BUỘC CHẠY LỆNH SHELL LOCAL:
-      python3 /Users/thaidt/Documents/Repo/knowledgelib_data/agent_client.py "<câu hỏi>"
+      python3 "$KNOWLEDGELIB_PATH/agent_client.py" "<câu hỏi>"
+      # KNOWLEDGELIB_PATH = đường dẫn tới thư mục knowledgelib_data trên máy hiện tại
 
 2. Đọc kết quả trả về từ lệnh trên:
    - Nếu tìm thấy Unit ID: Dùng thông tin trong tệp Markdown tương ứng để trả lời. Trích dẫn [src] chính xác.

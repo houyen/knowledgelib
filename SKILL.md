@@ -38,7 +38,8 @@ flowchart TD
 
 Lệnh thực thi tra cứu:
 ```bash
-python3 /Users/thaidt/Documents/Repo/knowledgelib_data/agent_client.py "câu hỏi của người dùng"
+python3 "$KNOWLEDGELIB_PATH/agent_client.py" "câu hỏi của người dùng"
+# KNOWLEDGELIB_PATH = đường dẫn tới thư mục knowledgelib_data trên máy hiện tại
 ```
 
 ---
@@ -82,11 +83,11 @@ last_verified: YYYY-MM-DD
 Sau khi AI Agent ghi các tệp `.md` vào đường dẫn do Agent quyết định, Agent thực thi lệnh sau để tự động nạp vào `catalog.json` và ChromaDB Vector Database (`.chroma_db`):
 
 ```bash
-python3 /Users/thaidt/Documents/Repo/knowledgelib_data/import_knowledge.py --sync-only
+python3 "$KNOWLEDGELIB_PATH/import_knowledge.py" --sync-only
 ```
 *Hoặc gọi trực tiếp lệnh import tự động:*
 ```bash
-python3 /Users/thaidt/Documents/Repo/knowledgelib_data/import_knowledge.py /path/to/document.pdf --domain-path "<path-do-agent-chon>" --domain "<domain-do-agent-chon>"
+python3 "$KNOWLEDGELIB_PATH/import_knowledge.py" /path/to/document.pdf --domain-path "<path-do-agent-chon>" --domain "<domain-do-agent-chon>"
 ```
 
 ---
