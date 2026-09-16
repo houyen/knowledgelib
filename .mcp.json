@@ -2,7 +2,7 @@
   "mcpServers": {
     "knowledgelib": {
       "command": "python3",
-      "args": ["${workspaceFolder}/mcp_server.py"],
+      "args": ["${workspaceFolder}/src/mcp_server.py"],
       "env": {
         "KNOWLEDGELIB_PATH": "${workspaceFolder}"
       }

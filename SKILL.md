@@ -42,13 +42,13 @@ flowchart TD
 
 **Fallback — CLI shell command** (dùng khi MCP server chưa đăng ký/không khả dụng, hoặc để debug tay):
 ```bash
-python3 "$KNOWLEDGELIB_PATH/agent_client.py" "câu hỏi của người dùng"
+python3 "$KNOWLEDGELIB_PATH/src/agent_client.py" "câu hỏi của người dùng"
 # KNOWLEDGELIB_PATH = đường dẫn tới thư mục knowledgelib_data trên máy hiện tại
 ```
 
 **Web UI (Duyệt tương tác cho người dùng):**
 ```bash
-python3 "$KNOWLEDGELIB_PATH/web_ui.py"
+python3 "$KNOWLEDGELIB_PATH/src/web_ui.py"
 # Mở trình duyệt tại http://127.0.0.1:8000
 ```
 
@@ -97,11 +97,11 @@ Sau khi AI Agent ghi các tệp `.md` vào đường dẫn do Agent quyết đ�
 
 **Fallback CLI** (khi MCP server chưa khả dụng):
 ```bash
-python3 "$KNOWLEDGELIB_PATH/import_knowledge.py" --sync-only
+python3 "$KNOWLEDGELIB_PATH/src/import_knowledge.py" --sync-only
 ```
 *Hoặc gọi trực tiếp lệnh import tự động:*
 ```bash
-python3 "$KNOWLEDGELIB_PATH/import_knowledge.py" /path/to/document.pdf --domain-path "<path-do-agent-chon>" --domain "<domain-do-agent-chon>"
+python3 "$KNOWLEDGELIB_PATH/src/import_knowledge.py" /path/to/document.pdf --domain-path "<path-do-agent-chon>" --domain "<domain-do-agent-chon>"
 ```
 
 ---

@@ -16,7 +16,7 @@ except ImportError:
     CHROMADB_AVAILABLE = False
 
 DEFAULT_KNOWLEDGELIB_PATH = os.environ.get(
-    "KNOWLEDGELIB_PATH", os.path.abspath(os.path.dirname(__file__))
+    "KNOWLEDGELIB_PATH", os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 )
 
 # Danh sách từ khóa Router (Cơ chế 3 Gatekeeper)

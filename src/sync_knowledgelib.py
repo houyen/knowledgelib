@@ -16,7 +16,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 import time
 
 CATALOG_URL = "https://knowledgelib.io/catalog.json"
-DEFAULT_TARGET_DIR = os.path.abspath(os.path.dirname(__file__))
+DEFAULT_TARGET_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 MAX_WORKERS = 15
 USER_AGENT = "KnowledgeLibSync/1.0 (Python urllib)"
 

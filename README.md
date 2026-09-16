@@ -54,7 +54,7 @@ pip install chromadb pypdf python-docx beautifulsoup4 pyyaml
 ### 2. Querying the Knowledge Base
 You can query knowledge units via the Python client:
 ```python
-from agent_client import KnowledgeLibClient
+from src.agent_client import KnowledgeLibClient
 
 client = KnowledgeLibClient()
 result = client.query_and_get("How do Data Contracts prevent schema drift?")
@@ -72,14 +72,14 @@ Or invoke the skill in your AI assistant:
 ### 3. Interactive Web UI
 For human browsing and interactive search, launch the local Web UI:
 ```bash
-python3 web_ui.py
+python3 src/web_ui.py
 ```
 Then navigate to `http://127.0.0.1:8000`.
 
 ### 4. Ingesting New Knowledge
 To import a new document (PDF, DOCX, MD, TXT, EPUB):
 ```bash
-python3 import_knowledge.py "/path/to/document.pdf" \
+python3 src/import_knowledge.py "/path/to/document.pdf" \
   --domain-path "software/ai/custom-topic" \
   --domain "software > ai > custom_topic" \
   --type "reference_guide"
@@ -87,7 +87,7 @@ python3 import_knowledge.py "/path/to/document.pdf" \
 
 Or synchronize the entire catalog and vector store:
 ```bash
-python3 sync_knowledgelib.py
+python3 src/sync_knowledgelib.py
 ```
 
 ---

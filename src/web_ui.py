@@ -6,6 +6,9 @@ Binds to 127.0.0.1 only — not meant to be exposed on the network.
 """
 
 import os
+import sys
+
+sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
 
 import markdown as md
 from fastapi import FastAPI, Header, HTTPException, Query, Request
@@ -24,7 +27,7 @@ def get_client() -> KnowledgeLibClient:
     # Re-instantiate per request instead of a module-level singleton so tests
     # can point KNOWLEDGELIB_PATH at a fixture repo and get it picked up.
     data_path = os.environ.get(
-        "KNOWLEDGELIB_PATH", os.path.abspath(os.path.dirname(__file__))
+        "KNOWLEDGELIB_PATH", os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
     )
     return KnowledgeLibClient(data_path=data_path)
 

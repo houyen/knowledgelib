@@ -22,11 +22,13 @@ import yaml
 import argparse
 import hashlib
 
+sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
+
 def _repo_dir() -> str:
     """Return local repository base path, reading KNOWLEDGELIB_PATH dynamically if set."""
-    return os.environ.get("KNOWLEDGELIB_PATH", os.path.abspath(os.path.dirname(__file__)))
+    return os.environ.get("KNOWLEDGELIB_PATH", os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-REPO_DIR = os.path.abspath(os.path.dirname(__file__))
+REPO_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 CATALOG_PATH = os.path.join(REPO_DIR, "catalog.json")
 DB_DIR = os.path.join(REPO_DIR, ".chroma_db")
 
@@ -176,7 +178,10 @@ def scan_and_collect_all_markdown_units() -> list:
     }
     repo_dir = _repo_dir()
     for root, dirs, files in os.walk(repo_dir):
-        dirs[:] = [d for d in dirs if not d.startswith('.')]
+        dirs[:] = [
+            d for d in dirs
+            if not d.startswith('.') and d not in ('games', 'docs', 'src', 'tests', 'scripts', 'templates')
+        ]
         for file in files:
             if file.endswith('.md') and file not in ignore_files:
                 file_path = os.path.join(root, file)

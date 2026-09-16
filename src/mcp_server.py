@@ -5,6 +5,11 @@ Wraps KnowledgeLibClient (agent_client.py) and run_import (import_knowledge.py)
 as MCP tools, so agents call them directly instead of shelling out to the CLI.
 """
 
+import os
+import sys
+
+sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
+
 from mcp.server.mcpserver import MCPServer
 
 from agent_client import KnowledgeLibClient
