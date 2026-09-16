@@ -34,14 +34,16 @@ def knowledgelib_ingest(
     domain: str = "software > imported_knowledge",
     entity_type: str = "book_chapter",
     sync_only: bool = False,
+    use_llm_split: bool = True,
 ) -> dict:
-    """Import a document (PDF/MD/TXT) into KnowledgeLib and re-index, or re-sync existing markdown files when sync_only=True."""
+    """Import a document (PDF/MD/TXT) into KnowledgeLib and re-index, or re-sync existing markdown files when sync_only=True. Uses LLM-assisted splitting by default with regex fallback."""
     return run_import(
         file_path,
         domain_path=domain_path,
         domain=domain,
         entity_type=entity_type,
         sync_only=sync_only,
+        use_llm_split=use_llm_split,
     )
 
 
