@@ -56,5 +56,13 @@ def knowledgelib_ingest(
     )
 
 
+@mcp.tool()
+def knowledgelib_get_memory_index(domain: str = "self-docs") -> str:
+    """Get compact working memory snapshot of canonical self-docs, runbooks, and critical gotchas to load into agent context."""
+    from memory_loader import get_memory_index
+
+    return get_memory_index(domain=domain)
+
+
 if __name__ == "__main__":
     mcp.run(transport="stdio")

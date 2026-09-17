@@ -1,4 +1,19 @@
-# Hướng Dẫn Tích Hợp API Workday: Business Process Job Change &amp; Data Change
+---
+id: self-docs/workday_job_change_api_guide
+canonical_question: "How to integrate Workday API for Job Change and Data Change business processes"
+aliases:
+  - "Workday Job Change API integration"
+  - "Workday Submit_Change_Job SOAP Staffing"
+  - "Workday Staffing Web Service v45.2"
+  - "Tích hợp Workday API Job Change"
+entity_type: how_to
+domain: self-docs > integration > workday
+last_verified: 2026-09-17
+constraints:
+  - "Submit_Change_Job requires SOAP Staffing Service v45.2+ with WS-Security UsernameToken, not REST"
+---
+
+# Hướng Dẫn Tích Hợp API Workday: Business Process Job Change & Data Change
 
 ---
 

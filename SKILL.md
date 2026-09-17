@@ -15,6 +15,7 @@ Mọi tệp tri thức trong `knowledgelib_data` được tổ chức dạng câ
 
 | Domain Router | Các Subdomain & Từ khóa đặc trưng | Loại thực thể |
 | :--- | :--- | :--- |
+| **`self-docs`** | Internal Runbooks, Gotchas, Engineering Decisions, Integration Guides, Workday, Engine Architecture | `how_to`, `runbook`, `gotchas`, `architecture_explainer`, `troubleshooting` |
 | **`software` / `computing`** | System Design, DevOps, Debugging, Security, Migrations, Patterns, Hardware, Laptops | `tech_stack`, `software`, `product_comparison`, `book_chapter` |
 | **`business` / `consulting`** | GTM Strategy, B2B SaaS Benchmarks, Sales Signals, Retail AI, Pitch Decks | `business_strategy`, `book_chapter` |
 | **`finance` / `compliance`** | SaaS Metrics, Valuation, ISO/GDPR/SOC2 Standards, Financial Ops | `finance`, `compliance`, `book_chapter` |
@@ -39,6 +40,7 @@ flowchart TD
 **Cách ưu tiên — MCP tool** (server `knowledgelib` đăng ký qua `.mcp.json`, cần restart Claude Code sau khi cài để nạp server):
 - `knowledgelib_search(query, top_k=3)` — trả về nhiều kết quả kèm `score`/`distance`, agent tự chọn thay vì chỉ nhận top-1.
 - `knowledgelib_get_content(unit_id)` — đọc nội dung Markdown đầy đủ của unit đã chọn.
+- `knowledgelib_get_memory_index(domain="self-docs")` — lấy bản snapshot siêu nén của các tài liệu nội bộ, runbook và gotchas để nạp vào working memory của Agent.
 
 **Fallback — CLI shell command** (dùng khi MCP server chưa đăng ký/không khả dụng, hoặc để debug tay):
 ```bash
