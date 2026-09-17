@@ -44,6 +44,10 @@ VECTOR_SCOPE_DISTANCE_THRESHOLD = 0.6
 # Reciprocal Rank Fusion constant cho hybrid search (giá trị chuẩn theo paper RRF, ít nhạy với k).
 RRF_K = 60
 
+# Hệ số ưu tiên (Tiered Boost) cho tài liệu nội bộ / quy chuẩn dự án (self-docs).
+SELF_DOCS_BOOST = 1.4
+
+
 class KnowledgeLibClient:
     def __init__(self, data_path: str = DEFAULT_KNOWLEDGELIB_PATH):
         self.data_path = os.path.abspath(data_path)
@@ -179,7 +183,14 @@ class KnowledgeLibClient:
             d["score"] = r.get("score")
             d["sources"].add("keyword")
 
+        # Tiered Retrieval Boost: Ưu tiên tài liệu nội bộ / quy chuẩn dự án (self-docs)
+        for unit_id in rrf_scores:
+            domain = merged[unit_id].get("domain", "")
+            if domain and domain.startswith("self-docs"):
+                rrf_scores[unit_id] *= SELF_DOCS_BOOST
+
         ranked_ids = sorted(rrf_scores, key=lambda uid: rrf_scores[uid], reverse=True)[:top_k]
+
 
         results = []
         for unit_id in ranked_ids:

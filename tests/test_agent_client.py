@@ -114,3 +114,37 @@ def test_query_and_get_not_found_logs_miss(client, monkeypatch):
     assert calls[0][0] == "hoàn toàn không liên quan xyz123"
     assert calls[0][1] == "query_and_get"
     assert calls[0][2] == client.data_path
+
+
+def test_tiered_retrieval_boost_prioritizes_self_docs(tmp_path):
+    custom_catalog = {
+        "units": [
+            {
+                "id": "software/api/common-auth",
+                "canonical_question": "Authentication guide for services",
+                "aliases": ["auth", "login"],
+                "domain": "software > api > auth",
+                "entity_type": "reference",
+            },
+            {
+                "id": "self-docs/api/internal-auth",
+                "canonical_question": "Authentication guide for internal services",
+                "aliases": ["auth", "login"],
+                "domain": "self-docs > api > auth",
+                "entity_type": "runbook",
+            },
+        ]
+    }
+    (tmp_path / "catalog.json").write_text(json.dumps(custom_catalog), encoding="utf-8")
+    (tmp_path / "software" / "api").mkdir(parents=True)
+    (tmp_path / "self-docs" / "api").mkdir(parents=True)
+    (tmp_path / "software" / "api" / "common-auth.md").write_text("# Common Auth", encoding="utf-8")
+    (tmp_path / "self-docs" / "api" / "internal-auth.md").write_text("# Internal Auth", encoding="utf-8")
+
+    c = KnowledgeLibClient(data_path=str(tmp_path))
+    results = c.search("auth", top_k=2)
+    assert len(results) == 2
+    # Self-docs unit receives 1.4x boost and ranks first despite similar keyword match
+    assert results[0]["id"] == "self-docs/api/internal-auth"
+    assert results[0]["rrf_score"] > results[1]["rrf_score"]
+
