@@ -1,0 +1,90 @@
+# Anonymization & Extraction Rules Template for KnowledgeLib
+# Copy this file to your project root as `anonymize_rules.yaml` or `.anonymize.yaml`,
+# or pass it via CLI: `--config path/to/anonymize_rules.yaml`.
+
+# 1. Company & Project Names to Anonymize
+company_names:
+  - "Coteccons"
+  - "CTD"
+replacement_company: "Enterprise"
+
+project_names:
+  - "Payroll CTD"
+  - "CTD-Payroll"
+  - "Payroll"
+replacement_project: "Core System"
+
+# 2. Internal / Corporate Email Domains
+email_domains:
+  - "coteccons.vn"
+  - "vsol.vn"
+replacement_email: "user@company.test"
+# If true, any email not from a public provider (gmail, yahoo, etc.) will be anonymized
+sanitize_all_corporate_emails: true
+
+# 3. Project Ticket Prefixes (Jira, Linear, Redmine)
+ticket_prefixes:
+  - "PAYROLL"
+  - "CTD"
+  - "JIRA"
+  - "TASK"
+replacement_ticket: "TASK-REF"
+
+# 4. Custom Keyword Replacement Map (Case-sensitive or exact terms)
+custom_replacements: {}
+
+# 5. Taxonomy Routing: Maps keywords to target self-docs/ subfolders
+subdomains:
+  engine:
+    - "engine"
+    - "calc"
+    - "formula"
+    - "algorithm"
+    - "rule"
+    - "salary"
+    - "công thức"
+    - "tính toán"
+    - "lương"
+  integration:
+    - "api"
+    - "webhook"
+    - "adapter"
+    - "integration"
+    - "sftp"
+    - "soap"
+    - "rest"
+    - "workday"
+    - "tích hợp"
+  security:
+    - "rbac"
+    - "auth"
+    - "permission"
+    - "jwt"
+    - "token"
+    - "audit"
+    - "security"
+    - "compliance"
+    - "bảo mật"
+    - "phân quyền"
+  database:
+    - "db"
+    - "database"
+    - "schema"
+    - "migration"
+    - "table"
+    - "sql"
+    - "postgres"
+    - "mongodb"
+    - "atlas"
+    - "redis"
+  operations:
+    - "runbook"
+    - "deploy"
+    - "attendance"
+    - "report"
+    - "export"
+    - "vận hành"
+    - "triển khai"
+    - "playwright"
+    - "qc"
+    - "test"

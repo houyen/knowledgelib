@@ -213,8 +213,8 @@ def generate_canonical_frontmatter(
         base = os.path.splitext(os.path.basename(file_path))[0]
         clean_title = base.replace("_", " ").replace("-", " ").title()
 
-    # Extract date from content if present (e.g. Cập nhật: 2026-08-05)
-    date_match = re.search(r"(?:Cập nhật|Ngày|Date|Verified)[\s:]+(\d{4}-\d{2}-\d{2})", body, re.IGNORECASE)
+    # Extract date from content if present (e.g. Cập nhật: 2026-08-05 or **Ngày:** 2026-07-22)
+    date_match = re.search(r"(?:Cập nhật|Ngày|Date|Verified)[^\d\n\r]*(\d{4}-\d{2}-\d{2})", body, re.IGNORECASE)
     if date_match:
         last_verified = date_match.group(1)
     else:

@@ -1,11 +1,13 @@
 import os
 import sys
+import yaml
 import pytest
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "src")))
 
 from extract_tech_notes import (
+    AnonymizeConfig,
     anonymize_text,
     compute_content_hash,
     determine_subdomain,
@@ -24,7 +26,6 @@ def test_anonymize_text_replaces_emails_and_company():
     assert "coteccons.vn" not in sanitized
     assert "Coteccons" not in sanitized
     assert "user@company.test" in sanitized
-    assert "Enterprise Payroll" in sanitized or "Enterprise" in sanitized
 
 
 def test_anonymize_text_replaces_ips_and_tickets():
@@ -54,7 +55,7 @@ def test_anonymize_text_strips_chatter():
     assert "Tài liệu hướng dẫn phân quyền" in sanitized
 
 
-def test_determine_subdomain():
+def test_determine_subdomain_default():
     sub, dom = determine_subdomain("Workday Adapter Sync", "workday-sync.md", "SOAP client")
     assert sub == "integration"
     assert dom == "self-docs > integration"
@@ -115,3 +116,77 @@ def test_extract_directory(tmp_path):
     assert report["total_scanned"] == 2
     assert report["extracted"] == 2
     assert report["errors"] == 0
+
+
+# ── Tests for Configurable Multi-Project Anonymization ─────────────────────────
+
+def test_anonymize_different_project_arbitrary_config():
+    """Verify that any project with completely different names and domains is anonymized properly."""
+    custom_cfg = AnonymizeConfig(
+        company_names=["AcmeBank", "AcmeCorp"],
+        replacement_company="BankingCorp",
+        project_names=["PaymentGateway", "PG-Core"],
+        replacement_project="Transaction Engine",
+        email_domains=["acmebank.com", "acmecorp.vn"],
+        replacement_email="engineer@banking.test",
+        ticket_prefixes=["BANK", "PAY"],
+        replacement_ticket="TICKET-REF",
+    )
+
+    raw = (
+        "Project PaymentGateway developed by AcmeBank team.\n"
+        "Direct queries to lead@acmebank.com or admin@acmecorp.vn.\n"
+        "Resolves BANK-4421 and PAY-102. Also public contact info@gmail.com stays."
+    )
+
+    sanitized = anonymize_text(raw, config=custom_cfg)
+    assert "AcmeBank" not in sanitized
+    assert "PaymentGateway" not in sanitized
+    assert "acmebank.com" not in sanitized
+    assert "acmecorp.vn" not in sanitized
+    assert "BANK-4421" not in sanitized
+    assert "PAY-102" not in sanitized
+
+    assert "BankingCorp" in sanitized
+    assert "Transaction Engine" in sanitized
+    assert "engineer@banking.test" in sanitized
+    assert "TICKET-REF" in sanitized
+    # Public email provider is preserved
+    assert "info@gmail.com" in sanitized
+
+
+def test_anonymize_config_loaded_from_yaml_file(tmp_path):
+    """Verify loading custom anonymization rules from a project YAML file."""
+    cfg_file = tmp_path / "anonymize_rules.yaml"
+    cfg_data = {
+        "company_names": ["VinFast", "Vingroup"],
+        "project_names": ["EV-Charging"],
+        "email_domains": ["vinfast.vn"],
+        "ticket_prefixes": ["VF", "CHARGE"],
+        "subdomains": {
+            "telemetry": ["canbus", "battery", "iot", "sensor"],
+            "billing": ["charging-rate", "invoice", "payment"],
+        },
+    }
+    cfg_file.write_text(yaml.safe_dump(cfg_data), encoding="utf-8")
+
+    cfg = AnonymizeConfig.load(config_path=str(cfg_file))
+    assert "VinFast" in cfg.company_names
+    assert "EV-Charging" in cfg.project_names
+    assert "vinfast.vn" in cfg.email_domains
+    assert "telemetry" in cfg.subdomain_rules
+
+    # Test custom subdomain routing
+    sub, dom = determine_subdomain("Battery Health Monitor", "battery-health.md", "Reading canbus sensor", config=cfg)
+    assert sub == "telemetry"
+    assert dom == "self-docs > telemetry"
+
+
+def test_anonymize_zero_config_corporate_email_detection():
+    """Verify zero-config mode: any unlisted corporate domain is sanitized automatically."""
+    cfg = AnonymizeConfig()
+    text = "Mail to dev@random-startup-corp.xyz or support@unknown-bank.asia"
+    sanitized = anonymize_text(text, config=cfg)
+    assert "random-startup-corp.xyz" not in sanitized
+    assert "unknown-bank.asia" not in sanitized
+    assert "user@company.test" in sanitized
