@@ -76,6 +76,31 @@ def test_search_not_found(client):
     assert "No knowledge units found" in response.text
 
 
+def test_search_not_found_logs_miss(client, monkeypatch):
+    import web_ui
+
+    calls = []
+    monkeypatch.setattr(
+        web_ui,
+        "log_miss",
+        lambda query, source, repo_dir=None: calls.append((query, source, repo_dir)),
+    )
+
+    response = client.get("/search?q=completelyunrelatedqueryxyz")
+    assert response.status_code == 200
+    assert len(calls) == 1
+    assert calls[0][0] == "completelyunrelatedqueryxyz"
+    assert calls[0][1] == "web_ui"
+
+    # Empty query must NOT log miss
+    client.get("/search?q=")
+    assert len(calls) == 1
+
+    # Whitespace-only query must NOT log miss
+    client.get("/search?q=   ")
+    assert len(calls) == 1
+
+
 def test_get_unit_standalone_page(client):
     response = client.get("/unit/software/devops/pytest-configuration")
     assert response.status_code == 200

@@ -14,6 +14,7 @@ from mcp.server.mcpserver import MCPServer
 
 from agent_client import KnowledgeLibClient
 from import_knowledge import run_import
+from query_miss_log import log_miss
 
 mcp = MCPServer("knowledgelib")
 
@@ -22,7 +23,10 @@ mcp = MCPServer("knowledgelib")
 def knowledgelib_search(query: str, top_k: int = 3) -> list[dict]:
     """Search KnowledgeLib (hybrid vector + keyword). Returns up to top_k matches with score/distance so the agent can pick among candidates, not just the top-1."""
     client = KnowledgeLibClient()
-    return client.search(query, top_k=top_k)
+    results = client.search(query, top_k=top_k)
+    if not results:
+        log_miss(query, source="mcp_search")
+    return results
 
 
 @mcp.tool()

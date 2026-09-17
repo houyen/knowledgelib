@@ -71,3 +71,26 @@ def test_knowledgelib_ingest_reports_missing_file(repo):
 
     result = mcp_server.knowledgelib_ingest(file_path="/no/such/file.pdf")
     assert result["status"] == "error"
+
+
+def test_search_no_results_logs_miss(repo, monkeypatch):
+    import importlib
+    import agent_client
+
+    importlib.reload(agent_client)
+    import mcp_server
+
+    importlib.reload(mcp_server)
+
+    calls = []
+    monkeypatch.setattr(
+        mcp_server,
+        "log_miss",
+        lambda query, source, repo_dir=None: calls.append((query, source, repo_dir)),
+    )
+
+    results = mcp_server.knowledgelib_search("unrelated query that matches nothing", top_k=3)
+    assert results == []
+    assert len(calls) == 1
+    assert calls[0][0] == "unrelated query that matches nothing"
+    assert calls[0][1] == "mcp_search"

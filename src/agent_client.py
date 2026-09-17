@@ -9,6 +9,10 @@ import sys
 import json
 import re
 
+sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
+
+from query_miss_log import log_miss
+
 try:
     import chromadb
     CHROMADB_AVAILABLE = True
@@ -207,6 +211,7 @@ class KnowledgeLibClient:
         """
         matched_units = self.search(query, top_k=top_k)
         if not matched_units:
+            log_miss(query, source="query_and_get", repo_dir=self.data_path)
             return {
                 "status": "not_found",
                 "message": "No matching knowledge unit found.",

@@ -110,3 +110,4 @@ python3 "$KNOWLEDGELIB_PATH/src/import_knowledge.py" /path/to/document.pdf --dom
 
 - **ƯU TIÊN DATA LOCAL**: Mọi thông tin tra cứu thuộc phạm vi các Domain trên **BẮT BUỘC** lấy từ kho tệp `.md` của `knowledgelib_data`.
 - KHÔNG tự suy đoán nếu chưa kiểm tra catalog và ChromaDB.
+- Khi không match (`should_fallback_to_llm: True`), hệ thống tự động ghi lại câu hỏi vào `query_misses.jsonl` (tại repo root). Chạy `python3 src/query_gap_report.py --top 20` để xem các câu hỏi hay bị thiếu data nhất — thông tin này giúp agent khác (hoặc chính user) biết nên ingest tài liệu gì tiếp theo để lấp khoảng trống tri thức (knowledge gap).

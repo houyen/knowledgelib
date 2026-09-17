@@ -16,6 +16,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 
 from agent_client import KnowledgeLibClient
+from query_miss_log import log_miss
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 templates = Jinja2Templates(directory=os.path.join(BASE_DIR, "templates"))
@@ -42,6 +43,8 @@ def search(request: Request, q: str = Query(default=""), top_k: int = Query(defa
     results = []
     if q.strip():
         results = get_client().search(q, top_k=top_k)
+        if not results:
+            log_miss(q, source="web_ui")
     return templates.TemplateResponse(
         request, "_results.html", {"query": q, "results": results}
     )

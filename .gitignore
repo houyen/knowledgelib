@@ -48,6 +48,7 @@ credentials.json
 # Runtime State & Logs
 *.log
 scripts/triage_state.json
+query_misses.jsonl
 
 # Operating System & IDE Files
 .DS_Store
@@ -74,4 +75,9 @@ temp/
 games/
 scripts/
 
-
+# Local Agent & Token Optimization Configs (Temporary)
+.agents/
+.rtk/
+CLAUDE.md
+skills-lock.json
+AGENTS.md

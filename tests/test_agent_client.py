@@ -96,3 +96,21 @@ def test_query_and_get_top_k_multiple_returns_matches_list(client):
     ids = {m["unit_id"] for m in res["matches"]}
     assert ids == {"software/devops/pytest-configuration", "software/devops/pytest-fixtures"}
     assert all(m["content"] for m in res["matches"])
+
+
+def test_query_and_get_not_found_logs_miss(client, monkeypatch):
+    import agent_client
+
+    calls = []
+    monkeypatch.setattr(
+        agent_client,
+        "log_miss",
+        lambda query, source, repo_dir=None: calls.append((query, source, repo_dir)),
+    )
+
+    res = client.query_and_get("hoàn toàn không liên quan xyz123")
+    assert res["status"] == "not_found"
+    assert len(calls) == 1
+    assert calls[0][0] == "hoàn toàn không liên quan xyz123"
+    assert calls[0][1] == "query_and_get"
+    assert calls[0][2] == client.data_path
