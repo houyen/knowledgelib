@@ -161,6 +161,7 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Generate compact Agent Memory Index from canonical units")
     parser.add_argument("--domain", type=str, default="self-docs", help="Domain or folder to index (default: self-docs)")
     parser.add_argument("--repo-dir", type=str, default=DEFAULT_REPO_DIR, help="KnowledgeLib repository directory")
+    parser.add_argument("--export", action="store_true", help="Export memory index to MEMORY_INDEX.md (default)")
     parser.add_argument("--output", type=str, default=None, help="Output file path (default: <repo_dir>/self-docs/MEMORY_INDEX.md)")
     parser.add_argument("--print", action="store_true", help="Print memory index to stdout")
 

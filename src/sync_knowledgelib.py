@@ -77,9 +77,10 @@ def scan_local_units(target_dir: str) -> list:
     """Scan all local markdown files in repository to preserve offline imported books/units."""
     local_units = []
     ignore_files = {'SKILL.md', 'AGENT_PROMPT_SNIPPET.md', 'agent.md', 'walkthrough_index.md', 'walkthrough_index_full.md', 'README.md', 'LICENSE.md'}
+    ignore_dirs = {'harness', 'docs', 'config', 'scripts', 'tests', 'src', 'llmwiki', 'node_modules', 'templates', 'dist', 'build'}
     
     for root, dirs, files in os.walk(target_dir):
-        dirs[:] = [d for d in dirs if not d.startswith('.')]
+        dirs[:] = [d for d in dirs if not d.startswith('.') and d not in ignore_dirs]
         for file in files:
             if file.endswith('.md') and file not in ignore_files:
                 file_path = os.path.join(root, file)

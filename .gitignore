@@ -49,6 +49,7 @@ credentials.json
 *.log
 scripts/triage_state.json
 query_misses.jsonl
+.claude/audit/
 
 # Operating System & IDE Files
 .DS_Store
