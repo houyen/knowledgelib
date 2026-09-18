@@ -1,3 +1,14 @@
+---
+id: self-docs/integration/memory-index
+canonical_question: 'Technical guide and specification: KnowledgeLib Memory Index'
+aliases:
+- KnowledgeLib Memory Index
+- MEMORY INDEX
+entity_type: how_to
+domain: self-docs > integration
+last_verified: 2026-07-22
+---
+
 # KnowledgeLib Memory Index (self-docs)
 > **Generated:** 2026-09-17 | **Active Units:** 106 | **Mode:** High-Density Working Memory
 
@@ -12,7 +23,7 @@ Use this index to recall verified internal decisions, runbooks, and gotchas befo
   - 📌 *Core:* **Canonical duy nhất cho hạng mục này.** User muốn tự test luồng duyệt lương 2 cấp (`cb_lead` cấp 1 → `cb_director` cấp 2, xem
 
 ### Architecture & Core Rules
-- **`self-docs/database/payroll-test-suite-handoff`** (specification): Technical guide and specification: Bàn giao: Bộ test 7 phân hệ Core System [Aliases: Bàn giao: Bộ test 7 phân hệ Core System, Core System Test Suite Handoff 100826]
+- **`self-docs/database/Core System-test-suite-handoff`** (specification): Technical guide and specification: Bàn giao: Bộ test 7 phân hệ Core System [Aliases: Bàn giao: Bộ test 7 phân hệ Core System, Core System Test Suite Handoff 100826]
   - 📌 *Core:* **Mục đích tài liệu:** người đọc tài liệu này có thể không có context gì từ phiên làm việc trước — tài liệu viết đủ để tiếp tục công việc mà không cần hỏi lại người đã làm. Đây là file canonical duy nhất cho hạng mục "bộ test 7 phân hệ Core System" b
 - **`self-docs/security/rbac-architecture-reassessment`** (architecture_explainer): Architecture and technical specifications for RBAC-Architecture-Reassessment-200726 [Aliases: RBAC-Architecture-Reassessment-200726, RBAC Architecture Reassessment 200726]
   - 📌 *Core:* **Ngày:** 2026-07-20 **Loại tài liệu:** context / nghiên cứu (study) — không phải báo cáo công việc đã hoàn tất theo ngày, mà là tài liệu tham khảo được cập nhật liên tục mỗi khi có phân tích mới về cùng chủ đề kiến trúc phân quyền.
@@ -24,19 +35,19 @@ Use this index to recall verified internal decisions, runbooks, and gotchas befo
   - 📌 *Core:* **System:** Core System & HRIS Integration Platform (Go / Chi / Postgres / Next.js) **Date:** July 21, 2026
 - **`self-docs/integration/task7-db-source-bangiao-doidb`** (specification): Technical guide and specification: Bàn giao Task 7 — Nguồn dữ liệu DB cho báo cáo "Bảng chấm công CBNV" [Aliases: Bàn giao Task 7 — Nguồn dữ liệu DB cho báo cáo "Bảng chấm công CBNV", Task7 DB Source BanGiao DoiDB 310726]
   - 📌 *Core:* **Ngày:** 2026-07-31 **Trạng thái phần Excel:** đã xong và đã kiểm chứng (Task 0→6, 43 test xanh). Chỉ còn thiếu nguồn dữ liệu thật.
-- **`self-docs/files/payroll-engine-180826-readme`** (architecture_explainer): Technical guide and specification: Dump DB backend — `payroll_engine`, 18/08/2026 [Aliases: Dump DB backend — `payroll_engine`, 18/08/2026, Core System engine 180826 README]
+- **`self-docs/files/Core System-engine-180826-readme`** (architecture_explainer): Technical guide and specification: Dump DB backend — `payroll_engine`, 18/08/2026 [Aliases: Dump DB backend — `payroll_engine`, 18/08/2026, Core System engine 180826 README]
   - 📌 *Core:* Ảnh chụp database của `Core System-backend` trên máy dev, tức **trạng thái đích** sau đợt dọn dẹp DB 17–18/08 và cầu nối Workday.
-- **`self-docs/files/payroll-engine-240826-readme`** (architecture_explainer): Technical guide and specification: payroll_engine — dump 24/08/2026 [Aliases: payroll_engine — dump 24/08/2026, Core System engine 240826 README]
+- **`self-docs/files/Core System-engine-240826-readme`** (architecture_explainer): Technical guide and specification: payroll_engine — dump 24/08/2026 [Aliases: payroll_engine — dump 24/08/2026, Core System engine 240826 README]
   - 📌 *Core:* - `payroll_engine-full-240826.dump` — 32.5 MB, `pg_dump -Fc` (custom format, restore bằng `pg_restore`), schema `atlas_schema_revisions` bị loại (role dump không có quyền đọc, không ảnh hưởng dữ liệu nghiệp vụ). - Nguồn: DB dev local `payroll_engine`
 - **`self-docs/engine/bonus-engine-phase1`** (architecture_explainer): Technical guide and specification: Bonus Engine Phase 1 — 070926 [Aliases: Bonus Engine Phase 1 — 070926, Bonus Engine Phase1 070926]
   - 📌 *Core:* **Canonical doc** cho công việc "Bonus Engine Phase 1" (TASK-REF,22,23,24,28). Bắt đầu từ yêu cầu user: đọc 2 file tracker BRD (`Payroll_BRD_Tracker_Item.xlsx`, `checklist.xlsx`) liệt kê 9 task TASK-REF +
 - **`self-docs/engine/handoff-salary-rule-security-configurability`** (specification): Technical guide and specification: Bàn giao context — Review bảo mật + phần "configurable" của rule/công thức lương [Aliases: Bàn giao context — Review bảo mật + phần "configurable" của rule/công thức lương, Handoff Salary Rule Security Configurability 200826]
   - 📌 *Core:* **Ngày:** 20/08/2026 · **Mục đích:** context cho 1 session KHÁC (mở mới) tiếp tục việc review bảo mật + khả năng cấu hình (configurability) của hệ thống rule lương `salary_components`, trong khi session hiện tại tạm dừng chờ HR trả lời câu hỏi nghiệp
-- **`self-docs/engine/payroll-architecture-roadmap`** (architecture_explainer): Technical guide and specification: PHÂN TÍCH KIẾN TRÚC BẢO MẬT Core System STANDALONE [Aliases: PHÂN TÍCH KIẾN TRÚC BẢO MẬT Core System STANDALONE, Core System Architecture Roadmap]
+- **`self-docs/engine/Core System-architecture-roadmap`** (architecture_explainer): Technical guide and specification: PHÂN TÍCH KIẾN TRÚC BẢO MẬT Core System STANDALONE [Aliases: PHÂN TÍCH KIẾN TRÚC BẢO MẬT Core System STANDALONE, Core System Architecture Roadmap]
   - 📌 *Core:* - **Đơn giản triển khai**: Thiết kế dựa trên vai trò doanh nghiệp hiện hành - **Dễ hiểu quản trị**: Quản lý quyền trực tiếp qua giao diện quản lý vai trò
-- **`self-docs/engine/payroll-engine-rule-flow`** (architecture_explainer): Technical guide and specification: Engine tính lương theo rule và bảng lương — mô tả cách hoạt động [Aliases: Engine tính lương theo rule và bảng lương — mô tả cách hoạt động, Core System Engine Rule Flow 290726]
+- **`self-docs/engine/Core System-engine-rule-flow`** (architecture_explainer): Technical guide and specification: Engine tính lương theo rule và bảng lương — mô tả cách hoạt động [Aliases: Engine tính lương theo rule và bảng lương — mô tả cách hoạt động, Core System Engine Rule Flow 290726]
   - 📌 *Core:* **Loại tài liệu:** giải thích kiến trúc (explainer), viết theo yêu cầu "tóm tắt cách hoạt động của engine tính lương theo rule và bảng lương". Không phải báo cáo triển khai, không đề xuất thay đổi nào, không sửa dòng code nào trong phiên viết tài liệ
-- **`self-docs/engine/payroll-formula-excel-reconciliation`** (architecture_explainer): Technical guide and specification: Đối chiếu công thức lương: Excel HR  vs DB `payroll_engine` [Aliases: Đối chiếu công thức lương: Excel HR  vs DB `payroll_engine`, Core System Formula Excel Reconciliation 190826]
+- **`self-docs/engine/Core System-formula-excel-reconciliation`** (architecture_explainer): Technical guide and specification: Đối chiếu công thức lương: Excel HR  vs DB `payroll_engine` [Aliases: Đối chiếu công thức lương: Excel HR  vs DB `payroll_engine`, Core System Formula Excel Reconciliation 190826]
   - 📌 *Core:* **Ngày:** 19/08/2026 · **Loại việc:** CHỈ ĐỌC — không sửa code/DB/config. Mọi sai lệch dưới đây chỉ được ghi nhận, chưa xử lý. **Cập nhật 19/08/2026 (cùng ngày, sau khi báo cáo này được dùng để lên `/propose` — xem `llmwiki/wiki/sources/draft/190826-
 
 ### Operations & Runbooks
@@ -82,7 +93,7 @@ Use this index to recall verified internal decisions, runbooks, and gotchas befo
 - **`self-docs/integration/brd-38-notification-audit-log`** (how_to): Technical guide and specification: TASK-REF — Audit Log bắt buộc cho Cấu hình Thông báo [Aliases: TASK-REF — Audit Log bắt buộc cho Cấu hình Thông báo, BRD 38 Notification Audit Log 080926]
   - 📌 *Core:* Sau khi phân tích TASK-REF/39/40 (`self-docs/TASK-REF-Notification-Frequency-Config-080926.md` là tiền đề — cùng nhóm "Thông báo"), chốt: chỉ 1 việc đủ điều kiện làm ngay không cần hỏi ai — **Audit Log
 - **`self-docs/integration/memory-index`** (how_to): Technical guide and specification: KnowledgeLib Memory Index [Aliases: KnowledgeLib Memory Index, MEMORY INDEX]
-  - 📌 *Core:* > **Generated:** 2026-09-17 | **Active Units:** 106 | **Mode:** High-Density Working Memory Use this index to recall verified internal decisions, runbooks, and gotchas before querying external LLM.
+  - 📌 *Core:* > **Generated:** 2026-09-17 | **Active Units:** 104 | **Mode:** High-Density Working Memory Use this index to recall verified internal decisions, runbooks, and gotchas before querying external LLM.
 - **`self-docs/integration/rbac-backlog-tracklist`** (how_to): Technical guide and specification: Tracklist công việc RBAC/Bảo mật còn lại — Core System [Aliases: Tracklist công việc RBAC/Bảo mật còn lại — Core System, RBAC Backlog Tracklist 160726]
   - 📌 *Core:* **Ngày:** 2026-07-16 **Phạm vi:** Tổng hợp toàn bộ hạng mục RBAC/company-scoping/bảo mật còn mở, tính đến hết ngày 160726, gom từ 4 tài liệu đã có (`RBAC-Hybrid-Scoping-Implementation-140726.md`, `RBAC-Improvement-Analysis-150726.md`, `RBAC-Improveme
 - **`self-docs/integration/rbac-bao-cao-bao-mat`** (how_to): Technical guide and specification: Báo cáo — Công việc RBAC/Bảo mật dự án Core System [Aliases: Báo cáo — Công việc RBAC/Bảo mật dự án Core System, RBAC Bao Cao Bao Mat 150726]
@@ -108,11 +119,11 @@ Use this index to recall verified internal decisions, runbooks, and gotchas befo
   - 📌 *Core:* > **Người lập**: Đội ngũ Kỹ thuật / Solution Architect > **Kính gửi**: Đội ngũ QC / QA Lead / C&B Testing Team
 - **`self-docs/operations/zero-trust-azure-test-cases`** (how_to): Technical guide and specification: Zero Trust — bộ test case chạy khi có tài khoản Azure [Aliases: Zero Trust — bộ test case chạy khi có tài khoản Azure, Zero Trust Azure Test Cases 160926]
   - 📌 *Core:* > Artefact của `self-docs/Zero-Trust-Prod-Review-160926.md` (file canonical — thắng nếu mâu thuẫn). > Nhánh code: `review/zero-trust-160926` (backend `de7d882`, frontend `7d9da87`, devops `ac89c42` + 170926 review độc
-- **`self-docs/1008/payroll-test-summary`** (how_to): Technical guide and specification: 100826-Core System-test-summary [Aliases: 100826-Core System-test-summary, 100826 Core System test summary]
+- **`self-docs/1008/Core System-test-summary`** (how_to): Technical guide and specification: 100826-Core System-test-summary [Aliases: 100826-Core System-test-summary, 100826 Core System test summary]
   - 📌 *Core:* Thiết kế 74 kịch bản test cho 7 phân hệ Core System (Formula Engine, Core System Template, Salary Override, Core System Period Flow, RBAC, Bảng chấm công, Report Template Config) + xuất mỗi phân hệ 2 file Excel (Blind/Answer), dựng lại hạ tầng Playwr
 - **`self-docs/files/adapt-checklist-attendance-segments`** (how_to): Technical guide and specification: Adapt-checklist — attendance_department_segments [Aliases: Adapt-checklist — attendance_department_segments, ADAPT CHECKLIST attendance segments 210826]
   - 📌 *Core:* **Nguồn:** Task 5/5 của `llmwiki/wiki/sources/draft/210826-Core System-be-attendance-segments-PLAN.md`. **Trạng thái code liên quan:** Task 1-4 đã thi hành trên nhánh `local/attendance-segments-210826-v2`
-- **`self-docs/files/payroll-adapter-190826-readme`** (how_to): Technical guide and specification: Dump DB adapter — `payroll_adapter`, 19/08/2026 [Aliases: Dump DB adapter — `payroll_adapter`, 19/08/2026, Core System adapter 190826 README]
+- **`self-docs/files/Core System-adapter-190826-readme`** (how_to): Technical guide and specification: Dump DB adapter — `payroll_adapter`, 19/08/2026 [Aliases: Dump DB adapter — `payroll_adapter`, 19/08/2026, Core System adapter 190826 README]
   - 📌 *Core:* Ảnh chụp database của `Core System-adapter` trên máy dev. Đây là **DB trung gian** giữa Workday và `Core System-backend`: adapter kéo dữ liệu từ Workday vào đây, backend đọc lại qua `GET /v1/changes`.
 - **`self-docs/files/prompt-f1-task0`** (how_to): Technical guide and specification: Prompt dispatch — F1 / Task 0 [Aliases: Prompt dispatch — F1 / Task 0, prompt F1 Task0 040826]
   - 📌 *Core:* Soạn 2026-08-04. Nguồn: `llmwiki/wiki/sources/draft/040826-Core System-template-on-giatbh-engine-PLAN.md` Task 0 (bản RE-LINK). Phần dưới dấu phân cách là nội dung để copy nguyên văn.
@@ -152,7 +163,7 @@ Use this index to recall verified internal decisions, runbooks, and gotchas befo
   - 📌 *Core:* **Ngày:** 17/09/2026 **Nhánh:** `feature/approval-flow-buttons` (cả 2 repo, tách từ `origin/develop_v1`)
 - **`self-docs/engine/approval-inbox-consolidation`** (how_to): Technical guide and specification: Duyệt Của Tôi — chuyển vào /Core System, quy về 1 mối [Aliases: Duyệt Của Tôi — chuyển vào /Core System, quy về 1 mối, Approval Inbox Consolidation 070926]
   - 📌 *Core:* Trang "Duyệt Của Tôi" (`/v1/approvals`, dựng đợt Multilevel Approval 250826) là một route Next.js riêng, có nav item riêng trong sidebar. Trong lúc đó, một phiên khác (song song, cùng máy, cùng
-- **`self-docs/engine/attendance-payroll-approval-gate`** (how_to): Technical guide and specification: Attendance-Core System Approval Gate — 240826 [Aliases: Attendance-Core System Approval Gate — 240826, Attendance Core System Approval Gate 240826]
+- **`self-docs/engine/attendance-Core System-approval-gate`** (how_to): Technical guide and specification: Attendance-Core System Approval Gate — 240826 [Aliases: Attendance-Core System Approval Gate — 240826, Attendance Core System Approval Gate 240826]
   - 📌 *Core:* **Canonical duy nhất** cho hạng mục: nút "Duyệt tất cả" bảng lương + gate tính lương theo chốt công + chu kỳ lương 21-20 (khoá nút + schedule tự động). Bắt đầu từ yêu cầu "kiểm tra luồng duyệt bảng công để tạo bảng lương" ngày 240826, mở rộng qua 4 l
 - **`self-docs/engine/bangcong-xlsx-template-golang`** (how_to): Technical guide and specification: PLAN — Build template Excel "Bảng chấm công CBNV" bằng Go + excelize [Aliases: PLAN — Build template Excel "Bảng chấm công CBNV" bằng Go + excelize, BangCong Xlsx Template Golang 310726]
   - 📌 *Core:* **Loại tài liệu:** PLAN thi hành (canonical cho hạng mục này). Đặt ở `self-docs/` chứ không ở `llmwiki/wiki/sources/draft/` theo đúng tiền lệ `Salary-Column-Sync-Impact-280726.md` — quy ước máy
@@ -178,13 +189,13 @@ Use this index to recall verified internal decisions, runbooks, and gotchas befo
   - 📌 *Core:* **Core System tự tính** 1. Dữ liệu chấm công hiện có (Workday) có breakdown đúng 6 loại giờ OT (thường/nghỉ/lễ × ngày/đêm) không, hay chỉ có tổng giờ OT chung? Nếu chỉ có tổng, nguồn lịch ngày lễ để Core System tự phân loại lấy ở đâu?
 - **`self-docs/engine/nhat-ky-archive`** (how_to): Technical guide and specification: Nhật ký công việc — Archive [Aliases: Nhật ký công việc — Archive, Nhat Ky Archive 170826]
   - 📌 *Core:* Các dòng nhật ký ngày từ `self-docs/CLAUDE.md` (mục "Nhật ký công việc theo ngày"), chuyển ra đây ngày 170826 để giảm token của CLAUDE.md chính (mục đó chỉ còn giữ 2 entry gần nhất). Đây là bản lưu trữ nguyên văn, không phải tài liệu canonical — chi 
-- **`self-docs/engine/payroll-bulk-set-calculate-batch-perf`** (how_to): Technical guide and specification: Core System Bulk-Set CalculateBatch Perf — 030926 [Aliases: Core System Bulk-Set CalculateBatch Perf — 030926, Core System Bulk Set Calculate Batch Perf 030926]
+- **`self-docs/engine/Core System-bulk-set-calculate-batch-perf`** (how_to): Technical guide and specification: Core System Bulk-Set CalculateBatch Perf — 030926 [Aliases: Core System Bulk-Set CalculateBatch Perf — 030926, Core System Bulk Set Calculate Batch Perf 030926]
   - 📌 *Core:* **Canonical duy nhất cho hạng mục này.** Phát hiện khi test thật tính năng "Nhập Excel" mới (xem `self-docs/Core System-Import-Template-Toolbar-Export-030926.md`, cùng ngày): import file ~2872 dòng NV qua `POST /Core System/cells/bulk-set/{periodId}`
-- **`self-docs/engine/payroll-excel-import-vlookup`** (how_to): Technical guide and specification: Core System Excel Import — VLOOKUP theo mã nhân viên [Aliases: Core System Excel Import — VLOOKUP theo mã nhân viên, Core System Excel Import VLookup 110826]
+- **`self-docs/engine/Core System-excel-import-vlookup`** (how_to): Technical guide and specification: Core System Excel Import — VLOOKUP theo mã nhân viên [Aliases: Core System Excel Import — VLOOKUP theo mã nhân viên, Core System Excel Import VLookup 110826]
   - 📌 *Core:* Mục "Nhập Excel" trong menu Tệp (`Core System-frontend/components-page/tinh-luong`) trước đây chỉ đọc file Excel bằng `exceljs` (thật, chạy được) và hiện preview tên file/sheet/số dòng/danh sách tối đa 12 header. Toàn bộ phần ghi dữ liệu là stub cố ý
-- **`self-docs/engine/payroll-import-template-toolbar-export`** (how_to): Technical guide and specification: Core System Import Template Toolbar Export — 030926 [Aliases: Core System Import Template Toolbar Export — 030926, Core System Import Template Toolbar Export 030926]
+- **`self-docs/engine/Core System-import-template-toolbar-export`** (how_to): Technical guide and specification: Core System Import Template Toolbar Export — 030926 [Aliases: Core System Import Template Toolbar Export — 030926, Core System Import Template Toolbar Export 030926]
   - 📌 *Core:* **Canonical duy nhất cho hạng mục này.** Cập nhật liên tục, không tạo file mới cùng chủ đề. User yêu cầu 2 việc trên `Core System-frontend`, màn `TinhLuongExcel` (bảng lương):
-- **`self-docs/engine/payroll-multilevel-approval-period-lock`** (how_to): Technical guide and specification: Core System Multilevel Approval + Period Lock — 250826 [Aliases: Core System Multilevel Approval + Period Lock — 250826, Core System Multilevel Approval Period Lock 250826]
+- **`self-docs/engine/Core System-multilevel-approval-period-lock`** (how_to): Technical guide and specification: Core System Multilevel Approval + Period Lock — 250826 [Aliases: Core System Multilevel Approval + Period Lock — 250826, Core System Multilevel Approval Period Lock 250826]
   - 📌 *Core:* **Canonical.** Tài liệu duy nhất cho hạng mục "luồng phê duyệt tính lương nhiều cấp + hạn chót từng bước + hợp nhất khoá kỳ + version sau chốt", bắt đầu 2026-08-25. SPEC/PLAN gốc:
 - **`self-docs/engine/pit-formula-fix`** (how_to): Technical guide and specification: PIT  luôn = 0 — nguyên nhân, sửa, và bậc thuế mới theo HR [Aliases: PIT  luôn = 0 — nguyên nhân, sửa, và bậc thuế mới theo HR, PIT Formula Fix 270726]
   - 📌 *Core:* Phát hiện khi viết bộ test khoá bất biến cho tính năng "cấu trúc lương theo cấp bậc" (xem `Salary-Structure-Template-Analysis-260726.md` — mục 4, Task 4.6). Đây là **2 việc hoàn toàn độc
