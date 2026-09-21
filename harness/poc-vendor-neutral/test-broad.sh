@@ -131,6 +131,26 @@ hk '{"tool_name":"Write","tool_input":{"file_path":"self-docs/engine/calc.md","c
 hk '{"tool_name":"Write","tool_input":{"file_path":"self-docs/engine/calc.md","content":"---\nid: self-docs/engine/calc\ncanonical_question: How to calculate salary\naliases: [calc salary, engine]\nentity_type: runbook\ndomain: self-docs > engine\nlast_verified: 2026-09-17\n---\n# Calc\n\nValid canonical content."}}'; assert 0 "R20: self-docs đủ chuẩn canonical qua" $?
 hk '{"tool_name":"Write","tool_input":{"file_path":"self-docs/MEMORY_INDEX.md","content":"# Index\nNo frontmatter"}}'; assert 0 "R20: MEMORY_INDEX.md miễn trừ" $?
 
+# ── K. R22 orca_browser_only (harness-events.py browser-guard, block=2) ──
+EV="bin/harness-events.py"
+bg(){ printf '%s' "$1" | python3 "$EV" browser-guard >/dev/null 2>&1; }
+bg '{"tool_name":"Bash","tool_input":{"command":"open https://example.com"}}';                     assert 2 "R22: open <url> bị chặn" $?
+bg '{"tool_name":"Bash","tool_input":{"command":"open -a \"Google Chrome\" https://x.io"}}';       assert 2 "R22: open -a Chrome bị chặn" $?
+bg '{"tool_name":"Bash","tool_input":{"command":"open -a Safari"}}';                              assert 2 "R22: open -a Safari bị chặn" $?
+bg '{"tool_name":"Bash","tool_input":{"command":"open report.html"}}';                            assert 2 "R22: open file.html bị chặn" $?
+bg '{"tool_name":"Bash","tool_input":{"command":"xdg-open http://localhost:3000"}}';              assert 2 "R22: xdg-open bị chặn" $?
+bg '{"tool_name":"Bash","tool_input":{"command":"python3 -m webbrowser http://x.io"}}';           assert 2 "R22: python -m webbrowser bị chặn" $?
+bg '{"tool_name":"Bash","tool_input":{"command":"cd app && npm run dev && open http://localhost:3000"}}'; assert 2 "R22: open sau && bị chặn" $?
+bg '{"tool_name":"Bash","tool_input":{"command":"sudo -u me open https://x.io"}}';                assert 0 "R22: wrapper lạ (-u) không đoán, fail-open" $?
+bg '{"tool_name":"Bash","tool_input":{"command":"orca tab create --url https://example.com --json"}}'; assert 0 "R22: orca tab create qua" $?
+bg '{"tool_name":"Bash","tool_input":{"command":"open ."}}';                                      assert 0 "R22: open thư mục (Finder) qua" $?
+bg '{"tool_name":"Bash","tool_input":{"command":"open report.pdf"}}';                             assert 0 "R22: open file pdf qua" $?
+bg '{"tool_name":"Bash","tool_input":{"command":"git commit -m \"fix: open https://x.io in orca\""}}'; assert 0 "R22: chuỗi trong commit message không chặn nhầm" $?
+bg '{"tool_name":"Bash","tool_input":{"command":"grep xdg-open README.md"}}';                     assert 0 "R22: grep xdg-open (đối số) qua" $?
+bg '{"tool_name":"Write","tool_input":{"file_path":"a.md","content":"open https://x.io"}}';        assert 0 "R22: tool không phải Bash qua" $?
+bg 'not json';                                                                                     assert 0 "R22: stdin hỏng fail-open" $?
+HARNESS_ALLOW_SYSTEM_BROWSER=1 bg '{"tool_name":"Bash","tool_input":{"command":"open https://example.com"}}'; assert 0 "R22: env mở khoá tạm" $?
+
 echo
 printf '\033[1mTỔNG: %d test · %d PASS · %d FAIL\033[0m\n' "$T" "$P" "$F"
 [ "$F" = 0 ] || exit 1

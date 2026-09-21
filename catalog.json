@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "updated_at": "2026-08-18",
-  "total_units": 2095,
+  "total_units": 2096,
   "units": [
     {
       "id": "baby/feeding/anti-colic-baby-bottles/2026",
@@ -30050,7 +30050,7 @@
       "entity_type": "how_to",
       "domain": "self-docs > integration",
       "last_verified": "2026-07-22",
-      "content_preview": "# KnowledgeLib Memory Index (self-docs) > **Generated:** 2026-09-17 | **Active Units:** 104 | **Mode:** High-Density Working Memory  Use this index to recall verified internal decisions, runbooks, and gotchas before querying external LLM.  ### Critical Gotchas & Traps - **`self-docs/security/rbac-pr"
+      "content_preview": "# KnowledgeLib Memory Index (self-docs) > **Generated:** 2026-09-21 | **Active Units:** 109 | **Mode:** High-Density Working Memory  Use this index to recall verified internal decisions, runbooks, and gotchas before querying external LLM.  ### Critical Gotchas & Traps - **`self-docs/security/rbac-pr"
     },
     {
       "id": "self-docs/integration/adapter-workday-handover",
@@ -30816,6 +30816,18 @@
       "domain": "self-docs > engine",
       "last_verified": "2026-08-26",
       "content_preview": "# Attendance-Core System Approval Gate — 240826  **Canonical duy nhất** cho hạng mục: nút \"Duyệt tất cả\" bảng lương + gate tính lương theo chốt công + chu kỳ lương 21-20 (khoá nút + schedule tự động). Bắt đầu từ yêu cầu \"kiểm tra luồng duyệt bảng công để tạo bảng lương\" ngày 240826, mở rộng qua 4 lư"
+    },
+    {
+      "id": "self-docs/engine/tuvi-enhancement-plan",
+      "canonical_question": "Technical guide and specification: Kế Hoạch Chi Tiết Nâng Cấp Hệ Thống Tử Vi",
+      "aliases": [
+        "Kế Hoạch Chi Tiết Nâng Cấp Hệ Thống Tử Vi",
+        "tuvi enhancement plan"
+      ],
+      "entity_type": "how_to",
+      "domain": "self-docs > engine",
+      "last_verified": "2026-09-21",
+      "content_preview": "# Kế Hoạch Chi Tiết Nâng Cấp Hệ Thống Tử Vi (Tu Vi App)  > **Mục tiêu**: Nâng cấp `tu-vi-app-poc` từ một ứng dụng chuyển đổi âm dương & tứ trụ cơ bản thành một nền tảng **Tử Vi Đẩu Số hiện đại, toàn diện**: kết hợp thuật toán an sao cổ truyền chuẩn xác, giao diện bàn cờ trực quan tương tác cao, nhận"
     },
     {
       "id": "self-docs/engine/payroll-formula-excel-reconciliation",

@@ -5,6 +5,7 @@
   session  R8 health       — in trạng thái + CHECK DRIFT vs remote (cảnh báo nếu policy lệch)
   docs     R10 docs-gate   — mỗi N prompt: inject directive đề nghị bổ sung docs + gọi /docs-site-macos
   knowledgelib R19         — mỗi N prompt: nhắc tra KnowledgeLib (MCP global) trước khi tự bịa
+  browser-guard R22        — PreToolUse Bash: chặn mở trình duyệt hệ thống, bắt dùng Orca browser (exit 2)
 
 MỌI lỗi → fail-open (exit 0). Drift-check best-effort (timeout ngắn), tắt bằng env LLMWIKI_NO_DRIFT=1.
 """
@@ -175,6 +176,64 @@ def m_knowledgelib():
     return 0
 
 
+_BROWSERS = ("chrome", "safari", "firefox", "brave", "edge", "opera", "vivaldi", "chromium")
+_OPENERS = {"xdg-open", "gnome-open", "sensible-browser", "x-www-browser"}
+_WRAPPERS = {"sudo", "env", "command", "nohup", "exec", "time"}
+
+
+def _is_system_browser_cmd(cmd):
+    """True nếu một đoạn shell MỞ trình duyệt hệ thống. Chỉ soi token đầu đoạn (sau khi bỏ
+    wrapper/env-assign), KHÔNG soi chuỗi nằm trong tham số → không chặn nhầm commit message."""
+    import re
+    import shlex
+    for seg in re.split(r"\s*(?:&&|\|\||;|\||\n)\s*", cmd):
+        try:
+            t = shlex.split(seg)
+        except ValueError:
+            t = seg.split()
+        while t and (t[0] in _WRAPPERS or ("=" in t[0] and not t[0].startswith("-"))):
+            t = t[1:]
+        if not t:
+            continue
+        head, args = os.path.basename(t[0]), t[1:]
+        if head in _OPENERS:
+            return True
+        if head == "open":
+            for i, a in enumerate(args):
+                al = a.lower()
+                if al.startswith(("http://", "https://")) or al.endswith((".html", ".htm")):
+                    return True
+                if a in ("-a", "-b") and i + 1 < len(args):
+                    v = args[i + 1].lower()
+                    if v == "arc" or any(b in v for b in _BROWSERS):
+                        return True
+        if head.startswith("python") and ("webbrowser" in args or any("webbrowser.open" in a for a in args)):
+            return True
+        if head == "osascript" and any("open location" in a for a in args):
+            return True
+    return False
+
+
+def m_browser_guard():
+    """R22 orca-browser-only: PreToolUse(Bash) — chặn (exit 2) lệnh mở trình duyệt mặc định của
+    hệ thống; nhắc dùng `orca tab create --url`. Mở khoá tạm: HARNESS_ALLOW_SYSTEM_BROWSER=1."""
+    if os.environ.get("HARNESS_ALLOW_SYSTEM_BROWSER") == "1":
+        return 0
+    try:
+        d = _stdin()
+        if d.get("tool_name") != "Bash":
+            return 0
+        cmd = (d.get("tool_input") or {}).get("command") or ""
+        if _is_system_browser_cmd(cmd):
+            sys.stderr.write("[harness R22 orca-browser-only] Không mở trình duyệt mặc định của hệ thống. "
+                             "Dùng browser của Orca: `orca tab create --url <url> --json` (rồi `orca snapshot`). "
+                             "Site chặn browser nhúng (vd Google sign-in) → in URL cho user tự dán, đừng tự mở Chrome.\n")
+            return 2
+    except Exception:
+        pass
+    return 0
+
+
 def m_session_end():
     """R17 problem-tree-flush: phiên chạm framework mà sổ chưa cập nhật → append stub pending
     bằng code thuần (0 token). Fail-open mọi nhánh. Bản vendor-neutral của
@@ -265,7 +324,8 @@ def main():
     ev = sys.argv[1] if len(sys.argv) > 1 else ""
     fn = {"stop": m_stop, "audit": m_audit, "session": m_session, "docs": m_docs,
           "session-end": m_session_end, "knowledgelib": m_knowledgelib,
-          "knowledgelib-sync": m_knowledgelib_sync}.get(ev)
+          "knowledgelib-sync": m_knowledgelib_sync,
+          "browser-guard": m_browser_guard}.get(ev)
     try:
         sys.exit(fn() if fn else 0)
     except Exception:

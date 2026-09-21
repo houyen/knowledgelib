@@ -295,3 +295,17 @@ rules:
     blocking: false
 
 
+
+  # ── Browser policy (2026-09-21) ─────────────────────────────────────────
+  orca_browser_only:
+    id: R22
+    name: orca-browser-only
+    kind: hook_event
+    statement: "Cần mở trình duyệt (mở trang, test UI/E2E, chụp màn hình, link OAuth/verify) thì dùng browser tích hợp của Orca qua `orca tab create --url ...` / `orca goto` / `orca snapshot`. CẤM mở trình duyệt mặc định của hệ thống: `open <url|file.html>`, `open -a <browser>`, `xdg-open`, `python -m webbrowser`, `osascript ... open location`. Site chặn browser nhúng (vd Google sign-in) → KHÔNG tự chuyển sang trình duyệt hệ thống, in URL cho user tự dán. Tạm mở khoá bằng env HARNESS_ALLOW_SYSTEM_BROWSER=1."
+    enforce_at: [session]
+    event: PreToolUse
+    event_action: browser-guard
+    matcher: Bash
+    timeout: 10
+    handler: "harness-events.py browser-guard · bin/harness-events.py::m_browser_guard (chặn exit 2; lỗi → fail-open). Chỉ soi lệnh ở đầu mỗi đoạn shell, không soi chuỗi nằm trong tham số (tránh chặn nhầm `git commit -m \"...open http...\"`)."
+    blocking: true

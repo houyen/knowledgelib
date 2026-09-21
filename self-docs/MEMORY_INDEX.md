@@ -1,5 +1,5 @@
 # KnowledgeLib Memory Index (self-docs)
-> **Generated:** 2026-09-17 | **Active Units:** 106 | **Mode:** High-Density Working Memory
+> **Generated:** 2026-09-21 | **Active Units:** 109 | **Mode:** High-Density Working Memory
 
 Use this index to recall verified internal decisions, runbooks, and gotchas before querying external LLM.
 
@@ -24,6 +24,8 @@ Use this index to recall verified internal decisions, runbooks, and gotchas befo
   - 📌 *Core:* **System:** Core System & HRIS Integration Platform (Go / Chi / Postgres / Next.js) **Date:** July 21, 2026
 - **`self-docs/integration/task7-db-source-bangiao-doidb`** (specification): Technical guide and specification: Bàn giao Task 7 — Nguồn dữ liệu DB cho báo cáo "Bảng chấm công CBNV" [Aliases: Bàn giao Task 7 — Nguồn dữ liệu DB cho báo cáo "Bảng chấm công CBNV", Task7 DB Source BanGiao DoiDB 310726]
   - 📌 *Core:* **Ngày:** 2026-07-31 **Trạng thái phần Excel:** đã xong và đã kiểm chứng (Task 0→6, 43 test xanh). Chỉ còn thiếu nguồn dữ liệu thật.
+- **`self-docs/docs/plan-phase-a`** (architecture_explainer): Technical guide and specification: Phase A Plan — Engine tính lá số [Aliases: Phase A Plan — Engine tính lá số, PLAN phase a]
+  - 📌 *Core:* Module tính toán thuần (pure logic), không phụ thuộc UI, test độc lập được. Input: ngày-giờ-năm sinh dương lịch. Output: lá số cơ bản (âm lịch, can chi, tứ trụ). TypeScript, Node runtime, không framework. Lý do: dùng chung ngôn ngữ với Phase B (front
 - **`self-docs/files/payroll-engine-180826-readme`** (architecture_explainer): Technical guide and specification: Dump DB backend — `payroll_engine`, 18/08/2026 [Aliases: Dump DB backend — `payroll_engine`, 18/08/2026, Core System engine 180826 README]
   - 📌 *Core:* Ảnh chụp database của `Core System-backend` trên máy dev, tức **trạng thái đích** sau đợt dọn dẹp DB 17–18/08 và cầu nối Workday.
 - **`self-docs/files/payroll-engine-240826-readme`** (architecture_explainer): Technical guide and specification: payroll_engine — dump 24/08/2026 [Aliases: payroll_engine — dump 24/08/2026, Core System engine 240826 README]
@@ -82,7 +84,7 @@ Use this index to recall verified internal decisions, runbooks, and gotchas befo
 - **`self-docs/integration/brd-38-notification-audit-log`** (how_to): Technical guide and specification: TASK-REF — Audit Log bắt buộc cho Cấu hình Thông báo [Aliases: TASK-REF — Audit Log bắt buộc cho Cấu hình Thông báo, BRD 38 Notification Audit Log 080926]
   - 📌 *Core:* Sau khi phân tích TASK-REF/39/40 (`self-docs/TASK-REF-Notification-Frequency-Config-080926.md` là tiền đề — cùng nhóm "Thông báo"), chốt: chỉ 1 việc đủ điều kiện làm ngay không cần hỏi ai — **Audit Log
 - **`self-docs/integration/memory-index`** (how_to): Technical guide and specification: KnowledgeLib Memory Index [Aliases: KnowledgeLib Memory Index, MEMORY INDEX]
-  - 📌 *Core:* > **Generated:** 2026-09-17 | **Active Units:** 106 | **Mode:** High-Density Working Memory Use this index to recall verified internal decisions, runbooks, and gotchas before querying external LLM.
+  - 📌 *Core:* > **Generated:** 2026-09-21 | **Active Units:** 109 | **Mode:** High-Density Working Memory Use this index to recall verified internal decisions, runbooks, and gotchas before querying external LLM.
 - **`self-docs/integration/rbac-backlog-tracklist`** (how_to): Technical guide and specification: Tracklist công việc RBAC/Bảo mật còn lại — Core System [Aliases: Tracklist công việc RBAC/Bảo mật còn lại — Core System, RBAC Backlog Tracklist 160726]
   - 📌 *Core:* **Ngày:** 2026-07-16 **Phạm vi:** Tổng hợp toàn bộ hạng mục RBAC/company-scoping/bảo mật còn mở, tính đến hết ngày 160726, gom từ 4 tài liệu đã có (`RBAC-Hybrid-Scoping-Implementation-140726.md`, `RBAC-Improvement-Analysis-150726.md`, `RBAC-Improveme
 - **`self-docs/integration/rbac-bao-cao-bao-mat`** (how_to): Technical guide and specification: Báo cáo — Công việc RBAC/Bảo mật dự án Core System [Aliases: Báo cáo — Công việc RBAC/Bảo mật dự án Core System, RBAC Bao Cao Bao Mat 150726]
@@ -102,6 +104,8 @@ Use this index to recall verified internal decisions, runbooks, and gotchas befo
 - **`self-docs/integration/workday-job-change-api-guide`** (how_to): How to integrate Workday API for Job Change and Data Change business processes [Aliases: Workday Job Change API integration, Workday Submit_Change_Job SOAP Staffing, Workday Staffing Web Service v45.2]
   - ⚠️ *Constraint:* Submit_Change_Job requires SOAP Staffing Service v45.2+ with WS-Security UsernameToken, not REST
   - 📌 *Core:* Trong hệ thống Workday, **Job Change** (thuyên chuyển vị trí, thăng chức, đổi phòng ban, thay đổi địa điểm làm việc, v.v.) không được xử lý như một thao tác CRUD/Update dữ liệu thông thường. Thay vào đó, nó được quản lý như một **Business Process (BP
+- **`self-docs/docs/plan-phase-b`** (how_to): Technical guide and specification: Phase B Plan — UI nhập ngày-giờ-năm sinh, hiển thị lá số [Aliases: Phase B Plan — UI nhập ngày-giờ-năm sinh, hiển thị lá số, PLAN phase b]
+  - 📌 *Core:* Frontend cơ bản: form nhập ngày-giờ-năm sinh dương lịch → gọi `tinhLaSo()` (đã có ở `src/engine/index.ts`, Phase A) → hiển thị kết quả lá số. Vite + React + TypeScript. Lý do: cùng ngôn ngữ với engine (TS, import trực tiếp không cần build API riêng),
 - **`self-docs/operations/report-playwright-test-plan`** (how_to): Technical guide and specification: 🎭 Kế hoạch Kiểm thử Playwright E2E — Tối ưu Renderer Báo cáo [Aliases: 🎭 Kế hoạch Kiểm thử Playwright E2E — Tối ưu Renderer Báo cáo, 150926 Report Playwright Test PLAN]
   - 📌 *Core:* > **Mục tiêu**: Kiểm thử tự động hóa đầu cuối (E2E) bằng Playwright để xác thực toàn bộ các cải tiến hiệu năng và tính chính xác của hệ thống Report sau cả Phase 1 và Phase 2. > **Thời gian**: 15/09/2026
 - **`self-docs/operations/sit-testcase-update-guide-for-qc`** (how_to): How to ĐỒNG BỘ & CẬP NHẬT BỘ TEST CASE SIT (Hướng dẫn ĐỒNG BỘ & CẬP NHẬT BỘ TEST CASE SIT) [Aliases: HƯỚNG DẪN ĐỒNG BỘ & CẬP NHẬT BỘ TEST CASE SIT, 150926 SIT Testcase Update Guide For QC]
@@ -220,5 +224,7 @@ Use this index to recall verified internal decisions, runbooks, and gotchas befo
   - 📌 *Core:* > **Mục đích**: Rà soát và tài liệu hóa toàn diện danh sách tính năng, màn hình giao diện, kiến trúc kỹ thuật của luồng đẩy file phiếu lương (payslip) lên máy chủ SFTP (Workday Ingestion), cũng như hiện trạng việc truy cập máy chủ SFTP để kiểm tra da
 - **`self-docs/engine/structure-security-001`** (how_to): Technical guide and specification: Mô Hình Ủy Quyền Lai: Sự Kết Hợp Giữa RBAC Phân Cấp Và ABAC Động [Aliases: Mô Hình Ủy Quyền Lai: Sự Kết Hợp Giữa RBAC Phân Cấp Và ABAC Động, Structure Security 001]
   - 📌 *Core:* Mô hình phân quyền dựa trên vai trò (RBAC) cung cấp một cấu trúc quản trị rõ ràng, ánh xạ trực tiếp cơ cấu tổ chức của doanh nghiệp vào hệ thống phần mềm⁶. Theo tiêu chuẩn quốc tế ANSI/INCITS 359 (mô hình NIST RBAC), việc thiết lập RBAC cần được nâng
+- **`self-docs/engine/tuvi-enhancement-plan`** (how_to): Technical guide and specification: Kế Hoạch Chi Tiết Nâng Cấp Hệ Thống Tử Vi [Aliases: Kế Hoạch Chi Tiết Nâng Cấp Hệ Thống Tử Vi, tuvi enhancement plan]
+  - 📌 *Core:* > **Mục tiêu**: Nâng cấp `tu-vi-app-poc` từ một ứng dụng chuyển đổi âm dương & tứ trụ cơ bản thành một nền tảng **Tử Vi Đẩu Số hiện đại, toàn diện**: kết hợp thuật toán an sao cổ truyền chuẩn xác, giao diện bàn cờ trực quan tương tác cao, nhận diện c
 - **`self-docs/engine/zero-trust-prod-review`** (how_to): Technical guide and specification: Zero Trust — cổng vào production [Aliases: Zero Trust — cổng vào production, Zero Trust Prod Review 160926]
   - 📌 *Core:* **File canonical** cho hạng mục "Zero Trust / OBO / mã hoá lương". Phạm vi: chỉ những gì phải đúng **trước khi lên production** (staging ngoài phạm vi — chốt 16/09).

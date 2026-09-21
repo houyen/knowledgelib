@@ -67,11 +67,14 @@ def main():
         if r.get("matcher"):
             entry["matcher"] = r["matcher"]
         hook_events.setdefault(ev, []).append(entry)
+    # PreToolUse = cổng content-rule (validator claude-hook), gộp R1/R2/R5/R7/R9 — giữ hardcode.
+    # hook_event PreToolUse từ policy (vd R22) được NỐI SAU, không ghi đè cổng này.
+    pre_tool = [{"matcher": "Write|Edit|MultiEdit|Bash", "hooks": _ev(_block(CLI, "claude-hook"))}]
+    pre_tool += hook_events.pop("PreToolUse", [])
     claude = {
         "_generated": GEN,
         "hooks": {
-            # PreToolUse = cổng content-rule (validator claude-hook), gộp R1/R2/R5/R7/R9 — giữ hardcode
-            "PreToolUse": [{"matcher": "Write|Edit|MultiEdit|Bash", "hooks": _ev(_block(CLI, "claude-hook"))}],
+            "PreToolUse": pre_tool,
             **hook_events,   # Stop(R3)/PostToolUse(R4)/SessionStart(R8)/UserPromptSubmit(R10) ← policy
         },
     }
