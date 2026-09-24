@@ -10,7 +10,7 @@ last_verified: 2026-07-22
 ---
 
 # KnowledgeLib Memory Index (self-docs)
-> **Generated:** 2026-09-21 | **Active Units:** 109 | **Mode:** High-Density Working Memory
+> **Generated:** 2026-09-24 | **Active Units:** 111 | **Mode:** High-Density Working Memory
 
 Use this index to recall verified internal decisions, runbooks, and gotchas before querying external LLM.
 
@@ -62,6 +62,10 @@ Use this index to recall verified internal decisions, runbooks, and gotchas befo
   - 📌 *Core:* > ⚠️ **Triển khai:** backend KHÔNG chạy Atlas — các migration của đợt này phải `atlas migrate apply` > bằng tay, và **bắt buộc deploy code TRƯỚC khi apply**. Xem `self-docs/DB-Cleanup-Deploy-Runbook-180826.md`.
 - **`self-docs/database/db-cleanup-legacy-tables`** (how_to): Technical guide and specification: DB Cleanup — Xoá bảng legacy không còn dùng [Aliases: DB Cleanup — Xoá bảng legacy không còn dùng, DB Cleanup Legacy Tables 170826]
   - 📌 *Core:* > ⚠️ **Triển khai:** backend KHÔNG chạy Atlas — các migration của đợt này phải `atlas migrate apply` > bằng tay, và **bắt buộc deploy code TRƯỚC khi apply**. Xem `self-docs/DB-Cleanup-Deploy-Runbook-180826.md`.
+- **`self-docs/stitch-tu-vi-scholar-platform/design`** (how_to): Technical guide and specification: Design [Aliases: Design]
+  - 📌 *Core:* This design system embodies the regal gravitas and intellectual rigor of Imperial East Asian astrology. It synthesizes imperial court archival aesthetics—fine handcrafted mulberry paper (*giấy dó*), cinnabar red seal inks, and weathered bronze inlays
+- **`self-docs/stitch-tu-vi-scholar-platform/implementation-report`** (runbook): Technical guide and specification: Báo Cáo Triển Khai Thiết Kế "Imperial Scholar Zi Wei" [Aliases: Báo Cáo Triển Khai Thiết Kế "Imperial Scholar Zi Wei", IMPLEMENTATION REPORT]
+  - 📌 *Core:* **Dự án**: `tu-vi-app-poc` (Production React 19 + TypeScript + Vite) **Ngày thực hiện**: 2026-09-23
 - **`self-docs/security/audit-log-compliance-plan`** (how_to): Technical guide and specification: Kế hoạch Thi hành: Nâng cấp Toàn diện Hệ thống Audit Log [Aliases: Kế hoạch Thi hành: Nâng cấp Toàn diện Hệ thống Audit Log, 160926 Audit Log Compliance PLAN]
   - 📌 *Core:* **Goal:** Bổ sung cột "Lý do", Việt hóa cột "Hành động", hiển thị biến động "Cũ → Mới" tại cột "Chi tiết", và chuẩn hóa ghi nhận Audit Log đầy đủ ở cả Backend và Frontend theo đúng yêu cầu TASK-REF & kiểm toán tuân thủ. **Branch:** `feature/audit-log
 - **`self-docs/security/nhat-ky-archive`** (how_to): Technical guide and specification: Nhật ký công việc theo ngày — Archive [Aliases: Nhật ký công việc theo ngày — Archive, Nhat Ky Archive 160926]
@@ -95,7 +99,7 @@ Use this index to recall verified internal decisions, runbooks, and gotchas befo
 - **`self-docs/integration/brd-38-notification-audit-log`** (how_to): Technical guide and specification: TASK-REF — Audit Log bắt buộc cho Cấu hình Thông báo [Aliases: TASK-REF — Audit Log bắt buộc cho Cấu hình Thông báo, BRD 38 Notification Audit Log 080926]
   - 📌 *Core:* Sau khi phân tích TASK-REF/39/40 (`self-docs/TASK-REF-Notification-Frequency-Config-080926.md` là tiền đề — cùng nhóm "Thông báo"), chốt: chỉ 1 việc đủ điều kiện làm ngay không cần hỏi ai — **Audit Log
 - **`self-docs/integration/memory-index`** (how_to): Technical guide and specification: KnowledgeLib Memory Index [Aliases: KnowledgeLib Memory Index, MEMORY INDEX]
-  - 📌 *Core:* > **Generated:** 2026-09-21 | **Active Units:** 109 | **Mode:** High-Density Working Memory Use this index to recall verified internal decisions, runbooks, and gotchas before querying external LLM.
+  - 📌 *Core:* > **Generated:** 2026-09-24 | **Active Units:** 111 | **Mode:** High-Density Working Memory Use this index to recall verified internal decisions, runbooks, and gotchas before querying external LLM.
 - **`self-docs/integration/rbac-backlog-tracklist`** (how_to): Technical guide and specification: Tracklist công việc RBAC/Bảo mật còn lại — Core System [Aliases: Tracklist công việc RBAC/Bảo mật còn lại — Core System, RBAC Backlog Tracklist 160726]
   - 📌 *Core:* **Ngày:** 2026-07-16 **Phạm vi:** Tổng hợp toàn bộ hạng mục RBAC/company-scoping/bảo mật còn mở, tính đến hết ngày 160726, gom từ 4 tài liệu đã có (`RBAC-Hybrid-Scoping-Implementation-140726.md`, `RBAC-Improvement-Analysis-150726.md`, `RBAC-Improveme
 - **`self-docs/integration/rbac-bao-cao-bao-mat`** (how_to): Technical guide and specification: Báo cáo — Công việc RBAC/Bảo mật dự án Core System [Aliases: Báo cáo — Công việc RBAC/Bảo mật dự án Core System, RBAC Bao Cao Bao Mat 150726]

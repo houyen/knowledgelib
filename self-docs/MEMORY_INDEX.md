@@ -1,5 +1,5 @@
 # KnowledgeLib Memory Index (self-docs)
-> **Generated:** 2026-09-21 | **Active Units:** 109 | **Mode:** High-Density Working Memory
+> **Generated:** 2026-09-24 | **Active Units:** 109 | **Mode:** High-Density Working Memory
 
 Use this index to recall verified internal decisions, runbooks, and gotchas before querying external LLM.
 
@@ -84,7 +84,7 @@ Use this index to recall verified internal decisions, runbooks, and gotchas befo
 - **`self-docs/integration/brd-38-notification-audit-log`** (how_to): Technical guide and specification: TASK-REF — Audit Log bắt buộc cho Cấu hình Thông báo [Aliases: TASK-REF — Audit Log bắt buộc cho Cấu hình Thông báo, BRD 38 Notification Audit Log 080926]
   - 📌 *Core:* Sau khi phân tích TASK-REF/39/40 (`self-docs/TASK-REF-Notification-Frequency-Config-080926.md` là tiền đề — cùng nhóm "Thông báo"), chốt: chỉ 1 việc đủ điều kiện làm ngay không cần hỏi ai — **Audit Log
 - **`self-docs/integration/memory-index`** (how_to): Technical guide and specification: KnowledgeLib Memory Index [Aliases: KnowledgeLib Memory Index, MEMORY INDEX]
-  - 📌 *Core:* > **Generated:** 2026-09-21 | **Active Units:** 109 | **Mode:** High-Density Working Memory Use this index to recall verified internal decisions, runbooks, and gotchas before querying external LLM.
+  - 📌 *Core:* > **Generated:** 2026-09-24 | **Active Units:** 111 | **Mode:** High-Density Working Memory Use this index to recall verified internal decisions, runbooks, and gotchas before querying external LLM.
 - **`self-docs/integration/rbac-backlog-tracklist`** (how_to): Technical guide and specification: Tracklist công việc RBAC/Bảo mật còn lại — Core System [Aliases: Tracklist công việc RBAC/Bảo mật còn lại — Core System, RBAC Backlog Tracklist 160726]
   - 📌 *Core:* **Ngày:** 2026-07-16 **Phạm vi:** Tổng hợp toàn bộ hạng mục RBAC/company-scoping/bảo mật còn mở, tính đến hết ngày 160726, gom từ 4 tài liệu đã có (`RBAC-Hybrid-Scoping-Implementation-140726.md`, `RBAC-Improvement-Analysis-150726.md`, `RBAC-Improveme
 - **`self-docs/integration/rbac-bao-cao-bao-mat`** (how_to): Technical guide and specification: Báo cáo — Công việc RBAC/Bảo mật dự án Core System [Aliases: Báo cáo — Công việc RBAC/Bảo mật dự án Core System, RBAC Bao Cao Bao Mat 150726]

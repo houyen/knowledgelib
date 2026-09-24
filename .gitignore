@@ -50,6 +50,7 @@ credentials.json
 scripts/triage_state.json
 query_misses.jsonl
 .claude/audit/
+.claude/skills/
 
 # Operating System & IDE Files
 .DS_Store
@@ -82,3 +83,4 @@ scripts/
 CLAUDE.md
 skills-lock.json
 AGENTS.md
+.gitnexus

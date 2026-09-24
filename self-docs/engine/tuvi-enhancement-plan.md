@@ -7,7 +7,7 @@ aliases:
 - tuvi enhancement plan
 entity_type: how_to
 domain: self-docs > engine
-last_verified: 2026-09-21
+last_verified: 2026-09-24
 ---
 
 # Kế Hoạch Chi Tiết Nâng Cấp Hệ Thống Tử Vi (Tu Vi App)
