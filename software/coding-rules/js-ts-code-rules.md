@@ -14,7 +14,7 @@ last_verified: '2026-09-29'
 
 # JavaScript / TypeScript — bộ rule code
 
-**rule_set:** `js-ts` · **rule_set_version:** `0.1.0` · **status:** pilot (schema đang thử)
+**rule_set:** `js-ts` · **rule_set_version:** `0.2.0` · **status:** pilot (schema đang thử)
 
 Nguồn: audit pmkit (2026-09-29) + áp thực tế vào `tu-vi-app-poc` (170 file TS, lint lần đầu). Mỗi rule có `origin` để truy nguồn và `evidence` để biết vì sao có.
 `kind: machine` = có rule lint kiểm được (harness sinh config). `kind: review` = chỉ người/agent soát, không có lint.
@@ -117,6 +117,84 @@ rules:
     statement: "Chuỗi hiển thị gom một chỗ, không rải trong logic; magic number/string thành hằng có tên."
     scope: [prod]
     origin: "pmkit"
+  - id: JS-SEC-04
+    severity: error
+    kind: review
+    statement: "innerHTML chỉ cho chuỗi hằng số không có nội suy; HTML động phải qua một helper escapeHtml() duy nhất trong một module."
+    scope: [prod]
+    origin: "tu-vi-app-poc js.md"
+    evidence: "tu-vi-app-poc mục An toàn (bắt buộc)"
+  - id: JS-STRUCT-03
+    severity: warn
+    kind: review
+    statement: "Một file một khái niệm, dùng ES modules, export thứ cần dùng lại, không gắn vào window, không bọc cả app trong một IIFE khổng lồ."
+    scope: [prod]
+    origin: "tu-vi-app-poc js.md"
+    evidence: "tu-vi-app-poc mục Cấu trúc"
+  - id: JS-STRUCT-04
+    severity: warn
+    kind: review
+    statement: "(Chỉ code thao tác DOM trực tiếp, không áp cho React.) Hàm initXxxModal dài tách thành bindEvents, render, load, save."
+    scope: [prod]
+    origin: "tu-vi-app-poc js.md"
+    evidence: "tu-vi-app-poc mục Cấu trúc"
+  - id: JS-STRUCT-05
+    severity: warn
+    kind: review
+    statement: "(Chỉ code thao tác DOM trực tiếp, không áp cho React.) Mỗi trang có một init() gọi từ điểm vào, chọn theo data-page trên <body>, không dò selector để đoán đang ở trang nào."
+    scope: [prod]
+    origin: "tu-vi-app-poc js.md"
+    evidence: "tu-vi-app-poc mục Cấu trúc"
+  - id: JS-DOM-01
+    severity: warn
+    kind: review
+    statement: "(Chỉ code thao tác DOM trực tiếp, không áp cho React.) Truy vấn DOM một lần ở đầu init, lưu vào object refs; không querySelector lặp trong vòng lặp/handler."
+    scope: [prod]
+    origin: "tu-vi-app-poc js.md"
+    evidence: "tu-vi-app-poc mục DOM"
+  - id: JS-DOM-02
+    severity: warn
+    kind: review
+    statement: "(Chỉ code thao tác DOM trực tiếp, không áp cho React.) Event delegation cho danh sách động (một listener trên container), không gắn listener cho từng dòng."
+    scope: [prod]
+    origin: "tu-vi-app-poc js.md"
+    evidence: "tu-vi-app-poc mục DOM"
+  - id: JS-DOM-03
+    severity: warn
+    kind: review
+    statement: "(Chỉ code thao tác DOM trực tiếp, không áp cho React.) Class trạng thái (hidden, is-active) bật/tắt qua classList; không set style.* trực tiếp."
+    scope: [prod]
+    origin: "tu-vi-app-poc js.md"
+    evidence: "tu-vi-app-poc mục DOM"
+  - id: JS-ASYNC-01
+    severity: warn
+    kind: review
+    statement: "Mọi request qua một hàm bọc duy nhất (apiFetch); không gọi fetch trực tiếp ở nơi khác; async/await, không trộn .then."
+    scope: [prod]
+    origin: "tu-vi-app-poc js.md"
+    evidence: "tu-vi-app-poc mục Async & lỗi"
+  - id: JS-UI-01
+    severity: warn
+    kind: review
+    statement: "(Chỉ code thao tác DOM trực tiếp, không áp cho React.) confirm() và alert() thay bằng modal chung."
+    scope: [prod]
+    origin: "tu-vi-app-poc js.md"
+    evidence: "tu-vi-app-poc mục Async & lỗi"
+  - id: JS-STYLE-03
+    severity: warn
+    kind: review
+    statement: "Đặt tên: camelCase hàm/biến, PascalCase class/component, UPPER_SNAKE hằng cấp module, isX/hasX cho bool, onX cho handler, renderX cho hàm vẽ."
+    scope: [prod, scripts, tests]
+    origin: "tu-vi-app-poc js.md"
+    evidence: "tu-vi-app-poc mục Style"
+  - id: JS-STYLE-04
+    severity: error
+    kind: machine
+    check: "eslint:quotes (single, avoidEscape), eslint:semi (always)"
+    statement: "Dấu nháy đơn, chấm phẩy cuối câu, indent 2 spaces (.editorconfig)."
+    scope: [prod, scripts, tests]
+    origin: "tu-vi-app-poc js.md"
+    evidence: "tu-vi-app-poc mục Style"
 ```
 
 ## Quy tắc áp dụng (rút từ thực tế)
