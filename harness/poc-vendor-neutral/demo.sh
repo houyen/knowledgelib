@@ -9,41 +9,28 @@ bad()  { printf '  \033[1;31mFAIL\033[0m %s\n' "$1"; fail=$((fail+1)); }
 # expect <mô tả> <exit-mong-đợi> -- <lệnh...>
 expect() { local d="$1" want="$2"; shift 3; "$@" >/dev/null 2>&1; local got=$?; [ "$got" = "$want" ] && ok "$d (exit $got)" || bad "$d (muốn $want, được $got)"; }
 
-echo "── 1. LÕI: mode path (layer=session) ──"
-expect "chặn ghi llmwiki/raw/x.md"            2 -- python3 "$CLI" path llmwiki/raw/x.md
-expect "chặn ghi raw/note.md (no prefix)"     2 -- python3 "$CLI" path raw/note.md
-expect "cho ghi wiki/concepts/foo.md"         0 -- python3 "$CLI" path llmwiki/wiki/concepts/foo.md
-expect "cho ghi src/app.ts"                   0 -- python3 "$CLI" path src/app.ts
+echo "── 1. LÕI: mode path ──"
+expect "ghi src/app.ts"                       0 -- python3 "$CLI" path src/app.ts
+expect "ghi self-docs/x.md (path mode không soi nội dung)" 0 -- python3 "$CLI" path self-docs/x.md
 
-echo "── 2. LÕI: mode claude-hook (PreToolUse JSON stdin) ──"
-echo '{"tool_name":"Write","tool_input":{"file_path":"llmwiki/raw/leak.md","content":"x"}}' | python3 "$CLI" claude-hook >/dev/null 2>&1
-[ $? = 2 ] && ok "Write→raw/ bị chặn" || bad "Write→raw/ KHÔNG bị chặn"
-echo '{"tool_name":"Bash","tool_input":{"command":"echo hi > llmwiki/raw/x.md"}}' | python3 "$CLI" claude-hook >/dev/null 2>&1
-[ $? = 2 ] && ok "Bash redirect→raw/ bị chặn" || bad "Bash→raw/ KHÔNG bị chặn"
-echo '{"tool_name":"Bash","tool_input":{"command":"cat llmwiki/raw/x.md"}}' | python3 "$CLI" claude-hook >/dev/null 2>&1
-[ $? = 0 ] && ok "Bash ĐỌC raw/ được phép" || bad "Bash đọc raw/ bị chặn nhầm"
-echo '{"tool_name":"Write","tool_input":{"file_path":"llmwiki/wiki/concepts/x.md","content":"---\ntype: concept\n---\n# x\n## Origin\n- src"}}' | python3 "$CLI" claude-hook >/dev/null 2>&1
-[ $? = 0 ] && ok "concept CÓ ## Origin được phép" || bad "concept có Origin bị chặn nhầm"
-echo '{"tool_name":"Write","tool_input":{"file_path":"llmwiki/wiki/concepts/y.md","content":"# y no origin"}}' | python3 "$CLI" claude-hook >/dev/null 2>&1
-[ $? = 2 ] && ok "concept THIẾU ## Origin bị chặn" || bad "concept thiếu Origin KHÔNG bị chặn"
+echo "── 2. LÕI: mode claude-hook (PreToolUse JSON stdin) · R20 ──"
+echo '{"tool_name":"Write","tool_input":{"file_path":"self-docs/y.md","content":"# y no frontmatter"}}' | python3 "$CLI" claude-hook >/dev/null 2>&1
+[ $? = 2 ] && ok "self-doc THIẾU frontmatter bị chặn" || bad "self-doc thiếu frontmatter KHÔNG bị chặn"
+echo '{"tool_name":"Write","tool_input":{"file_path":"self-docs/x.md","content":"---\nid: x\ncanonical_question: q\naliases: [a]\nentity_type: runbook\ndomain: d\nlast_verified: 2026-09-17\n---\n# x\n\nbody"}}' | python3 "$CLI" claude-hook >/dev/null 2>&1
+[ $? = 0 ] && ok "self-doc đủ canonical được phép" || bad "self-doc đủ canonical bị chặn nhầm"
+echo '{"tool_name":"Write","tool_input":{"file_path":"src/app.ts","content":"x"}}' | python3 "$CLI" claude-hook >/dev/null 2>&1
+[ $? = 0 ] && ok "file ngoài self-docs được phép" || bad "file ngoài self-docs bị chặn nhầm"
 
-echo "── 3. LÕI: mode files (layer=repo — KHÔNG áp no_write_raw vì enforce_at=[session]) ──"
-tmp="$(mktemp -d)"; mkdir -p "$tmp/llmwiki/raw" "$tmp/llmwiki/wiki/concepts"
-echo "human inbox" > "$tmp/llmwiki/raw/human.md"
-echo "---
-type: concept
----
-# c
-## Origin
-- src" > "$tmp/llmwiki/wiki/concepts/good.md"
-echo "# c no origin" > "$tmp/llmwiki/wiki/concepts/bad.md"
-expect "repo: raw/ KHÔNG bị chặn (con người commit hợp lệ)" 0 -- python3 "$CLI" files "$tmp/llmwiki/raw/human.md"
-expect "repo: concept tốt qua"                              0 -- python3 "$CLI" files "$tmp/llmwiki/wiki/concepts/good.md"
-expect "repo: concept thiếu Origin bị fail"                 1 -- python3 "$CLI" files "$tmp/llmwiki/wiki/concepts/bad.md"
+echo "── 3. LÕI: mode files (layer=repo) ──"
+tmp="$(mktemp -d)"; mkdir -p "$tmp/self-docs"
+printf '%b' '---\nid: g\ncanonical_question: q\naliases: [a]\nentity_type: runbook\ndomain: d\nlast_verified: 2026-09-17\n---\n# g\n\nbody\n' > "$tmp/self-docs/good.md"
+echo "# bad" > "$tmp/self-docs/bad.md"
+expect "repo: self-doc tốt qua"             0 -- bash -c "cd '$tmp' && python3 '$PWD/$CLI' --policy '$PWD/policy.yaml' files self-docs/good.md"
+expect "repo: self-doc thiếu frontmatter fail" 1 -- bash -c "cd '$tmp' && python3 '$PWD/$CLI' --policy '$PWD/policy.yaml' files self-docs/bad.md"
 rm -rf "$tmp"
 
 echo "── 4. fail-open: policy lỗi → KHÔNG chặn ──"
-expect "policy thiếu → exit 0 (fail-open)" 0 -- python3 "$CLI" --policy /no/such/policy.yaml path llmwiki/raw/x.md
+expect "policy thiếu → exit 0 (fail-open)" 0 -- python3 "$CLI" --policy /no/such/policy.yaml path self-docs/x.md
 
 echo "── 5. Sinh wiring mọi vendor từ 1 policy.yaml ──"
 python3 gen-converters.py

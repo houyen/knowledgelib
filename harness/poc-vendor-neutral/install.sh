@@ -49,11 +49,15 @@ mkdir -p "$DEST/bin"
 if [ "$(cd "$SRC" && pwd -P)" != "$(cd "$DEST" && pwd -P)" ]; then
   cp "$SRC/policy.yaml" "$SRC/gen-converters.py" "$SRC/demo.sh" "$SRC/test-broad.sh" "$DEST/"
   cp "$SRC/bin/"*.py "$DEST/bin/"
-  for f in install.sh uninstall.sh bootstrap.sh README.md DOCS.md; do [ -f "$SRC/$f" ] && cp "$SRC/$f" "$DEST/"; done
+  for f in install.sh uninstall.sh bootstrap.sh test-rules.sh test-propose.sh README.md DOCS.md; do [ -f "$SRC/$f" ] && cp "$SRC/$f" "$DEST/"; done
 else
   log "  · lõi đã ở đúng chỗ (SRC=DEST), bỏ qua copy"
 fi
 printf 'out/\n' > "$DEST/.gitignore"
+# audit log (R4) là dữ liệu phiên local — không để bị commit nhầm vào dự án đích
+if ! grep -qxF '.claude/audit/' "$ROOT/.gitignore" 2>/dev/null; then
+  printf '.claude/audit/\n' >> "$ROOT/.gitignore"
+fi
 chmod +x "$DEST/bin/"*.py "$DEST/gen-converters.py" "$DEST"/*.sh 2>/dev/null || true
 python3 -c 'import yaml' 2>/dev/null || { warn "thiếu pyyaml → thử pip install"; pip3 install --quiet pyyaml 2>/dev/null || warn "không cài được pyyaml — lõi sẽ fail-open tới khi có pyyaml"; }
 
@@ -186,8 +190,8 @@ if has codex;  then warn "  Codex → thêm nội dung out/codex/AGENTS.snippet.
 # ── B4. Verify ──
 if [ "$VERIFY" = 1 ]; then
   log "B4 · verify"
-  if bash "$DEST/demo.sh" >/dev/null 2>&1; then log "  ✓ demo.sh (13)"; else warn "  demo.sh FAIL — kiểm pyyaml"; fi
-  if bash "$DEST/test-broad.sh" >/dev/null 2>&1; then log "  ✓ test-broad.sh (68)"; else warn "  test-broad.sh FAIL"; fi
+  if bash "$DEST/demo.sh" >/dev/null 2>&1; then log "  ✓ demo.sh"; else warn "  demo.sh FAIL — kiểm pyyaml"; fi
+  if bash "$DEST/test-broad.sh" >/dev/null 2>&1; then log "  ✓ test-broad.sh"; else warn "  test-broad.sh FAIL"; fi
 fi
 
 # ── (tùy chọn) trụ 3: seed khung llmwiki (nhanh, idempotent — không đè file có sẵn) ──
@@ -198,8 +202,10 @@ if [ "$WITH_WIKI" = 1 ]; then
   [ -f "$ROOT/llmwiki/wiki/log.md" ]   || printf '# Log\n' > "$ROOT/llmwiki/wiki/log.md"
   log "  ✓ llmwiki/ (wiki/{concepts,entities,sources/draft} · raw/ · index.md · log.md)"
   # tài liệu hướng dẫn overstack — TRAVEL cùng khung xương (luôn refresh bản mới nhất)
-  if command -v curl >/dev/null 2>&1; then
-    REPO_RAW="${REPO_RAW:-https://raw.githubusercontent.com/Rheinmir/setup/orca}"
+  if [ -z "${REPO_RAW:-}" ]; then
+    # Opt-in: không tự tải/chạy mã từ mạng. Đặt REPO_RAW=<url raw nguồn tin cậy của bạn> để bật.
+    log "  · bỏ qua tải overstack.html/templates/global harness (đặt REPO_RAW=<raw url> để bật)"
+  elif command -v curl >/dev/null 2>&1; then
     mkdir -p "$ROOT/llmwiki/html"
     if curl -fsSL "$REPO_RAW/llmwiki/html/overstack.html" -o "$ROOT/llmwiki/html/overstack.html" 2>/dev/null; then
       log "  ✓ llmwiki/html/overstack.html (tài liệu overstack — mở bằng trình duyệt)"
@@ -277,13 +283,15 @@ fi
 
 # ── (tùy chọn) cài skill llmwiki (GLOBAL — khác phạm vi với harness theo-project) ──
 if [ "$WITH_SKILLS" = 1 ]; then
-  # Ref cài skill. Mặc định GIỮ NGUYÊN `#orca` — đây là đường cài của mọi người dùng thật.
+  # Ref cài skill. Không có mặc định: phải đặt SKILLS_REF tường minh (nguồn bạn tin cậy).
   # Mở override để test được một nhánh khác (canary UAT): không có nó thì cài-từ-nhánh-X vẫn
   # kéo skill của `orca` → bài UAT chấm bản CŨ rồi báo PASS cho bản MỚI. Cổng nói dối mà vẫn
   # xanh còn tệ hơn không có cổng. HARNESS_BASE / REPO_RAW đã override được; dòng này thì chưa.
-  SKILLS_REF="${SKILLS_REF:-rheinmir/setup#orca}"
-  log "+ cài bộ skill llmwiki (global, qua npx skills — ref: $SKILLS_REF)"
-  if command -v npx >/dev/null; then
+  SKILLS_REF="${SKILLS_REF:-}"
+  log "+ cài bộ skill llmwiki (global, qua npx skills — ref: ${SKILLS_REF:-<chưa đặt>})"
+  if [ -z "$SKILLS_REF" ]; then
+    warn "  chưa đặt SKILLS_REF (vd SKILLS_REF=<owner>/<repo>#<ref>) — bỏ qua cài skill"
+  elif command -v npx >/dev/null; then
     npx -y skills add "$SKILLS_REF" --global --all 2>&1 | tail -4 | sed 's/^/    /' \
       || warn "  cài skill lỗi — chạy tay: npx skills add $SKILLS_REF --global --all"
   else
@@ -307,7 +315,7 @@ fi
 
 echo ""
 log    "═══════════ TRẠNG THÁI 4 TRỤ ═══════════"
-log    "  1. Harness      ✓ cài/cập nhật   (per-project: hook validate + CI + R1–R21)"
+log    "  1. Harness      ✓ cài/cập nhật   (per-project: hook validate + CI + 6 rule: R4,R8,R19,R20,R21,R22)"
 if [ "$WITH_SKILLS" = 1 ]; then
   log  "  2. Skills       ✓ cài/cập nhật   (GLOBAL ~/.claude/skills, qua npx)"
 else

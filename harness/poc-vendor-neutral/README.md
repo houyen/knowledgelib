@@ -2,12 +2,12 @@
 
 Personal Minimal Viable Agent Harness. Vendor-neutral: 1 policy.yaml → gen-converters.py sinh wiring cho Claude / opencode / Cursor / Codex / Kiro / CI / pre-commit.
 
-Nguồn gốc: trích từ `harness/poc-vendor-neutral/` (Payroll CTD, 2026-07-16), verify lại standalone 2026-09-17 (demo.sh 13/13, test-broad.sh 74/74 PASS, không dính path/tên công ty).
+Nguồn gốc: chiết từ harness tham khảo (Claude). Từ 2026-10-15 rút gọn còn 6 rule thật sự có dấu vết dùng (audit log + hook); các rule llmwiki/ADR/proposal/pull-gate đã bỏ vì không repo nào có đối tượng để gác.
 
 ## Cài vào 1 dự án bất kỳ
 
 ```bash
-git clone <this-repo> /tmp/my-agent-harness
+git clone --depth 1 https://github.com/houyen/my-agent-harness.git /tmp/my-agent-harness
 bash /tmp/my-agent-harness/install.sh /path/to/target-project
 ```
 
@@ -15,18 +15,67 @@ Cờ:
 - `--vendor claude,opencode,cursor,codex,kiro` — ép danh sách vendor (mặc định tự dò)
 - `--no-verify` — bỏ chạy demo.sh + test-broad.sh sau khi cài
 - `--clean` — gỡ bản cũ trước khi cài
-- `--with-wiki` — seed khung llmwiki/ (raw/, wiki/concepts, entities, sources/draft, index.md, log.md)
+- `--with-wiki` — seed khung llmwiki/ (raw/, wiki/..., index.md, log.md). Chỉ là thư mục; hiện KHÔNG còn rule nào gác wiki
 - `--with-skills` — cài skill llmwiki (global, qua npx)
 - `--with-knowledgelib` — đăng ký MCP KnowledgeLib GLOBAL (xem mục dưới)
 - `--full` — bật cả 4 (--with-wiki --with-skills --with-knowledgelib)
 
+## Rule đang gác
+
+| ID | Tên | Loại | Chặn? | Việc làm |
+|---|---|---|---|---|
+| R4 | audit-log | hook `PostToolUse` | không | Ghi `.claude/audit/audit.jsonl` + `log.md` mỗi Write/Edit |
+| R8 | session-health | hook `SessionStart` | không | Báo số rule + check drift policy |
+| R19 | knowledgelib-nudge | hook `UserPromptSubmit` | không | Nhắc tra `knowledgelib_search` mỗi N prompt |
+| R20 | self-docs-canonical | `require_frontmatter` | có (session + repo) | `self-docs/*.md` phải có 6 trường canonical + body |
+| R21 | self-docs-sync | hook `Stop` | không | Sanitize + sync self-docs sang KnowledgeLib |
+| R22 | orca-browser-only | hook `PreToolUse` | có | Cấm mở trình duyệt hệ thống, dùng Orca |
+
+ID giữ nguyên số cũ; khoảng trống (R1–R3, R5–R7, R9–R18) là rule đã bỏ.
+
 ## Sửa luật
 
-Sửa `policy.yaml` (R1–R22) → chạy lại `python3 gen-converters.py` (sinh `out/`) hoặc chạy lại `install.sh` (tự gen + cắm).
+Sửa `policy.yaml` → chạy lại `python3 gen-converters.py` (sinh `out/`) hoặc chạy lại `install.sh` (tự gen + cắm).
 
 ## Browser policy (R22)
 
 - **R22 orca-browser-only**: hook `PreToolUse` (Bash) chặn (exit 2) lệnh mở trình duyệt mặc định của hệ thống — `open <url|*.html>`, `open -a <browser>`, `xdg-open`, `python -m webbrowser`, `osascript ... open location` — và nhắc dùng browser của Orca (`orca tab create --url ...`). Site chặn browser nhúng (vd Google sign-in) thì in URL cho user tự dán, không tự mở Chrome. Mở khoá tạm: `HARNESS_ALLOW_SYSTEM_BROWSER=1`. Chỉ soi token đầu mỗi đoạn shell nên không chặn nhầm commit message; `sudo -u ... open` là gap đã biết (fail-open).
+
+## Rule code theo ngôn ngữ (rules-pull)
+
+Bộ rule code (Go, JS/TS...) lưu trong knowledgelib dạng KU `software/coding-rules/<lang>-code-rules.md`; harness kéo về từng repo:
+
+```bash
+python3 bin/rules-pull.py --lang js-ts,go --root /path/to/repo [--kl ~/Documents/Repo/knowledgelib_data]
+python3 bin/rules-pull.py --lang go --diff     # xem KU đã đổi gì so với rules.lock, không ghi
+python3 bin/rules-pull.py --lang go --check    # exit 1 nếu repo lệch KU (dùng cho CI)
+python3 bin/rules-pull.py --lang go --wire-claude   # thêm @docs/rules/go.md vào CLAUDE.md
+```
+
+- Sinh `docs/rules/<js|go>.md` (không sửa tay) + `rules.lock` (version + hash từng rule → update luôn có diff).
+- `rules.local.yaml` (repo tự viết, pull không ghi đè): `overrides: [{id, action: disable|severity, severity, reason}]`. **`reason` bắt buộc.**
+- `rules.local.md` (repo tự viết, pull không ghi đè): ghi chú riêng của repo (stack, quy ước đặc thù); nối nguyên văn vào cuối `docs/rules/<out>.md` dưới heading `## Ghi chú riêng của repo (rules.local.md)`.
+- `rules.lock` theo dõi `local_notes_sha`: sửa hoặc xóa `rules.local.md` làm `--check` báo lệch và `--diff` in `~ rules.local.md`.
+- Chưa sinh config lint (eslint/golangci) từ dữ liệu — mới sinh tài liệu; bước sau.
+- Test: `bash test-rules.sh`.
+
+### Đề xuất rule mới từ repo (rules-propose)
+
+Hàng đợi đề xuất rule từ repo lên KU, duyệt trước khi merge vào knowledgelib:
+
+```bash
+# Thêm đề xuất vào rules-proposals/<lang>/<ID>.yaml
+python3 bin/rules-propose.py add --lang go --id GO-ERR-05 --severity warn --kind review \
+  --statement "..." --evidence "..." --origin "..." [--scope prod,tests] [--root .] [--kl PATH]
+
+# Xem danh sách đề xuất (pending / merged)
+python3 bin/rules-propose.py list [--lang go] [--root .]
+
+# Merge đề xuất vào KU (tăng version, cập nhật last_verified; chỉ chạy khi có duyệt)
+python3 bin/rules-propose.py merge --lang go --id GO-ERR-05 --approve-by "<tên>" [--patch] [--root .] [--kl PATH]
+```
+
+- Test: `bash test-propose.sh`.
 
 ## KnowledgeLib & Self-Docs (R19–R21)
 
@@ -53,17 +102,24 @@ Mặc định `KNOWLEDGELIB_HOME=~/Documents/Repo/knowledgelib_data`. Idempotent
 ## Test
 
 ```bash
-bash demo.sh          # 13 case nhanh
-bash test-broad.sh    # 80 case đầy đủ (bao gồm R20 canonical)
+bash demo.sh           # 8 case nhanh (R20 path/hook/files, fail-open, sinh wiring)
+bash test-broad.sh     # 38 case (R20 canonical, robustness, R22 browser-guard)
+bash test-rules.sh     # rules-pull
+bash test-propose.sh   # rules-propose
 ```
 
 
-## Không mang theo (đặc thù Payroll CTD, không vendor-neutral)
+## Không mang theo (đặc thù dự án gốc, không vendor-neutral)
 
-- `harness/validators/*.py` (proposal_complete.py, decision_adr.py, no_ai_attribution.py, patterns_guard.py, report_show_path.py) — bản production siết hơn declarative rule ở đây, KHÔNG copy sang vì gắn với llmwiki layout riêng của repo đó.
+- Rule đã bỏ 2026-10-15 (R1–R3, R5–R7, R9–R18: raw/wiki/proposal/ADR/pull-gate/seq-glass/no-ai-attribution) và validator production của chúng (`proposal_complete.py`, `decision_adr.py`, `no_ai_attribution.py`, `patterns_guard.py`, `report_show_path.py`). Muốn lấy lại: `git log -- policy.yaml` trước commit rút gọn.
 - `~/.claude/harness` global engine + `install-harness.sh --global` — cơ chế global-shared riêng của bootstrap cũ (GH#51/council-038), không cần cho bộ minimal này.
-- Skill llmwiki qua `npx skills add rheinmir/setup#orca --global` — cài riêng, không phải phần của harness.
+- Skill llmwiki (`npx skills add <owner>/<repo>#<ref> --global`) — cài riêng, không phải phần của harness. `install.sh --with-skills` cần đặt `SKILLS_REF` tường minh.
 
-## Origin
-- Trích từ `/Users/thaidt/Documents/CTD/Payroll CTD/harness/poc-vendor-neutral/` (harness/foundation.yaml, commit context Payroll CTD)
-- Ngày trích: 2026-09-17
+## Tuỳ chọn tải từ mạng (opt-in, mặc định TẮT)
+Không có gì tự tải/chạy mã từ xa. Chỉ bật khi bạn tự đặt env, trỏ tới nguồn bạn tin cậy:
+- `REPO_RAW=<raw url>` — `install.sh --with-wiki` tải overstack.html/templates và có thể chạy `install-harness.sh --global` từ nguồn đó.
+- `SKILLS_REF=<owner>/<repo>#<ref>` — `install.sh --with-skills`.
+- `HARNESS_REMOTE_POLICY=<raw url policy.yaml>` — hook đầu phiên so policy với bản gốc.
+
+## License
+MIT — dùng, sửa, phân phối lại, kể cả biến thành sản phẩm của riêng bạn. Xem [LICENSE](LICENSE).
