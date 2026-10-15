@@ -62,7 +62,13 @@ class KnowledgeLibClient:
             try:
                 self.chroma_client = chromadb.PersistentClient(path=self.db_dir)
                 self.collection = self.chroma_client.get_collection(name="knowledgelib_units")
-            except Exception as e:
+            except BaseException as e:
+                # Rust binding của chromadb có thể panic (pyo3 PanicException kế thừa BaseException,
+                # `except Exception` không bắt được) -> vẫn phải rơi về keyword search thay vì sập process.
+                if isinstance(e, (KeyboardInterrupt, SystemExit)):
+                    raise
+                self.chroma_client = None
+                self.collection = None
                 print(f"Warning: ChromaDB initialization error ({e}). Falling back to catalog keyword search.")
 
     def _load_catalog(self) -> dict:
@@ -114,7 +120,9 @@ class KnowledgeLibClient:
                         "search_type": "vector"
                     })
             return matched_units
-        except Exception as e:
+        except BaseException as e:  # gồm cả pyo3 PanicException, xem __init__
+            if isinstance(e, (KeyboardInterrupt, SystemExit)):
+                raise
             print(f"Vector search failed: {e}")
             return []
 
