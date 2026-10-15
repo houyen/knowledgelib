@@ -95,3 +95,49 @@ def test_update_catalog_does_not_swallow_keyboard_interrupt(tmp_path, monkeypatc
     monkeypatch.setattr(sync_knowledgelib, "reindex_chromadb", interrupted)
     with pytest.raises(KeyboardInterrupt):
         imp.update_catalog_and_vector_db(new_unit_entries=[])
+
+
+# --- extract_tech_notes: dedup với unit đã import (hook R21 của dự án khác chạy mỗi lượt) ---
+
+def test_second_run_is_idempotent_and_does_not_rewrite(tmp_path):
+    src, dest = tmp_path / "src", tmp_path / "dest"
+    _note(src / "workday_api_guide.md")
+    first = ext.extract_directory(str(src), str(dest))
+    assert first["extracted"] == 1
+    target = dest / "integration" / "workday-api-guide.md"
+    before = target.read_text(encoding="utf-8")
+    mtime = target.stat().st_mtime_ns
+
+    second = ext.extract_directory(str(src), str(dest))
+
+    assert second["extracted"] == 0 and second["duplicates"] == 1
+    assert target.read_text(encoding="utf-8") == before
+    assert target.stat().st_mtime_ns == mtime, "unit không đổi thì không được ghi đè"
+
+
+def test_source_copy_of_existing_unit_in_other_folder_is_not_reimported(tmp_path):
+    """Kịch bản tu-vi: stitch_tu_vi_v1.0/v2.0 có body giống unit đã có ở stitch-tu-vi-scholar-platform."""
+    src, dest = tmp_path / "src", tmp_path / "dest"
+    _note(src / "stitch_tu_vi_v1.0" / "design.md", title="Design system")
+    ext.extract_directory(str(src), str(dest))
+    assert (dest / "stitch-tu-vi-v1.0" / "design.md").exists()
+    # đích đã được người dùng gộp về 1 bản canonical ở thư mục khác
+    canon = dest / "stitch-tu-vi-scholar-platform"
+    canon.mkdir()
+    (dest / "stitch-tu-vi-v1.0" / "design.md").rename(canon / "design.md")
+    (dest / "stitch-tu-vi-v1.0").rmdir()
+
+    report = ext.extract_directory(str(src), str(dest))
+
+    assert report["extracted"] == 0 and report["duplicates"] == 1
+    assert not (dest / "stitch-tu-vi-v1.0").exists(), "không được tái tạo bản trùng đã bị gộp"
+
+
+def test_changed_source_body_is_still_imported(tmp_path):
+    src, dest = tmp_path / "src", tmp_path / "dest"
+    _note(src / "api_guide.md", title="API guide")
+    ext.extract_directory(str(src), str(dest))
+    (src / "api_guide.md").write_text("# API guide\n\nNội dung MỚI về api adapter.\n", encoding="utf-8")
+    report = ext.extract_directory(str(src), str(dest))
+    assert report["extracted"] == 1
+    assert "MỚI" in (dest / "integration" / "api-guide.md").read_text(encoding="utf-8")

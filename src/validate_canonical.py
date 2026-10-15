@@ -26,6 +26,8 @@ ALLOWED_ENTITY_TYPES = {
     "compliance",
     "business_strategy",
     "finance",
+    # Pilot rule-set units (software/coding-rules/*): block-yaml rules consumed by my-agent-harness rules-pull.
+    "coding_rule_set",
 }
 
 

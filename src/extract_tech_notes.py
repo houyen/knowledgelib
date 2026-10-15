@@ -259,6 +259,31 @@ def compute_content_hash(text: str) -> str:
     return hashlib.sha256(norm_text.encode("utf-8")).hexdigest()
 
 
+def body_content_hash(text: str) -> str:
+    """Hash phần body (sau frontmatter YAML nếu có) để so khớp nguồn với unit đã import ở đích."""
+    meta, body = parse_frontmatter(text)
+    return compute_content_hash(body if meta is not None else text)
+
+
+def existing_body_hashes(dest_dir: str) -> set[str]:
+    """Hash body của mọi .md đã có ở thư mục đích, để lần import sau không sinh bản trùng/ghi đè."""
+    hashes: set[str] = set()
+    if not os.path.isdir(dest_dir):
+        return hashes
+    for root, dirs, files in os.walk(dest_dir):
+        dirs[:] = [d for d in dirs if not d.startswith(".") and d != "__pycache__"]
+        for file in files:
+            if file.endswith(".md") and file not in GENERATED_FILES:
+                try:
+                    with open(os.path.join(root, file), "r", encoding="utf-8", errors="replace") as f:
+                        text = f.read()
+                except OSError:
+                    continue
+                if text.strip():
+                    hashes.add(body_content_hash(text))
+    return hashes
+
+
 def determine_subdomain(
     clean_title: str,
     filename: str,
@@ -333,8 +358,8 @@ def extract_and_anonymize_file(
     # 1. Anonymize with config
     sanitized = anonymize_text(raw_content, config=cfg)
 
-    # 2. Check deduplication hash
-    content_hash = compute_content_hash(sanitized)
+    # 2. Check deduplication hash (trên body, bỏ frontmatter: bản đã import có frontmatter khác bản nguồn)
+    content_hash = body_content_hash(sanitized)
     if content_hash in seen_hashes:
         res["status"] = "duplicate"
         return res
@@ -432,7 +457,10 @@ def extract_directory(
         return summary
 
     cfg = config or AnonymizeConfig.load(src_dir=src_dir)
-    seen_hashes = set()
+    # Seed bằng nội dung đã có ở đích: hook R21 của dự án khác (vd tu-vi-app-poc) chạy mỗi lượt; thiếu bước
+    # này các bản nguồn trùng body (stitch_tu_vi_v1.0/v1.1/v2.0...) bị import lại thành thư mục riêng, và
+    # unit đã có bị ghi đè kèm last_verified = hôm nay dù nội dung không đổi.
+    seen_hashes = existing_body_hashes(dest_base_dir)
     count = 0
 
     for root, dirs, files in os.walk(src_dir):
