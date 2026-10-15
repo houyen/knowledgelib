@@ -1,0 +1,119 @@
+#!/usr/bin/env bash
+# 9router-multi — chạy NHIỀU instance 9router độc lập (mỗi instance = 1 bộ account riêng) song song.
+#
+#   set1  :20128  dữ liệu ~/.9router         (bộ account 1, combo dùng hằng ngày)
+#   set2  :20129  dữ liệu ~/.9router-set2    (bộ account 2, combo riêng)
+#
+# VÌ SAO cần launcher này: 9router chỉ có MỘT pool account cho mỗi provider; combo chỉ chọn model,
+# không chọn được account. Muốn cách ly account thật thì phải chạy nhiều instance (mỗi cái một DATA_DIR).
+# Nhưng lệnh `9router` (cli.js/tray) chạy killAllAppProcesses() lúc khởi động — giết MỌI tiến trình
+# 9router khác, kể cả instance ở cổng khác. Launcher này spawn thẳng server (custom-server.js) với
+# PORT / HOSTNAME / DATA_DIR, y hệt cli.js nhưng bỏ bước dọn tiến trình.
+# => Đang chạy multi thì ĐỪNG chạy `9router` (CLI/tray): nó sẽ giết cả hai.
+#
+# Dùng:
+#   9router-multi start|stop|restart|status [set1|set2|all]
+#   9router-multi autostart on|off|status     # tự chạy khi đăng nhập macOS (LaunchAgent)
+#
+# Cấu hình (env, đều tuỳ chọn):
+#   NINEROUTER_INSTANCES="set1:20128: set2:20129:$HOME/.9router-set2"   name:port:datadir (datadir rỗng = ~/.9router)
+#   NINEROUTER_HOST=127.0.0.1   (bản gốc bind 0.0.0.0 = mở ra LAN; ở đây mặc định chỉ localhost)
+#   NINEROUTER_APP=<đường dẫn thư mục app/ của package 9router>
+set -uo pipefail
+
+SELF="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/$(basename "${BASH_SOURCE[0]}")"
+HOST="${NINEROUTER_HOST:-127.0.0.1}"
+RUN="$HOME/.9router-multi"; mkdir -p "$RUN"
+NODE="$(command -v node || true)"
+
+# tìm thư mục app/ của package 9router (global npm: npm root -g / homebrew)
+find_app() {
+  [ -n "${NINEROUTER_APP:-}" ] && { echo "$NINEROUTER_APP"; return; }
+  local root; root="$(npm root -g 2>/dev/null || true)"
+  for d in "$root/9router/app" /opt/homebrew/lib/node_modules/9router/app /usr/local/lib/node_modules/9router/app; do
+    [ -f "$d/custom-server.js" ] || [ -f "$d/server.js" ] && { echo "$d"; return; }
+  done
+}
+APP="$(find_app)"
+
+read -r -a INSTANCES <<< "${NINEROUTER_INSTANCES:-set1:20128: set2:20129:$HOME/.9router-set2}"
+
+field() { echo "$1" | cut -d: -f"$2"; }
+pick() { local t="${1:-all}" i; for i in "${INSTANCES[@]}"; do if [ "$t" = all ] || [ "$t" = "$(field "$i" 1)" ]; then echo "$i"; fi; done; }
+listening() { lsof -nP -iTCP:"$1" -sTCP:LISTEN -t 2>/dev/null | head -1; }
+
+start_one() {
+  local name port dir srv; name=$(field "$1" 1); port=$(field "$1" 2); dir=$(field "$1" 3)
+  if [ -n "$(listening "$port")" ]; then echo "  $name :$port đã chạy (pid $(listening "$port"))"; return; fi
+  [ -n "$NODE" ] || { echo "  không thấy node trong PATH"; return 1; }
+  [ -n "$APP" ] || { echo "  không tìm thấy package 9router (npm i -g 9router, hoặc đặt NINEROUTER_APP)"; return 1; }
+  srv="$APP/custom-server.js"; [ -f "$srv" ] || srv="$APP/server.js"
+  # dir rỗng → bỏ DATA_DIR để dùng mặc định ~/.9router
+  ( cd "$APP" && env -u DATA_DIR ${dir:+DATA_DIR="$dir"} PORT="$port" HOSTNAME="$HOST" \
+      nohup "$NODE" --dns-result-order=ipv4first --max-old-space-size=6144 "$srv" \
+      >>"$RUN/$name.log" 2>&1 & echo $! >"$RUN/$name.pid" )
+  local _; for _ in $(seq 1 30); do [ -n "$(listening "$port")" ] && break; sleep 1; done
+  if [ -n "$(listening "$port")" ]; then echo "  $name :$port OK (pid $(listening "$port"), data ${dir:-~/.9router})"
+  else echo "  $name :$port KHÔNG lên — xem $RUN/$name.log"; fi
+}
+
+stop_one() {
+  local name port pid _; name=$(field "$1" 1); port=$(field "$1" 2)
+  pid=$(listening "$port"); [ -n "$pid" ] && kill "$pid" 2>/dev/null
+  for _ in 1 2 3 4 5; do [ -z "$(listening "$port")" ] && break; sleep 1; done
+  [ -n "$(listening "$port")" ] && kill -9 "$(listening "$port")" 2>/dev/null
+  rm -f "$RUN/$name.pid"; echo "  $name :$port đã dừng"
+}
+
+status_one() {
+  local name port dir p; name=$(field "$1" 1); port=$(field "$1" 2); dir=$(field "$1" 3); p=$(listening "$port")
+  if [ -n "$p" ]; then echo "  $name :$port UP   pid $p  data ${dir:-~/.9router}"; else echo "  $name :$port DOWN"; fi
+}
+
+# ── autostart (macOS LaunchAgent) ────────────────────────────────────────────
+LABEL="com.9router-multi"
+PLIST="$HOME/Library/LaunchAgents/$LABEL.plist"
+autostart() {
+  [ "$(uname)" = Darwin ] || { echo "autostart chỉ hỗ trợ macOS. Linux: tạo systemd --user service chạy '$SELF start'."; return 1; }
+  local uid; uid=$(id -u)
+  case "${1:-status}" in
+    on)
+      mkdir -p "$(dirname "$PLIST")"
+      # AbandonProcessGroup: launchd KHÔNG giết server con khi job 'start' thoát (server chạy nền bằng nohup)
+      cat >"$PLIST" <<EOF
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0"><dict>
+  <key>Label</key><string>$LABEL</string>
+  <key>ProgramArguments</key><array><string>/bin/bash</string><string>$SELF</string><string>start</string></array>
+  <key>RunAtLoad</key><true/>
+  <key>AbandonProcessGroup</key><true/>
+  <key>EnvironmentVariables</key><dict>
+    <key>PATH</key><string>$(dirname "$NODE"):/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+    <key>HOME</key><string>$HOME</string>
+  </dict>
+  <key>StandardOutPath</key><string>$RUN/launchd.log</string>
+  <key>StandardErrorPath</key><string>$RUN/launchd.log</string>
+</dict></plist>
+EOF
+      launchctl bootout "gui/$uid/$LABEL" 2>/dev/null
+      launchctl bootstrap "gui/$uid" "$PLIST" && echo "  autostart BẬT ($PLIST)" ;;
+    off)
+      launchctl bootout "gui/$uid/$LABEL" 2>/dev/null; rm -f "$PLIST"; echo "  autostart TẮT" ;;
+    status)
+      if [ -f "$PLIST" ] && launchctl print "gui/$uid/$LABEL" >/dev/null 2>&1; then echo "  autostart: BẬT ($PLIST)"
+      elif [ -f "$PLIST" ]; then echo "  autostart: có plist nhưng chưa nạp (đăng xuất/đăng nhập lại hoặc: $0 autostart on)"
+      else echo "  autostart: TẮT"; fi ;;
+    *) echo "dùng: 9router-multi autostart on|off|status"; return 2 ;;
+  esac
+}
+
+cmd="${1:-status}"; target="${2:-all}"
+case "$cmd" in
+  start)     for i in $(pick "$target"); do start_one "$i"; done ;;
+  stop)      for i in $(pick "$target"); do stop_one "$i"; done ;;
+  restart)   for i in $(pick "$target"); do stop_one "$i"; done; for i in $(pick "$target"); do start_one "$i"; done ;;
+  status)    for i in $(pick "$target"); do status_one "$i"; done; autostart status ;;
+  autostart) autostart "${2:-status}" ;;
+  *) echo "dùng: 9router-multi start|stop|restart|status [set1|set2|all] | autostart on|off|status"; exit 2 ;;
+esac
