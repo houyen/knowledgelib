@@ -30150,7 +30150,7 @@
       ],
       "entity_type": "architecture_explainer",
       "domain": "self-docs > docs",
-      "last_verified": "2026-10-15",
+      "last_verified": "2026-09-24",
       "content_preview": "# Phase A Plan — Engine tính lá số (Claude, 2026-09-18)  ## Mục tiêu Module tính toán thuần (pure logic), không phụ thuộc UI, test độc lập được. Input: ngày-giờ-năm sinh dương lịch. Output: lá số cơ bản (âm lịch, can chi, tứ trụ).  ## Stack TypeScript, Node runtime, không framework. Lý do: dùng chun"
     },
     {
@@ -30843,7 +30843,7 @@
       ],
       "entity_type": "how_to",
       "domain": "self-docs > engine",
-      "last_verified": "2026-10-15",
+      "last_verified": "2026-09-24",
       "content_preview": "# Kế Hoạch Chi Tiết Nâng Cấp Hệ Thống Tử Vi (Tu Vi App)  > **Mục tiêu**: Nâng cấp `tu-vi-app-poc` từ một ứng dụng chuyển đổi âm dương & tứ trụ cơ bản thành một nền tảng **Tử Vi Đẩu Số hiện đại, toàn diện**: kết hợp thuật toán an sao cổ truyền chuẩn xác, giao diện bàn cờ trực quan tương tác cao, nhận"
     },
     {

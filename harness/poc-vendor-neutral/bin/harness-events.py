@@ -308,6 +308,12 @@ def m_knowledgelib_sync():
             capture_output=True, text=True, timeout=25
         )
         if res.returncode == 0:
+            # Không có unit nào mới/đổi (extractor dedup theo nội dung) -> bỏ qua memory_loader + sync nặng
+            # (tải catalog từ mạng, reindex Chroma, thường vượt timeout 20s và bị kill giữa chừng mỗi lượt).
+            import re
+            m = re.search(r"Extracted:\s+(\d+)", res.stdout or "")
+            if not m or int(m.group(1)) == 0:
+                return 0
             # Refresh memory index if memory_loader.py exists
             loader = os.path.join(kl_home, "src", "memory_loader.py")
             if os.path.isfile(loader):
