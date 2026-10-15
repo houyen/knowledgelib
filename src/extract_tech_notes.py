@@ -391,6 +391,16 @@ def extract_and_anonymize_file(
     return res
 
 
+# Artefact sinh tự động từ chính kho tri thức (memory_loader), không phải ghi chú nguồn để import.
+GENERATED_FILES = {"MEMORY_INDEX.md"}
+
+
+def _paths_overlap(a: str, b: str) -> bool:
+    """True nếu a và b trùng nhau hoặc cái này nằm trong cái kia (sau khi resolve symlink)."""
+    ra, rb = os.path.realpath(a), os.path.realpath(b)
+    return ra == rb or ra.startswith(rb + os.sep) or rb.startswith(ra + os.sep)
+
+
 def extract_directory(
     src_dir: str,
     dest_base_dir: str,
@@ -415,6 +425,12 @@ def extract_directory(
         summary["errors"] = 1
         return summary
 
+    # Chạy self -> self (ví dụ hook Stop R21 chạy ngay trong repo knowledgelib_data) sẽ phân loại lại các
+    # file ở gốc self-docs/ vào thư mục con (sinh bản trùng) và ghi đè từng unit mỗi lần chạy.
+    if _paths_overlap(src_dir, dest_base_dir):
+        summary["skipped_reason"] = "source and destination overlap: nothing to import"
+        return summary
+
     cfg = config or AnonymizeConfig.load(src_dir=src_dir)
     seen_hashes = set()
     count = 0
@@ -422,6 +438,8 @@ def extract_directory(
     for root, dirs, files in os.walk(src_dir):
         dirs[:] = [d for d in dirs if not d.startswith(".") and d != "__pycache__"]
         for file in sorted(files):
+            if file in GENERATED_FILES:
+                continue
             if file.endswith(".md"):
                 summary["total_scanned"] += 1
                 src_path = os.path.join(root, file)
@@ -486,6 +504,9 @@ def main():
     report = extract_directory(args.src, args.dest, dry_run=args.dry_run, max_files=args.limit, config=cfg)
 
     print("\n--- Summary ---")
+    if report.get("skipped_reason"):
+        print(f"Skipped: {report['skipped_reason']}")
+        return
     print(f"Total Scanned: {report['total_scanned']}")
     print(f"Extracted:     {report['extracted']}")
     print(f"Duplicates:    {report['duplicates']}")

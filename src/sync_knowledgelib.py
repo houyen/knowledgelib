@@ -10,6 +10,7 @@ import sys
 import json
 import yaml
 import argparse
+from datetime import datetime, timezone
 from urllib.request import Request, urlopen
 from urllib.error import URLError, HTTPError
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -82,7 +83,10 @@ def scan_local_units(target_dir: str) -> list:
     ignore_dirs = {'harness', 'docs', 'config', 'scripts', 'tests', 'src', 'llmwiki', 'node_modules', 'templates', 'dist', 'build'}
     
     for root, dirs, files in os.walk(target_dir):
-        dirs[:] = [d for d in dirs if not d.startswith('.') and d not in ignore_dirs]
+        # ignore_dirs chỉ áp cho thư mục cấp gốc repo (docs/, src/, tests/...). Áp ở mọi độ sâu làm rơi
+        # các unit hợp lệ nằm trong thư mục lồng tên trùng, vd self-docs/docs/plan-phase-a.md.
+        at_top = os.path.abspath(root) == os.path.abspath(target_dir)
+        dirs[:] = [d for d in dirs if not d.startswith('.') and not (at_top and d in ignore_dirs)]
         for file in files:
             if file.endswith('.md') and file not in ignore_files:
                 file_path = os.path.join(root, file)
@@ -314,7 +318,7 @@ def main():
     merged_units = list(unit_map.values())
     final_catalog = {
         "schema_version": "1.1",
-        "updated_at": "2026-08-18",
+        "updated_at": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
         "total_units": len(merged_units),
         "units": merged_units
     }

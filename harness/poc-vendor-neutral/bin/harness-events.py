@@ -295,6 +295,12 @@ def m_knowledgelib_sync():
     if not os.path.isfile(extractor_script):
         return 0
 
+    # Đang chạy ngay trong repo KnowledgeLib: src == dest. Import self->self phân loại lại file ở gốc
+    # self-docs/ vào thư mục con (sinh bản trùng, vd integration/memory-index.md), ghi đè unit và bump
+    # last_verified mỗi lượt, rồi còn kéo catalog từ mạng. Không có gì để đồng bộ -> bỏ qua.
+    if os.path.realpath(r) == os.path.realpath(kl_home):
+        return 0
+
     target_dest = os.path.join(kl_home, "self-docs")
     try:
         res = subprocess.run(

@@ -21,6 +21,7 @@ import json
 import yaml
 import argparse
 import hashlib
+from datetime import datetime, timezone
 
 sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
 
@@ -232,7 +233,7 @@ def update_catalog_and_vector_db(new_unit_entries: list = None, sync_only: bool 
         all_units = scan_and_collect_all_markdown_units()
         catalog_data = {
             "schema_version": "1.1",
-            "updated_at": "2026-08-18",
+            "updated_at": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
             "total_units": len(all_units),
             "units": all_units
         }
@@ -263,8 +264,12 @@ def update_catalog_and_vector_db(new_unit_entries: list = None, sync_only: bool 
         print("🔄 Re-indexing ChromaDB Vector Database...")
         reindex_chromadb(catalog_data, repo_dir)
         print("✨ ChromaDB vector sync complete!")
-    except Exception as e:
-        print(f"⚠️ ChromaDB sync warning: {e}")
+    except BaseException as e:
+        # Rust binding của chromadb có thể panic (pyo3 PanicException kế thừa BaseException):
+        # catalog.json đã ghi xong, đừng để ingest/MCP sập vì vector index.
+        if isinstance(e, (KeyboardInterrupt, SystemExit)):
+            raise
+        print(f"⚠️ ChromaDB sync warning: {e}. Chạy `python3 src/index_health.py --fix` để dựng lại vector index.")
 
 def run_import(
     file_path: str | None,
