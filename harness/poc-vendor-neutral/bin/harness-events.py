@@ -7,15 +7,15 @@
   knowledgelib R19         — mỗi N prompt: nhắc tra KnowledgeLib (MCP global) trước khi tự bịa
   browser-guard R22        — PreToolUse Bash: chặn mở trình duyệt hệ thống, bắt dùng Orca browser (exit 2)
 
-MỌI lỗi → fail-open (exit 0). Drift-check best-effort (timeout ngắn), tắt bằng env LLMWIKI_NO_DRIFT=1.
+MỌI lỗi → fail-open (exit 0). Drift-check opt-in (env HARNESS_REMOTE_POLICY), best-effort, tắt bằng LLMWIKI_NO_DRIFT=1.
 """
 import glob
 import json
 import os
 import sys
 
-REMOTE_POLICY = ("https://raw.githubusercontent.com/Rheinmir/setup/orca/"
-                 "harness/poc-vendor-neutral/policy.yaml")
+# Drift-check opt-in: đặt HARNESS_REMOTE_POLICY=<raw url policy.yaml> để so với bản gốc.
+REMOTE_POLICY = os.environ.get("HARNESS_REMOTE_POLICY", "")
 
 
 def root():
@@ -115,15 +115,15 @@ def m_session():
         pass
     print(f"[harness] {n} rule đang gác (policy.yaml) — vi phạm bị hook chặn ngay. Kiểm hook: /hooks")
     # R8 full: check drift vs remote (best-effort, fail-open, tắt bằng LLMWIKI_NO_DRIFT=1)
-    if os.environ.get("LLMWIKI_NO_DRIFT") != "1":
+    if REMOTE_POLICY and os.environ.get("LLMWIKI_NO_DRIFT") != "1":
         try:
             import hashlib
             import urllib.request
             local = hashlib.md5(open(pol, "rb").read()).hexdigest()
             remote = hashlib.md5(urllib.request.urlopen(REMOTE_POLICY, timeout=2).read()).hexdigest()
             if local != remote:
-                print("[harness R8] policy.yaml LỆCH remote — cập nhật: "
-                      "curl -fsSL .../poc-vendor-neutral/bootstrap.sh | bash")
+                print("[harness R8] policy.yaml LỆCH remote (HARNESS_REMOTE_POLICY) — "
+                      "cập nhật lại từ nguồn nếu muốn đồng bộ")
         except Exception:
             pass
     return 0
