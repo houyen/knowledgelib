@@ -1,5 +1,5 @@
 # KnowledgeLib Memory Index (self-docs)
-> **Generated:** 2026-09-24 | **Active Units:** 109 | **Mode:** High-Density Working Memory
+> **Generated:** 2026-10-15 | **Active Units:** 110 | **Mode:** High-Density Working Memory
 
 Use this index to recall verified internal decisions, runbooks, and gotchas before querying external LLM.
 
@@ -14,6 +14,8 @@ Use this index to recall verified internal decisions, runbooks, and gotchas befo
 ### Architecture & Core Rules
 - **`self-docs/database/payroll-test-suite-handoff`** (specification): Technical guide and specification: Bàn giao: Bộ test 7 phân hệ Core System [Aliases: Bàn giao: Bộ test 7 phân hệ Core System, Core System Test Suite Handoff 100826]
   - 📌 *Core:* **Mục đích tài liệu:** người đọc tài liệu này có thể không có context gì từ phiên làm việc trước — tài liệu viết đủ để tiếp tục công việc mà không cần hỏi lại người đã làm. Đây là file canonical duy nhất cho hạng mục "bộ test 7 phân hệ Core System" b
+- **`self-docs/stitch-tu-vi-scholar-platform/design`** (specification): Imperial Scholar Zi Wei design system: color, typography, rounded and spacing tokens for the Tử Vi app (Stitch export) [Aliases: Imperial Scholar Zi Wei design system, Stitch DESIGN.md Imperial Scholar Zi Wei, Design token màu sắc, typography, spacing cho ứng dụng Tử Vi]
+  - 📌 *Core:* This design system embodies the regal gravitas and intellectual rigor of Imperial East Asian astrology. It synthesizes imperial court archival aesthetics—fine handcrafted mulberry paper (*giấy dó*), cinnabar red seal inks, and weathered bronze inlays
 - **`self-docs/security/rbac-architecture-reassessment`** (architecture_explainer): Architecture and technical specifications for RBAC-Architecture-Reassessment-200726 [Aliases: RBAC-Architecture-Reassessment-200726, RBAC Architecture Reassessment 200726]
   - 📌 *Core:* **Ngày:** 2026-07-20 **Loại tài liệu:** context / nghiên cứu (study) — không phải báo cáo công việc đã hoàn tất theo ngày, mà là tài liệu tham khảo được cập nhật liên tục mỗi khi có phân tích mới về cùng chủ đề kiến trúc phân quyền.
 - **`self-docs/security/rbac-second-opinion-analysis-from-gpt`** (architecture_explainer): Architecture and technical specifications for Independent Second Opinion on RBAC/Authorization Architecture [Aliases: Independent Second Opinion on RBAC/Authorization Architecture, RBAC Second Opinion Analysis From GPT]
@@ -42,15 +44,14 @@ Use this index to recall verified internal decisions, runbooks, and gotchas befo
   - 📌 *Core:* **Ngày:** 19/08/2026 · **Loại việc:** CHỈ ĐỌC — không sửa code/DB/config. Mọi sai lệch dưới đây chỉ được ghi nhận, chưa xử lý. **Cập nhật 19/08/2026 (cùng ngày, sau khi báo cáo này được dùng để lên `/propose` — xem `llmwiki/wiki/sources/draft/190826-
 
 ### Operations & Runbooks
-- **`self-docs/workday_job_change_api_guide`** (how_to): How to integrate Workday API for Job Change and Data Change business processes [Aliases: Workday Job Change API integration, Workday Submit_Change_Job SOAP Staffing, Workday Staffing Web Service v45.2]
-  - ⚠️ *Constraint:* Submit_Change_Job requires SOAP Staffing Service v45.2+ with WS-Security UsernameToken, not REST
-  - 📌 *Core:* Trong hệ thống Workday, **Job Change** (thuyên chuyển vị trí, thăng chức, đổi phòng ban, thay đổi địa điểm làm việc, v.v.) không được xử lý như một thao tác CRUD/Update dữ liệu thông thường. Thay vào đó, nó được quản lý như một **Business Process (BP
 - **`self-docs/database/atlas-migration-flow-removal`** (how_to): Technical guide and specification: Bỏ luồng Atlas, chỉ dùng 1 luồng migrate duy nhất — 310826 [Aliases: Bỏ luồng Atlas, chỉ dùng 1 luồng migrate duy nhất — 310826, Atlas Migration Flow Removal 310826]
   - 📌 *Core:* User hỏi khảo sát "tìm các luồng migrate trong repo Backend" — phát hiện backend có **3 luồng migrate song song**:
 - **`self-docs/database/db-cleanup-education-ref-tables`** (how_to): Technical guide and specification: DB Cleanup — Xoá bảng `ref_*` dư thừa trong cụm học vấn [Aliases: DB Cleanup — Xoá bảng `ref_*` dư thừa trong cụm học vấn, DB Cleanup Education Ref Tables 170826]
   - 📌 *Core:* > ⚠️ **Triển khai:** backend KHÔNG chạy Atlas — các migration của đợt này phải `atlas migrate apply` > bằng tay, và **bắt buộc deploy code TRƯỚC khi apply**. Xem `self-docs/DB-Cleanup-Deploy-Runbook-180826.md`.
 - **`self-docs/database/db-cleanup-legacy-tables`** (how_to): Technical guide and specification: DB Cleanup — Xoá bảng legacy không còn dùng [Aliases: DB Cleanup — Xoá bảng legacy không còn dùng, DB Cleanup Legacy Tables 170826]
   - 📌 *Core:* > ⚠️ **Triển khai:** backend KHÔNG chạy Atlas — các migration của đợt này phải `atlas migrate apply` > bằng tay, và **bắt buộc deploy code TRƯỚC khi apply**. Xem `self-docs/DB-Cleanup-Deploy-Runbook-180826.md`.
+- **`self-docs/stitch-tu-vi-scholar-platform/implementation-report`** (runbook): Technical guide and specification: Báo Cáo Triển Khai Thiết Kế "Imperial Scholar Zi Wei" [Aliases: Báo Cáo Triển Khai Thiết Kế "Imperial Scholar Zi Wei", IMPLEMENTATION REPORT, Imperial Scholar Zi Wei implementation report (tu-vi-app-poc)]
+  - 📌 *Core:* **Dự án**: `tu-vi-app-poc` (Production React 19 + TypeScript + Vite) **Ngày thực hiện**: 2026-09-23
 - **`self-docs/security/audit-log-compliance-plan`** (how_to): Technical guide and specification: Kế hoạch Thi hành: Nâng cấp Toàn diện Hệ thống Audit Log [Aliases: Kế hoạch Thi hành: Nâng cấp Toàn diện Hệ thống Audit Log, 160926 Audit Log Compliance PLAN]
   - 📌 *Core:* **Goal:** Bổ sung cột "Lý do", Việt hóa cột "Hành động", hiển thị biến động "Cũ → Mới" tại cột "Chi tiết", và chuẩn hóa ghi nhận Audit Log đầy đủ ở cả Backend và Frontend theo đúng yêu cầu TASK-REF & kiểm toán tuân thủ. **Branch:** `feature/audit-log
 - **`self-docs/security/nhat-ky-archive`** (how_to): Technical guide and specification: Nhật ký công việc theo ngày — Archive [Aliases: Nhật ký công việc theo ngày — Archive, Nhat Ky Archive 160926]
@@ -84,7 +85,7 @@ Use this index to recall verified internal decisions, runbooks, and gotchas befo
 - **`self-docs/integration/brd-38-notification-audit-log`** (how_to): Technical guide and specification: TASK-REF — Audit Log bắt buộc cho Cấu hình Thông báo [Aliases: TASK-REF — Audit Log bắt buộc cho Cấu hình Thông báo, BRD 38 Notification Audit Log 080926]
   - 📌 *Core:* Sau khi phân tích TASK-REF/39/40 (`self-docs/TASK-REF-Notification-Frequency-Config-080926.md` là tiền đề — cùng nhóm "Thông báo"), chốt: chỉ 1 việc đủ điều kiện làm ngay không cần hỏi ai — **Audit Log
 - **`self-docs/integration/memory-index`** (how_to): Technical guide and specification: KnowledgeLib Memory Index [Aliases: KnowledgeLib Memory Index, MEMORY INDEX]
-  - 📌 *Core:* > **Generated:** 2026-09-24 | **Active Units:** 111 | **Mode:** High-Density Working Memory Use this index to recall verified internal decisions, runbooks, and gotchas before querying external LLM.
+  - 📌 *Core:* > **Generated:** 2026-10-15 | **Active Units:** 109 | **Mode:** High-Density Working Memory Use this index to recall verified internal decisions, runbooks, and gotchas before querying external LLM.
 - **`self-docs/integration/rbac-backlog-tracklist`** (how_to): Technical guide and specification: Tracklist công việc RBAC/Bảo mật còn lại — Core System [Aliases: Tracklist công việc RBAC/Bảo mật còn lại — Core System, RBAC Backlog Tracklist 160726]
   - 📌 *Core:* **Ngày:** 2026-07-16 **Phạm vi:** Tổng hợp toàn bộ hạng mục RBAC/company-scoping/bảo mật còn mở, tính đến hết ngày 160726, gom từ 4 tài liệu đã có (`RBAC-Hybrid-Scoping-Implementation-140726.md`, `RBAC-Improvement-Analysis-150726.md`, `RBAC-Improveme
 - **`self-docs/integration/rbac-bao-cao-bao-mat`** (how_to): Technical guide and specification: Báo cáo — Công việc RBAC/Bảo mật dự án Core System [Aliases: Báo cáo — Công việc RBAC/Bảo mật dự án Core System, RBAC Bao Cao Bao Mat 150726]
