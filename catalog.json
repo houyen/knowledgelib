@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
-  "updated_at": "2026-08-18",
-  "total_units": 2098,
+  "updated_at": "2026-10-15",
+  "total_units": 2099,
   "units": [
     {
       "id": "baby/feeding/anti-colic-baby-bottles/2026",
@@ -30046,18 +30046,6 @@
       "content_preview": "# Runbook: Bootstrap & thu hồi Super-Admin (120826)  ## Bối cảnh  Trước 120826, `EnsureSuperAdmins` (`Core System-backend/internal/database/database.go`) seed cứng email `user@company.test` làm super-admin gốc, chạy mỗi lần backend khởi động ở mọi môi trường kể cả production — rủi ro bảo mật kiểu TA"
     },
     {
-      "id": "self-docs/integration/memory-index",
-      "canonical_question": "Technical guide and specification: KnowledgeLib Memory Index",
-      "aliases": [
-        "KnowledgeLib Memory Index",
-        "MEMORY INDEX"
-      ],
-      "entity_type": "how_to",
-      "domain": "self-docs > integration",
-      "last_verified": "2026-07-22",
-      "content_preview": "# KnowledgeLib Memory Index (self-docs) > **Generated:** 2026-10-15 | **Active Units:** 109 | **Mode:** High-Density Working Memory  Use this index to recall verified internal decisions, runbooks, and gotchas before querying external LLM.  ### Critical Gotchas & Traps - **`self-docs/security/rbac-pr"
-    },
-    {
       "id": "self-docs/integration/adapter-workday-handover",
       "canonical_question": "Technical guide and specification: Bàn giao đội Adapter — cầu nối Workday, làm gì và theo thứ tự nào",
       "aliases": [
@@ -33326,6 +33314,30 @@
       "domain": "games > mamathiendao",
       "last_verified": "2026-08-18",
       "content_preview": ""
+    },
+    {
+      "id": "self-docs/docs/plan-phase-a",
+      "canonical_question": "Technical guide and specification: Phase A Plan — Engine tính lá số",
+      "aliases": [
+        "Phase A Plan — Engine tính lá số",
+        "PLAN phase a"
+      ],
+      "entity_type": "architecture_explainer",
+      "domain": "self-docs > docs",
+      "last_verified": "2026-09-24",
+      "content_preview": "# Phase A Plan — Engine tính lá số (Claude, 2026-09-18)  ## Mục tiêu Module tính toán thuần (pure logic), không phụ thuộc UI, test độc lập được. Input: ngày-giờ-năm sinh dương lịch. Output: lá số cơ bản (âm lịch, can chi, tứ trụ).  ## Stack TypeScript, Node runtime, không framework. Lý do: dùng chun"
+    },
+    {
+      "id": "self-docs/docs/plan-phase-b",
+      "canonical_question": "Technical guide and specification: Phase B Plan — UI nhập ngày-giờ-năm sinh, hiển thị lá số",
+      "aliases": [
+        "Phase B Plan — UI nhập ngày-giờ-năm sinh, hiển thị lá số",
+        "PLAN phase b"
+      ],
+      "entity_type": "how_to",
+      "domain": "self-docs > docs",
+      "last_verified": "2026-09-18",
+      "content_preview": "# Phase B Plan — UI nhập ngày-giờ-năm sinh, hiển thị lá số (Claude, 2026-09-18)  ## Mục tiêu Frontend cơ bản: form nhập ngày-giờ-năm sinh dương lịch → gọi `tinhLaSo()` (đã có ở `src/engine/index.ts`, Phase A) → hiển thị kết quả lá số.  ## Stack Vite + React + TypeScript. Lý do: cùng ngôn ngữ với eng"
     }
   ]
 }
