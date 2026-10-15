@@ -76,7 +76,9 @@ def sync_unit(unit: dict, target_dir: str) -> str:
 def scan_local_units(target_dir: str) -> list:
     """Scan all local markdown files in repository to preserve offline imported books/units."""
     local_units = []
-    ignore_files = {'SKILL.md', 'AGENT_PROMPT_SNIPPET.md', 'agent.md', 'walkthrough_index.md', 'walkthrough_index_full.md', 'README.md', 'LICENSE.md'}
+    # MEMORY_INDEX.md là artefact sinh tự động từ chính catalog (memory_loader), không phải unit tri thức:
+    # đưa vào catalog làm nó tự trỏ vào chính nó và sinh bản trùng khi bị chép sang self-docs/<domain>/.
+    ignore_files = {'SKILL.md', 'AGENT_PROMPT_SNIPPET.md', 'agent.md', 'walkthrough_index.md', 'walkthrough_index_full.md', 'README.md', 'LICENSE.md', 'MEMORY_INDEX.md'}
     ignore_dirs = {'harness', 'docs', 'config', 'scripts', 'tests', 'src', 'llmwiki', 'node_modules', 'templates', 'dist', 'build'}
     
     for root, dirs, files in os.walk(target_dir):
@@ -326,6 +328,15 @@ def main():
     if not args.skip_index:
         print("-" * 50)
         reindex_chromadb(final_catalog, target_dir)
+
+        # 4b. Cảnh báo drift / trùng lặp (chỉ in, không làm hỏng sync)
+        try:
+            import index_health
+            index_health.print_report(index_health.run_checks(target_dir, merged_units))
+        except (KeyboardInterrupt, SystemExit):
+            raise
+        except BaseException as e:  # gồm cả pyo3 PanicException của chromadb
+            print(f"⚠️ Index health check skipped ({e})")
 
     elapsed = time.time() - start_time
     print("-" * 50)

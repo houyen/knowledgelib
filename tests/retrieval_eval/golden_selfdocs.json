@@ -1,0 +1,238 @@
+[
+  {
+    "q": "cách gọi Workday SOAP để đổi vị trí nhân viên",
+    "gold": [
+      "self-docs/integration/workday-job-change-api-guide"
+    ]
+  },
+  {
+    "q": "PIT luôn bằng 0 là do đâu",
+    "gold": [
+      "self-docs/engine/pit-formula-fix"
+    ]
+  },
+  {
+    "q": "tạo tài khoản super admin đầu tiên và thu hồi thế nào",
+    "gold": [
+      "self-docs/integration/super-admin-bootstrap-runbook"
+    ]
+  },
+  {
+    "q": "nút huỷ chốt công hoạt động ra sao",
+    "gold": [
+      "self-docs/engine/approval-flow-huy-chot-cong"
+    ]
+  },
+  {
+    "q": "tại sao import excel gần 3000 dòng nhân viên bị chậm",
+    "gold": [
+      "self-docs/engine/payroll-bulk-set-calculate-batch-perf"
+    ]
+  },
+  {
+    "q": "bảng lương dùng chung một bộ cột rule cho mọi nhân viên",
+    "gold": [
+      "self-docs/engine/salary-structure-shared-columns"
+    ]
+  },
+  {
+    "q": "xoá các bảng ref_ trong cụm học vấn",
+    "gold": [
+      "self-docs/database/db-cleanup-education-ref-tables"
+    ]
+  },
+  {
+    "q": "thứ tự deploy code rồi mới apply migration atlas bằng tay",
+    "gold": [
+      "self-docs/engine/db-cleanup-deploy-runbook"
+    ]
+  },
+  {
+    "q": "khi hai quy tắc phân quyền mâu thuẫn thì bên nào thắng",
+    "gold": [
+      "self-docs/security/rbac-permission-precedence"
+    ]
+  },
+  {
+    "q": "ghi nhật ký kiểm toán có cột lý do và giá trị cũ mới",
+    "gold": [
+      "self-docs/security/audit-log-compliance-plan"
+    ]
+  },
+  {
+    "q": "xuất bảng công bị lỗi khi chọn tất cả công ty",
+    "gold": [
+      "self-docs/integration/attendance-export-all-fix"
+    ]
+  },
+  {
+    "q": "mô hình ủy quyền lai RBAC phân cấp với ABAC động",
+    "gold": [
+      "self-docs/engine/structure-security-001"
+    ]
+  },
+  {
+    "q": "kiểm tra file trên máy chủ SFTP và lịch sử đẩy phiếu lương",
+    "gold": [
+      "self-docs/engine/sftp-file-manager-plan",
+      "self-docs/engine/sftp-payslip-integration-analysis"
+    ]
+  },
+  {
+    "q": "công thức lương đổi theo thời điểm hiệu lực effective_from",
+    "gold": [
+      "self-docs/engine/formula-versioning-pointintime"
+    ]
+  },
+  {
+    "q": "cấu hình tần suất và giờ nhắc người duyệt",
+    "gold": [
+      "self-docs/engine/brd-61-notification-frequency-config"
+    ]
+  },
+  {
+    "q": "chuyển app sang DB role không phải superuser để RLS có hiệu lực",
+    "gold": [
+      "self-docs/files/prompt-l10"
+    ]
+  },
+  {
+    "q": "HR admin muốn xem tất cả công ty cùng lúc",
+    "gold": [
+      "self-docs/engine/company-select-all"
+    ]
+  },
+  {
+    "q": "kiểm thử E2E bằng Playwright cho renderer báo cáo",
+    "gold": [
+      "self-docs/operations/report-playwright-test-plan"
+    ]
+  },
+  {
+    "q": "bộ test zero trust chạy khi đã có tài khoản Azure",
+    "gold": [
+      "self-docs/operations/zero-trust-azure-test-cases"
+    ]
+  },
+  {
+    "q": "tính năng thưởng bonus giai đoạn 1",
+    "gold": [
+      "self-docs/engine/bonus-engine-phase1"
+    ]
+  },
+  {
+    "q": "bàn giao cho đội adapter làm bridge Workday theo thứ tự nào",
+    "gold": [
+      "self-docs/integration/adapter-workday-handover"
+    ]
+  },
+  {
+    "q": "trang Duyệt Của Tôi gộp vào module lương",
+    "gold": [
+      "self-docs/engine/approval-inbox-consolidation"
+    ]
+  },
+  {
+    "q": "template báo cáo cấu hình được và dùng lại rule cho phiếu lương",
+    "gold": [
+      "self-docs/engine/report-template-config-analysis"
+    ]
+  },
+  {
+    "q": "điều kiện trước khi lên production về zero trust và mã hoá lương",
+    "gold": [
+      "self-docs/engine/zero-trust-prod-review"
+    ]
+  },
+  {
+    "q": "dump database payroll_engine ngày 24/08",
+    "gold": [
+      "self-docs/files/payroll-engine-240826-readme"
+    ]
+  },
+  {
+    "q": "rà soát 29 module trong ma trận phân quyền",
+    "gold": [
+      "self-docs/engine/rbac-settings-modules-ui-audit",
+      "self-docs/integration/rbac-improvement-analysis"
+    ]
+  },
+  {
+    "q": "báo cáo bao phủ permission gate trên các route API",
+    "gold": [
+      "self-docs/integration/rbac-permission-gate-coverage-report"
+    ]
+  },
+  {
+    "q": "checklist vận hành nhân viên vào chuyển nghỉ joiner mover leaver",
+    "gold": [
+      "self-docs/integration/rbac-jml-checklist-van-hanh"
+    ]
+  },
+  {
+    "q": "modal thêm cột lương chặn mất 4 trên 5 loại cột",
+    "gold": [
+      "self-docs/engine/salary-component-modal-type-gating"
+    ]
+  },
+  {
+    "q": "kế hoạch nâng cấp hệ thống tử vi an sao",
+    "gold": [
+      "self-docs/engine/tuvi-enhancement-plan"
+    ]
+  },
+  {
+    "q": "quy tắc viết code Go cho team",
+    "gold": [
+      "software/coding-rules/go-code-rules"
+    ]
+  },
+  {
+    "q": "đối chiếu công thức lương trong Excel HR với DB",
+    "gold": [
+      "self-docs/engine/payroll-formula-excel-reconciliation"
+    ]
+  },
+  {
+    "q": "luồng duyệt công thức cột lương với nút từ chối",
+    "gold": [
+      "self-docs/engine/salary-formula-approval-workflow"
+    ]
+  },
+  {
+    "q": "workday bridge đồng bộ hợp đồng và lịch sử công tác",
+    "gold": [
+      "self-docs/integration/workday-bridge-contracts-workhistories"
+    ]
+  },
+  {
+    "q": "gate duyệt tất cả bảng lương theo chốt công và chu kỳ 21-20",
+    "gold": [
+      "self-docs/engine/attendance-payroll-approval-gate"
+    ]
+  },
+  {
+    "q": "tối ưu hiệu năng adapter đồng bộ",
+    "gold": [
+      "self-docs/engine/adapter-perf-optimization"
+    ]
+  },
+  {
+    "q": "RBAC rate limit 30 request mỗi phút",
+    "gold": [
+      "self-docs/engine/rbac-enhancement-batch"
+    ]
+  },
+  {
+    "q": "lỗi thiếu cột schema chặn summary-sync",
+    "gold": [
+      "self-docs/integration/attendance-summary-adapter-sync-schema-fix"
+    ]
+  },
+  {
+    "q": "hướng dẫn sử dụng duyệt lương nhiều cấp và khoá kỳ",
+    "gold": [
+      "self-docs/engine/huong-dan-su-dung-duyet-luong-khoa-ky"
+    ]
+  }
+]
