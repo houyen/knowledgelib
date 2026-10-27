@@ -1,5 +1,5 @@
 # KnowledgeLib Memory Index (self-docs)
-> **Generated:** 2026-10-15 | **Active Units:** 109 | **Mode:** High-Density Working Memory
+> **Generated:** 2026-10-15 | **Active Units:** 106 | **Mode:** High-Density Working Memory
 
 Use this index to recall verified internal decisions, runbooks, and gotchas before querying external LLM.
 
@@ -14,7 +14,6 @@ Use this index to recall verified internal decisions, runbooks, and gotchas befo
 ### Architecture & Core Rules
 - **`self-docs/database/payroll-test-suite-handoff`** (specification): Technical guide and specification: Bàn giao: Bộ test 7 phân hệ Core System [Aliases: Bàn giao: Bộ test 7 phân hệ Core System, Core System Test Suite Handoff 100826]
   - 📌 *Core:* **Mục đích tài liệu:** người đọc tài liệu này có thể không có context gì từ phiên làm việc trước — tài liệu viết đủ để tiếp tục công việc mà không cần hỏi lại người đã làm. Đây là file canonical duy nhất cho hạng mục "bộ test 7 phân hệ Core System" b
-- **`self-docs/stitch-tu-vi-scholar-platform/design`** (specification): Imperial Scholar Zi Wei design system: color, typography, rounded and spacing tokens for the Tử Vi app (Stitch export) [Aliases: Imperial Scholar Zi Wei design system, Stitch DESIGN.md Imperial Scholar Zi Wei, Design token màu sắc, typography, spacing cho ứng dụng Tử Vi]
   - 📌 *Core:* This design system embodies the regal gravitas and intellectual rigor of Imperial East Asian astrology. It synthesizes imperial court archival aesthetics—fine handcrafted mulberry paper (*giấy dó*), cinnabar red seal inks, and weathered bronze inlays
 - **`self-docs/security/rbac-architecture-reassessment`** (architecture_explainer): Architecture and technical specifications for RBAC-Architecture-Reassessment-200726 [Aliases: RBAC-Architecture-Reassessment-200726, RBAC Architecture Reassessment 200726]
   - 📌 *Core:* **Ngày:** 2026-07-20 **Loại tài liệu:** context / nghiên cứu (study) — không phải báo cáo công việc đã hoàn tất theo ngày, mà là tài liệu tham khảo được cập nhật liên tục mỗi khi có phân tích mới về cùng chủ đề kiến trúc phân quyền.
@@ -50,7 +49,6 @@ Use this index to recall verified internal decisions, runbooks, and gotchas befo
   - 📌 *Core:* > ⚠️ **Triển khai:** backend KHÔNG chạy Atlas — các migration của đợt này phải `atlas migrate apply` > bằng tay, và **bắt buộc deploy code TRƯỚC khi apply**. Xem `self-docs/DB-Cleanup-Deploy-Runbook-180826.md`.
 - **`self-docs/database/db-cleanup-legacy-tables`** (how_to): Technical guide and specification: DB Cleanup — Xoá bảng legacy không còn dùng [Aliases: DB Cleanup — Xoá bảng legacy không còn dùng, DB Cleanup Legacy Tables 170826]
   - 📌 *Core:* > ⚠️ **Triển khai:** backend KHÔNG chạy Atlas — các migration của đợt này phải `atlas migrate apply` > bằng tay, và **bắt buộc deploy code TRƯỚC khi apply**. Xem `self-docs/DB-Cleanup-Deploy-Runbook-180826.md`.
-- **`self-docs/stitch-tu-vi-scholar-platform/implementation-report`** (runbook): Technical guide and specification: Báo Cáo Triển Khai Thiết Kế "Imperial Scholar Zi Wei" [Aliases: Báo Cáo Triển Khai Thiết Kế "Imperial Scholar Zi Wei", IMPLEMENTATION REPORT, Imperial Scholar Zi Wei implementation report (tu-vi-app-poc)]
   - 📌 *Core:* **Dự án**: `tu-vi-app-poc` (Production React 19 + TypeScript + Vite) **Ngày thực hiện**: 2026-09-23
 - **`self-docs/security/audit-log-compliance-plan`** (how_to): Technical guide and specification: Kế hoạch Thi hành: Nâng cấp Toàn diện Hệ thống Audit Log [Aliases: Kế hoạch Thi hành: Nâng cấp Toàn diện Hệ thống Audit Log, 160926 Audit Log Compliance PLAN]
   - 📌 *Core:* **Goal:** Bổ sung cột "Lý do", Việt hóa cột "Hành động", hiển thị biến động "Cũ → Mới" tại cột "Chi tiết", và chuẩn hóa ghi nhận Audit Log đầy đủ ở cả Backend và Frontend theo đúng yêu cầu TASK-REF & kiểm toán tuân thủ. **Branch:** `feature/audit-log
@@ -223,7 +221,6 @@ Use this index to recall verified internal decisions, runbooks, and gotchas befo
   - 📌 *Core:* > **Mục đích**: Rà soát và tài liệu hóa toàn diện danh sách tính năng, màn hình giao diện, kiến trúc kỹ thuật của luồng đẩy file phiếu lương (payslip) lên máy chủ SFTP (Workday Ingestion), cũng như hiện trạng việc truy cập máy chủ SFTP để kiểm tra da
 - **`self-docs/engine/structure-security-001`** (how_to): Technical guide and specification: Mô Hình Ủy Quyền Lai: Sự Kết Hợp Giữa RBAC Phân Cấp Và ABAC Động [Aliases: Mô Hình Ủy Quyền Lai: Sự Kết Hợp Giữa RBAC Phân Cấp Và ABAC Động, Structure Security 001]
   - 📌 *Core:* Mô hình phân quyền dựa trên vai trò (RBAC) cung cấp một cấu trúc quản trị rõ ràng, ánh xạ trực tiếp cơ cấu tổ chức của doanh nghiệp vào hệ thống phần mềm⁶. Theo tiêu chuẩn quốc tế ANSI/INCITS 359 (mô hình NIST RBAC), việc thiết lập RBAC cần được nâng
-- **`self-docs/engine/tuvi-enhancement-plan`** (how_to): Technical guide and specification: Kế Hoạch Chi Tiết Nâng Cấp Hệ Thống Tử Vi [Aliases: Kế Hoạch Chi Tiết Nâng Cấp Hệ Thống Tử Vi, tuvi enhancement plan]
   - 📌 *Core:* > **Mục tiêu**: Nâng cấp `tu-vi-app-poc` từ một ứng dụng chuyển đổi âm dương & tứ trụ cơ bản thành một nền tảng **Tử Vi Đẩu Số hiện đại, toàn diện**: kết hợp thuật toán an sao cổ truyền chuẩn xác, giao diện bàn cờ trực quan tương tác cao, nhận diện c
 - **`self-docs/engine/zero-trust-prod-review`** (how_to): Technical guide and specification: Zero Trust — cổng vào production [Aliases: Zero Trust — cổng vào production, Zero Trust Prod Review 160926]
   - 📌 *Core:* **File canonical** cho hạng mục "Zero Trust / OBO / mã hoá lương". Phạm vi: chỉ những gì phải đúng **trước khi lên production** (staging ngoài phạm vi — chốt 16/09).

@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "updated_at": "2026-10-15",
-  "total_units": 2099,
+  "total_units": 2096,
   "units": [
     {
       "id": "baby/feeding/anti-colic-baby-bottles/2026",
@@ -29728,34 +29728,6 @@
       "content_preview": "# DB Cleanup — Xoá bảng legacy không còn dùng (170826)  > ⚠️ **Triển khai:** backend KHÔNG chạy Atlas — các migration của đợt này phải `atlas migrate apply` > bằng tay, và **bắt buộc deploy code TRƯỚC khi apply**. Xem `self-docs/DB-Cleanup-Deploy-Runbook-180826.md`.  **Trạng thái:** Đã thi hành, chư"
     },
     {
-      "id": "self-docs/stitch-tu-vi-scholar-platform/implementation-report",
-      "canonical_question": "Technical guide and specification: Báo Cáo Triển Khai Thiết Kế \"Imperial Scholar Zi Wei\"",
-      "aliases": [
-        "Báo Cáo Triển Khai Thiết Kế \"Imperial Scholar Zi Wei\"",
-        "IMPLEMENTATION REPORT",
-        "Imperial Scholar Zi Wei implementation report (tu-vi-app-poc)",
-        "Báo cáo áp dụng design token Stitch vào tu-vi-app-poc"
-      ],
-      "entity_type": "runbook",
-      "domain": "self-docs > stitch-tu-vi-scholar-platform",
-      "last_verified": "2026-09-23",
-      "content_preview": "# Báo Cáo Triển Khai Thiết Kế \"Imperial Scholar Zi Wei\" (Gửi Stitch)  **Dự án**: `tu-vi-app-poc` (Production React 19 + TypeScript + Vite)   **Ngày thực hiện**: 2026-09-23   **Dựa trên**: `imperial_scholar_zi_wei/DESIGN.md`    ---  ## 1. Các thành phần đã tiếp thu và tích hợp vào hệ thống thật  ### "
-    },
-    {
-      "id": "self-docs/stitch-tu-vi-scholar-platform/design",
-      "canonical_question": "Imperial Scholar Zi Wei design system: color, typography, rounded and spacing tokens for the Tử Vi app (Stitch export)",
-      "aliases": [
-        "Imperial Scholar Zi Wei design system",
-        "Stitch DESIGN.md Imperial Scholar Zi Wei",
-        "Design token màu sắc, typography, spacing cho ứng dụng Tử Vi",
-        "Hệ thống thiết kế giấy dó, mực cổ, chu sa cho lá số tử vi"
-      ],
-      "entity_type": "specification",
-      "domain": "self-docs > stitch-tu-vi-scholar-platform",
-      "last_verified": "2026-10-08",
-      "content_preview": "## Brand & Style  This design system embodies the regal gravitas and intellectual rigor of Imperial East Asian astrology. It synthesizes imperial court archival aesthetics—fine handcrafted mulberry paper (*giấy dó*), cinnabar red seal inks, and weathered bronze inlays—with the exacting visual clarit"
-    },
-    {
       "id": "self-docs/security/rbac-settings-modules-followup",
       "canonical_question": "Technical guide and specification: RBAC-Settings-Modules-UI-Audit-040926 — Follow-up thi hành",
       "aliases": [
@@ -30833,18 +30805,6 @@
       "domain": "self-docs > engine",
       "last_verified": "2026-08-26",
       "content_preview": "# Attendance-Core System Approval Gate — 240826  **Canonical duy nhất** cho hạng mục: nút \"Duyệt tất cả\" bảng lương + gate tính lương theo chốt công + chu kỳ lương 21-20 (khoá nút + schedule tự động). Bắt đầu từ yêu cầu \"kiểm tra luồng duyệt bảng công để tạo bảng lương\" ngày 240826, mở rộng qua 4 lư"
-    },
-    {
-      "id": "self-docs/engine/tuvi-enhancement-plan",
-      "canonical_question": "Technical guide and specification: Kế Hoạch Chi Tiết Nâng Cấp Hệ Thống Tử Vi",
-      "aliases": [
-        "Kế Hoạch Chi Tiết Nâng Cấp Hệ Thống Tử Vi",
-        "tuvi enhancement plan"
-      ],
-      "entity_type": "how_to",
-      "domain": "self-docs > engine",
-      "last_verified": "2026-09-24",
-      "content_preview": "# Kế Hoạch Chi Tiết Nâng Cấp Hệ Thống Tử Vi (Tu Vi App)  > **Mục tiêu**: Nâng cấp `tu-vi-app-poc` từ một ứng dụng chuyển đổi âm dương & tứ trụ cơ bản thành một nền tảng **Tử Vi Đẩu Số hiện đại, toàn diện**: kết hợp thuật toán an sao cổ truyền chuẩn xác, giao diện bàn cờ trực quan tương tác cao, nhận"
     },
     {
       "id": "self-docs/engine/payroll-formula-excel-reconciliation",

@@ -176,12 +176,6 @@
     ]
   },
   {
-    "q": "kế hoạch nâng cấp hệ thống tử vi an sao",
-    "gold": [
-      "self-docs/engine/tuvi-enhancement-plan"
-    ]
-  },
-  {
     "q": "quy tắc viết code Go cho team",
     "gold": [
       "software/coding-rules/go-code-rules"
