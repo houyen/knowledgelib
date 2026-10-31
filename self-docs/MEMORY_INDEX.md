@@ -1,5 +1,5 @@
 # KnowledgeLib Memory Index (self-docs)
-> **Generated:** 2026-10-15 | **Active Units:** 106 | **Mode:** High-Density Working Memory
+> **Generated:** 2026-10-15 | **Active Units:** 104 | **Mode:** High-Density Working Memory
 
 Use this index to recall verified internal decisions, runbooks, and gotchas before querying external LLM.
 
@@ -24,8 +24,6 @@ Use this index to recall verified internal decisions, runbooks, and gotchas befo
   - 📌 *Core:* **System:** Core System & HRIS Integration Platform (Go / Chi / Postgres / Next.js) **Date:** July 21, 2026
 - **`self-docs/integration/task7-db-source-bangiao-doidb`** (specification): Technical guide and specification: Bàn giao Task 7 — Nguồn dữ liệu DB cho báo cáo "Bảng chấm công CBNV" [Aliases: Bàn giao Task 7 — Nguồn dữ liệu DB cho báo cáo "Bảng chấm công CBNV", Task7 DB Source BanGiao DoiDB 310726]
   - 📌 *Core:* **Ngày:** 2026-07-31 **Trạng thái phần Excel:** đã xong và đã kiểm chứng (Task 0→6, 43 test xanh). Chỉ còn thiếu nguồn dữ liệu thật.
-- **`self-docs/docs/plan-phase-a`** (architecture_explainer): Technical guide and specification: Phase A Plan — Engine tính lá số [Aliases: Phase A Plan — Engine tính lá số, PLAN phase a]
-  - 📌 *Core:* Module tính toán thuần (pure logic), không phụ thuộc UI, test độc lập được. Input: ngày-giờ-năm sinh dương lịch. Output: lá số cơ bản (âm lịch, can chi, tứ trụ). TypeScript, Node runtime, không framework. Lý do: dùng chung ngôn ngữ với Phase B (front
 - **`self-docs/files/payroll-engine-180826-readme`** (architecture_explainer): Technical guide and specification: Dump DB backend — `payroll_engine`, 18/08/2026 [Aliases: Dump DB backend — `payroll_engine`, 18/08/2026, Core System engine 180826 README]
   - 📌 *Core:* Ảnh chụp database của `Core System-backend` trên máy dev, tức **trạng thái đích** sau đợt dọn dẹp DB 17–18/08 và cầu nối Workday.
 - **`self-docs/files/payroll-engine-240826-readme`** (architecture_explainer): Technical guide and specification: payroll_engine — dump 24/08/2026 [Aliases: payroll_engine — dump 24/08/2026, Core System engine 240826 README]
@@ -99,8 +97,6 @@ Use this index to recall verified internal decisions, runbooks, and gotchas befo
 - **`self-docs/integration/workday-job-change-api-guide`** (how_to): How to integrate Workday API for Job Change and Data Change business processes [Aliases: Workday Job Change API integration, Workday Submit_Change_Job SOAP Staffing, Workday Staffing Web Service v45.2]
   - ⚠️ *Constraint:* Submit_Change_Job requires SOAP Staffing Service v45.2+ with WS-Security UsernameToken, not REST
   - 📌 *Core:* Trong hệ thống Workday, **Job Change** (thuyên chuyển vị trí, thăng chức, đổi phòng ban, thay đổi địa điểm làm việc, v.v.) không được xử lý như một thao tác CRUD/Update dữ liệu thông thường. Thay vào đó, nó được quản lý như một **Business Process (BP
-- **`self-docs/docs/plan-phase-b`** (how_to): Technical guide and specification: Phase B Plan — UI nhập ngày-giờ-năm sinh, hiển thị lá số [Aliases: Phase B Plan — UI nhập ngày-giờ-năm sinh, hiển thị lá số, PLAN phase b]
-  - 📌 *Core:* Frontend cơ bản: form nhập ngày-giờ-năm sinh dương lịch → gọi `tinhLaSo()` (đã có ở `src/engine/index.ts`, Phase A) → hiển thị kết quả lá số. Vite + React + TypeScript. Lý do: cùng ngôn ngữ với engine (TS, import trực tiếp không cần build API riêng),
 - **`self-docs/operations/report-playwright-test-plan`** (how_to): Technical guide and specification: 🎭 Kế hoạch Kiểm thử Playwright E2E — Tối ưu Renderer Báo cáo [Aliases: 🎭 Kế hoạch Kiểm thử Playwright E2E — Tối ưu Renderer Báo cáo, 150926 Report Playwright Test PLAN]
   - 📌 *Core:* > **Mục tiêu**: Kiểm thử tự động hóa đầu cuối (E2E) bằng Playwright để xác thực toàn bộ các cải tiến hiệu năng và tính chính xác của hệ thống Report sau cả Phase 1 và Phase 2. > **Thời gian**: 15/09/2026
 - **`self-docs/operations/sit-testcase-update-guide-for-qc`** (how_to): How to ĐỒNG BỘ & CẬP NHẬT BỘ TEST CASE SIT (Hướng dẫn ĐỒNG BỘ & CẬP NHẬT BỘ TEST CASE SIT) [Aliases: HƯỚNG DẪN ĐỒNG BỘ & CẬP NHẬT BỘ TEST CASE SIT, 150926 SIT Testcase Update Guide For QC]

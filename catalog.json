@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "updated_at": "2026-10-15",
-  "total_units": 2096,
+  "total_units": 2094,
   "units": [
     {
       "id": "baby/feeding/anti-colic-baby-bottles/2026",
@@ -30112,30 +30112,6 @@
       "domain": "self-docs > integration",
       "last_verified": "2026-09-17",
       "content_preview": "# TASK-REF — Audit Log bắt buộc cho Cấu hình Thông báo (080926)  ## Bối cảnh  Sau khi phân tích TASK-REF/39/40 (`self-docs/TASK-REF-Notification-Frequency-Config-080926.md` là tiền đề — cùng nhóm \"Thông báo\"), chốt: chỉ 1 việc đủ điều kiện làm ngay không cần hỏi ai — **Audit Log bắt buộc** cho sheet"
-    },
-    {
-      "id": "self-docs/docs/plan-phase-a",
-      "canonical_question": "Technical guide and specification: Phase A Plan — Engine tính lá số",
-      "aliases": [
-        "Phase A Plan — Engine tính lá số",
-        "PLAN phase a"
-      ],
-      "entity_type": "architecture_explainer",
-      "domain": "self-docs > docs",
-      "last_verified": "2026-09-24",
-      "content_preview": "# Phase A Plan — Engine tính lá số (Claude, 2026-09-18)  ## Mục tiêu Module tính toán thuần (pure logic), không phụ thuộc UI, test độc lập được. Input: ngày-giờ-năm sinh dương lịch. Output: lá số cơ bản (âm lịch, can chi, tứ trụ).  ## Stack TypeScript, Node runtime, không framework. Lý do: dùng chun"
-    },
-    {
-      "id": "self-docs/docs/plan-phase-b",
-      "canonical_question": "Technical guide and specification: Phase B Plan — UI nhập ngày-giờ-năm sinh, hiển thị lá số",
-      "aliases": [
-        "Phase B Plan — UI nhập ngày-giờ-năm sinh, hiển thị lá số",
-        "PLAN phase b"
-      ],
-      "entity_type": "how_to",
-      "domain": "self-docs > docs",
-      "last_verified": "2026-09-18",
-      "content_preview": "# Phase B Plan — UI nhập ngày-giờ-năm sinh, hiển thị lá số (Claude, 2026-09-18)  ## Mục tiêu Frontend cơ bản: form nhập ngày-giờ-năm sinh dương lịch → gọi `tinhLaSo()` (đã có ở `src/engine/index.ts`, Phase A) → hiển thị kết quả lá số.  ## Stack Vite + React + TypeScript. Lý do: cùng ngôn ngữ với eng"
     },
     {
       "id": "self-docs/operations/sit-testcase-update-guide-for-qc",
