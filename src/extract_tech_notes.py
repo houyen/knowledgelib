@@ -457,7 +457,7 @@ def extract_directory(
         return summary
 
     cfg = config or AnonymizeConfig.load(src_dir=src_dir)
-    # Seed bằng nội dung đã có ở đích: hook R21 của dự án khác (vd tu-vi-app-poc) chạy mỗi lượt; thiếu bước
+    # Seed bằng nội dung đã có ở đích: hook R21 của dự án khác (vd một ứng dụng nội bộ) chạy mỗi lượt; thiếu bước
     # này các bản nguồn trùng body (stitch_tu_vi_v1.0/v1.1/v2.0...) bị import lại thành thư mục riêng, và
     # unit đã có bị ghi đè kèm last_verified = hôm nay dù nội dung không đổi.
     seen_hashes = existing_body_hashes(dest_base_dir)
