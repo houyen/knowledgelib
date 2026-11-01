@@ -16,7 +16,7 @@ last_verified: '2026-09-29'
 
 **rule_set:** `js-ts` · **rule_set_version:** `0.2.0` · **status:** pilot (schema đang thử)
 
-Nguồn: audit pmkit (2026-09-29) + áp thực tế vào `tu-vi-app-poc` (170 file TS, lint lần đầu). Mỗi rule có `origin` để truy nguồn và `evidence` để biết vì sao có.
+Nguồn: audit pmkit (2026-09-29) + áp thực tế vào ứng dụng nội bộ (repo riêng) (170 file TS, lint lần đầu). Mỗi rule có `origin` để truy nguồn và `evidence` để biết vì sao có.
 `kind: machine` = có rule lint kiểm được (harness sinh config). `kind: review` = chỉ người/agent soát, không có lint.
 
 ## Schema của một rule
@@ -32,7 +32,7 @@ rules:
     statement: "Không nhúng dữ liệu người dùng/server vào innerHTML hay template HTML; dùng textContent/createElement/escapeHtml."
     scope: [prod]
     origin: "pmkit"
-    evidence: "pmkit có 10 chỗ innerHTML nội suy, không có hàm escape. tu-vi-app-poc: 0 chỗ."
+    evidence: "pmkit có 10 chỗ innerHTML nội suy, không có hàm escape. ứng dụng nội bộ (repo riêng): 0 chỗ."
   - id: JS-SEC-02
     severity: error
     kind: review
@@ -51,8 +51,8 @@ rules:
     check: "eslint:no-empty (allowEmptyCatch=false)"
     statement: "catch rỗng phải xử lý lỗi hoặc có comment nêu lý do; không nuốt lỗi im lặng."
     scope: [prod, scripts, tests]
-    origin: "pmkit + tu-vi-app-poc"
-    evidence: "tu-vi-app-poc có 11 catch rỗng, 3 trong code chạy thật (src/server/index.ts)."
+    origin: "pmkit + ứng dụng nội bộ (repo riêng)"
+    evidence: "ứng dụng nội bộ (repo riêng) có 11 catch rỗng, 3 trong code chạy thật (src/server/index.ts)."
   - id: JS-ERR-02
     severity: error
     kind: review
@@ -65,15 +65,15 @@ rules:
     check: "@typescript-eslint/no-explicit-any"
     statement: "Không any; dùng unknown rồi narrow. Không // @ts-ignore (dùng @ts-expect-error kèm lý do)."
     scope: [prod]
-    origin: "pmkit + tu-vi-app-poc"
-    evidence: "tu-vi-app-poc có 221 any; 44 trong code chạy thật, 177 trong scripts/tests (parse JSON, LLM output)."
+    origin: "pmkit + ứng dụng nội bộ (repo riêng)"
+    evidence: "ứng dụng nội bộ (repo riêng) có 221 any; 44 trong code chạy thật, 177 trong scripts/tests (parse JSON, LLM output)."
   - id: JS-TYPE-02
     severity: warn
     kind: machine
     check: "@typescript-eslint/no-explicit-any"
     statement: "Ở scripts/tests, any hạ xuống warn và đếm ratchet, giảm dần khi chạm file."
     scope: [scripts, tests]
-    origin: "tu-vi-app-poc"
+    origin: "ứng dụng nội bộ (repo riêng)"
   - id: JS-STYLE-01
     severity: error
     kind: machine
@@ -81,7 +81,7 @@ rules:
     statement: "Luôn ===; const mặc định, let khi cần gán lại, cấm var."
     scope: [prod, scripts, tests]
     origin: "pmkit"
-    evidence: "tu-vi-app-poc có 21 == (đều trong scripts/book); đổi == null sang === null phải xét từng chỗ vì đổi hành vi."
+    evidence: "ứng dụng nội bộ (repo riêng) có 21 == (đều trong scripts/book); đổi == null sang === null phải xét từng chỗ vì đổi hành vi."
   - id: JS-STYLE-02
     severity: error
     kind: machine
@@ -96,14 +96,14 @@ rules:
     statement: "File ≲ 300 dòng, hàm ≲ 50 dòng, complexity ≤ 12, lồng ≤ 3. Là warn để ratchet, không refactor hàng loạt."
     scope: [prod, scripts, tests]
     origin: "pmkit"
-    evidence: "tu-vi-app-poc vượt ngưỡng 353 lần (153 max-depth, 112 hàm dài, 64 complexity, 14 file dài); 129 max-depth nằm trong scripts."
+    evidence: "ứng dụng nội bộ (repo riêng) vượt ngưỡng 353 lần (153 max-depth, 112 hàm dài, 64 complexity, 14 file dài); 129 max-depth nằm trong scripts."
   - id: JS-LOG-01
     severity: warn
     kind: machine
     check: "eslint:no-console (allow error)"
     statement: "Code chạy thật không dùng console để báo lỗi cho user. scripts/ (CLI) được phép in ra: tắt rule ở đó."
     scope: [prod]
-    origin: "tu-vi-app-poc"
+    origin: "ứng dụng nội bộ (repo riêng)"
     evidence: "272 no-console, 247 trong scripts/ (CLI in ra là đúng)."
   - id: JS-STRUCT-01
     severity: warn
@@ -122,79 +122,79 @@ rules:
     kind: review
     statement: "innerHTML chỉ cho chuỗi hằng số không có nội suy; HTML động phải qua một helper escapeHtml() duy nhất trong một module."
     scope: [prod]
-    origin: "tu-vi-app-poc js.md"
-    evidence: "tu-vi-app-poc mục An toàn (bắt buộc)"
+    origin: "ứng dụng nội bộ (repo riêng) js.md"
+    evidence: "ứng dụng nội bộ (repo riêng) mục An toàn (bắt buộc)"
   - id: JS-STRUCT-03
     severity: warn
     kind: review
     statement: "Một file một khái niệm, dùng ES modules, export thứ cần dùng lại, không gắn vào window, không bọc cả app trong một IIFE khổng lồ."
     scope: [prod]
-    origin: "tu-vi-app-poc js.md"
-    evidence: "tu-vi-app-poc mục Cấu trúc"
+    origin: "ứng dụng nội bộ (repo riêng) js.md"
+    evidence: "ứng dụng nội bộ (repo riêng) mục Cấu trúc"
   - id: JS-STRUCT-04
     severity: warn
     kind: review
     statement: "(Chỉ code thao tác DOM trực tiếp, không áp cho React.) Hàm initXxxModal dài tách thành bindEvents, render, load, save."
     scope: [prod]
-    origin: "tu-vi-app-poc js.md"
-    evidence: "tu-vi-app-poc mục Cấu trúc"
+    origin: "ứng dụng nội bộ (repo riêng) js.md"
+    evidence: "ứng dụng nội bộ (repo riêng) mục Cấu trúc"
   - id: JS-STRUCT-05
     severity: warn
     kind: review
     statement: "(Chỉ code thao tác DOM trực tiếp, không áp cho React.) Mỗi trang có một init() gọi từ điểm vào, chọn theo data-page trên <body>, không dò selector để đoán đang ở trang nào."
     scope: [prod]
-    origin: "tu-vi-app-poc js.md"
-    evidence: "tu-vi-app-poc mục Cấu trúc"
+    origin: "ứng dụng nội bộ (repo riêng) js.md"
+    evidence: "ứng dụng nội bộ (repo riêng) mục Cấu trúc"
   - id: JS-DOM-01
     severity: warn
     kind: review
     statement: "(Chỉ code thao tác DOM trực tiếp, không áp cho React.) Truy vấn DOM một lần ở đầu init, lưu vào object refs; không querySelector lặp trong vòng lặp/handler."
     scope: [prod]
-    origin: "tu-vi-app-poc js.md"
-    evidence: "tu-vi-app-poc mục DOM"
+    origin: "ứng dụng nội bộ (repo riêng) js.md"
+    evidence: "ứng dụng nội bộ (repo riêng) mục DOM"
   - id: JS-DOM-02
     severity: warn
     kind: review
     statement: "(Chỉ code thao tác DOM trực tiếp, không áp cho React.) Event delegation cho danh sách động (một listener trên container), không gắn listener cho từng dòng."
     scope: [prod]
-    origin: "tu-vi-app-poc js.md"
-    evidence: "tu-vi-app-poc mục DOM"
+    origin: "ứng dụng nội bộ (repo riêng) js.md"
+    evidence: "ứng dụng nội bộ (repo riêng) mục DOM"
   - id: JS-DOM-03
     severity: warn
     kind: review
     statement: "(Chỉ code thao tác DOM trực tiếp, không áp cho React.) Class trạng thái (hidden, is-active) bật/tắt qua classList; không set style.* trực tiếp."
     scope: [prod]
-    origin: "tu-vi-app-poc js.md"
-    evidence: "tu-vi-app-poc mục DOM"
+    origin: "ứng dụng nội bộ (repo riêng) js.md"
+    evidence: "ứng dụng nội bộ (repo riêng) mục DOM"
   - id: JS-ASYNC-01
     severity: warn
     kind: review
     statement: "Mọi request qua một hàm bọc duy nhất (apiFetch); không gọi fetch trực tiếp ở nơi khác; async/await, không trộn .then."
     scope: [prod]
-    origin: "tu-vi-app-poc js.md"
-    evidence: "tu-vi-app-poc mục Async & lỗi"
+    origin: "ứng dụng nội bộ (repo riêng) js.md"
+    evidence: "ứng dụng nội bộ (repo riêng) mục Async & lỗi"
   - id: JS-UI-01
     severity: warn
     kind: review
     statement: "(Chỉ code thao tác DOM trực tiếp, không áp cho React.) confirm() và alert() thay bằng modal chung."
     scope: [prod]
-    origin: "tu-vi-app-poc js.md"
-    evidence: "tu-vi-app-poc mục Async & lỗi"
+    origin: "ứng dụng nội bộ (repo riêng) js.md"
+    evidence: "ứng dụng nội bộ (repo riêng) mục Async & lỗi"
   - id: JS-STYLE-03
     severity: warn
     kind: review
     statement: "Đặt tên: camelCase hàm/biến, PascalCase class/component, UPPER_SNAKE hằng cấp module, isX/hasX cho bool, onX cho handler, renderX cho hàm vẽ."
     scope: [prod, scripts, tests]
-    origin: "tu-vi-app-poc js.md"
-    evidence: "tu-vi-app-poc mục Style"
+    origin: "ứng dụng nội bộ (repo riêng) js.md"
+    evidence: "ứng dụng nội bộ (repo riêng) mục Style"
   - id: JS-STYLE-04
     severity: error
     kind: machine
     check: "eslint:quotes (single, avoidEscape), eslint:semi (always)"
     statement: "Dấu nháy đơn, chấm phẩy cuối câu, indent 2 spaces (.editorconfig)."
     scope: [prod, scripts, tests]
-    origin: "tu-vi-app-poc js.md"
-    evidence: "tu-vi-app-poc mục Style"
+    origin: "ứng dụng nội bộ (repo riêng) js.md"
+    evidence: "ứng dụng nội bộ (repo riêng) mục Style"
 ```
 
 ## Quy tắc áp dụng (rút từ thực tế)

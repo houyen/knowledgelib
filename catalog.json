@@ -32068,7 +32068,7 @@
       "entity_type": "coding_rule_set",
       "domain": "software > coding-rules",
       "last_verified": "2026-09-29",
-      "content_preview": "# JavaScript / TypeScript — bộ rule code  **rule_set:** `js-ts` · **rule_set_version:** `0.2.0` · **status:** pilot (schema đang thử)  Nguồn: audit pmkit (2026-09-29) + áp thực tế vào `tu-vi-app-poc` (170 file TS, lint lần đầu). Mỗi rule có `origin` để truy nguồn và `evidence` để biết vì sao có. `ki"
+      "content_preview": "# JavaScript / TypeScript — bộ rule code  **rule_set:** `js-ts` · **rule_set_version:** `0.2.0` · **status:** pilot (schema đang thử)  Nguồn: audit pmkit (2026-09-29) + áp thực tế vào `ứng dụng nội bộ (repo riêng)` (170 file TS, lint lần đầu). Mỗi rule có `origin` để truy nguồn và `evidence` để biết vì sao có. `ki"
     },
     {
       "id": "software/coding-rules/go-code-rules",
