@@ -1,6 +1,6 @@
 ---
 name: knowledgelib
-description: Truy vấn và Nạp tri thức chuyên sâu từ kho dữ liệu verified KnowledgeLib (1,800+ Knowledge Units về so sánh sản phẩm, giải pháp công nghệ, SaaS, DevOps, System Design, Finance, Compliance). Dùng skill này khi cần tra cứu tri thức local hoặc khi yêu cầu nạp/chuyển đổi tệp PDF, sách, tài liệu mới thành tri thức trong kho local.
+description: Truy vấn và Nạp tri thức chuyên sâu từ kho dữ liệu verified KnowledgeLib (2,129 Knowledge Units về so sánh sản phẩm, giải pháp công nghệ, SaaS, DevOps, System Design, Finance, Compliance). Dùng skill này khi cần tra cứu tri thức local hoặc khi yêu cầu nạp/chuyển đổi tệp PDF, sách, tài liệu mới thành tri thức trong kho local.
 ---
 
 # KnowledgeLib Agent Skill Specification (`knowledgelib`)

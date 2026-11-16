@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
-  "updated_at": "2026-10-15",
-  "total_units": 2094,
+  "updated_at": "2026-11-16",
+  "total_units": 2129,
   "units": [
     {
       "id": "baby/feeding/anti-colic-baby-bottles/2026",
@@ -29617,24 +29617,6 @@
       "content_preview": "# Best Luggage Sets (2026)  ## What are the best luggage sets in 2026?  ## TL;DR  **Best value: [Calpak Evry Starter Bundle (~$299)](https://knowledgelib.io/go/calpak-evry-starter-bundle)** — CNN Underscored's 2026 best-overall, two polycarbonate suitcases plus 5 packing cubes. **Top pick: [July Tru"
     },
     {
-      "id": "AGENTS",
-      "canonical_question": "AGENTS",
-      "aliases": [],
-      "entity_type": "reference",
-      "domain": "",
-      "last_verified": "2026-08-18",
-      "content_preview": ""
-    },
-    {
-      "id": "CLAUDE",
-      "canonical_question": "CLAUDE",
-      "aliases": [],
-      "entity_type": "reference",
-      "domain": "",
-      "last_verified": "2026-08-18",
-      "content_preview": ""
-    },
-    {
       "id": "health/healthcare-domain/healthcare-domain-payer-provider-claims-handbook",
       "canonical_question": "What is the end-to-end structure of the US healthcare industry, including payers, providers, claims adjudication, and HIPAA EDI standards?",
       "aliases": [
@@ -32068,7 +32050,7 @@
       "entity_type": "coding_rule_set",
       "domain": "software > coding-rules",
       "last_verified": "2026-09-29",
-      "content_preview": "# JavaScript / TypeScript — bộ rule code  **rule_set:** `js-ts` · **rule_set_version:** `0.2.0` · **status:** pilot (schema đang thử)  Nguồn: audit pmkit (2026-09-29) + áp thực tế vào `ứng dụng nội bộ (repo riêng)` (170 file TS, lint lần đầu). Mỗi rule có `origin` để truy nguồn và `evidence` để biết vì sao có. `ki"
+      "content_preview": "# JavaScript / TypeScript — bộ rule code  **rule_set:** `js-ts` · **rule_set_version:** `0.2.0` · **status:** pilot (schema đang thử)  Nguồn: audit pmkit (2026-09-29) + áp thực tế vào ứng dụng nội bộ (repo riêng) (170 file TS, lint lần đầu). Mỗi rule có `origin` để truy nguồn và `evidence` để biết v"
     },
     {
       "id": "software/coding-rules/go-code-rules",
@@ -33274,6 +33256,652 @@
       "domain": "games > mamathiendao",
       "last_verified": "2026-08-18",
       "content_preview": ""
+    },
+    {
+      "id": "business/project-delivery/test-plan-matrix-template",
+      "canonical_question": "How do you plan which test types are required per functionality in an implementation project?",
+      "aliases": [
+        "test plan template",
+        "test type matrix",
+        "unit UAT regression performance volume testing",
+        "test strategy per feature",
+        "mẫu kế hoạch kiểm thử",
+        "ma trận loại kiểm thử",
+        "kiểm thử hồi quy hiệu năng tải",
+        "test environment ownership"
+      ],
+      "entity_type": "specification",
+      "domain": "business > project-delivery",
+      "last_verified": "2026-11-15",
+      "content_preview": "# Test Plan Matrix — Template  ## TL;DR For each functionality, decide per test type: **required or optional, what exactly is verified, in which environment, and who owns it.** One table per functionality keeps the plan reviewable and makes gaps visible.  ## Test types | Type | Purpose | Usual envir"
+    },
+    {
+      "id": "business/project-delivery/post-implementation-review-template",
+      "canonical_question": "How do you structure a post-implementation review (PIR) report after go-live?",
+      "aliases": [
+        "post-implementation review",
+        "PIR report",
+        "lessons learned",
+        "hypercare review",
+        "root cause and resolution",
+        "đánh giá sau triển khai",
+        "bài học kinh nghiệm dự án",
+        "báo cáo sau go-live",
+        "project retrospective"
+      ],
+      "entity_type": "specification",
+      "domain": "business > project-delivery",
+      "last_verified": "2026-11-15",
+      "content_preview": "# Post-Implementation Review (PIR) — Template  ## TL;DR Run the PIR after the stabilisation period (commonly 30 days). Three sections: **what users reported and its impact**, **why it happened and how it was resolved**, **lessons turned into changes to the delivery method**. A lesson that does not c"
+    },
+    {
+      "id": "business/project-delivery/go-no-go-decision-matrix-template",
+      "canonical_question": "How do you build a go/no-go decision matrix for a system go-live or cutover?",
+      "aliases": [
+        "go no-go decision matrix",
+        "go-live readiness",
+        "cutover decision",
+        "go-live criteria",
+        "rollback trigger",
+        "ma trận quyết định go no-go",
+        "tiêu chí go-live",
+        "sẵn sàng vận hành",
+        "cutover checklist"
+      ],
+      "entity_type": "specification",
+      "domain": "business > project-delivery",
+      "last_verified": "2026-11-15",
+      "content_preview": "# Go/No-Go Decision Matrix — Template  ## TL;DR Decide the rules **before** the cutover weekend, as numbers. A go/no-go matrix has three parts: major risks with thresholds, anticipated cutover issues with pre-agreed responses, and mandatory readiness parameters. During cutover nobody negotiates; the"
+    },
+    {
+      "id": "business/project-delivery/project-handover-checklist-template",
+      "canonical_question": "What should a customer project handover to operations include, and what are sign-off criteria?",
+      "aliases": [
+        "project handover checklist",
+        "handover to operations",
+        "hypercare exit criteria",
+        "customer sign-off criteria",
+        "knowledge transfer",
+        "support model L1 L2 L3",
+        "bàn giao dự án",
+        "checklist bàn giao vận hành",
+        "tiêu chí nghiệm thu",
+        "data destruction after project"
+      ],
+      "entity_type": "specification",
+      "domain": "business > project-delivery",
+      "last_verified": "2026-11-15",
+      "content_preview": "# Project Handover to Operations — Template  ## TL;DR Handover transfers responsibility, not only documents. Cover five areas — **technical tasks, business process ownership, support process, data protection actions, sign-off criteria** — and name the receiving owner for every item.  ## 1. Technical"
+    },
+    {
+      "id": "business/project-delivery/discovery-and-customer-journey-roadmap-template",
+      "canonical_question": "How do you run discovery for an enterprise implementation: requirements, stakeholder analysis, business environment and roadmap?",
+      "aliases": [
+        "discovery phase template",
+        "customer journey roadmap",
+        "stakeholder analysis interest influence",
+        "PESTLE in discovery",
+        "discovery questions",
+        "khảo sát hiện trạng",
+        "phân tích các bên liên quan",
+        "lộ trình chuyển đổi",
+        "stakeholder matrix",
+        "training strategy"
+      ],
+      "entity_type": "how_to",
+      "domain": "business > project-delivery",
+      "last_verified": "2026-11-15",
+      "content_preview": "# Discovery and Customer Journey Roadmap — Template  ## TL;DR Discovery for a multi-entity implementation runs in five tasks: **requirements → stakeholders and partners → business environment → solution mapping → training strategy**. Each produces a table that feeds the solution design.  ## Task 1 —"
+    },
+    {
+      "id": "business/project-delivery/technical-solution-design-template",
+      "canonical_question": "What should a Technical Solution Design document contain for an ERP or enterprise system implementation?",
+      "aliases": [
+        "technical solution design template",
+        "TSD",
+        "solution design document",
+        "solution approach",
+        "fit-to-standard",
+        "quality gate before realize",
+        "mẫu tài liệu thiết kế giải pháp",
+        "thiết kế giải pháp kỹ thuật",
+        "solution blueprint"
+      ],
+      "entity_type": "specification",
+      "domain": "business > project-delivery",
+      "last_verified": "2026-11-15",
+      "content_preview": "# Technical Solution Design (TSD) — Template  ## TL;DR A TSD links each high-level functional requirement to a solution approach, its non-functional targets, the data flow, the assumptions, and the backlog that will deliver it. It is the document signed off at the gate between design (\"explore\") and"
+    },
+    {
+      "id": "software/architecture/requirements/user-stories-to-objects",
+      "canonical_question": "How do you write a user story and derive design objects and further requirements from it?",
+      "aliases": [
+        "user story format",
+        "As a I want so that",
+        "nouns and verbs analysis",
+        "expressing requirements with user stories",
+        "viết user story",
+        "câu chuyện người dùng",
+        "từ user story ra đối tượng",
+        "requirements elicitation"
+      ],
+      "entity_type": "how_to",
+      "domain": "software > architecture > requirements",
+      "last_verified": "2026-11-15",
+      "content_preview": "# User Stories: Format and Deriving Objects  ## TL;DR A user story states one requirement from a user's point of view: **As a `<role>`, I want to `<goal>` so that `<benefit>`.** Read its nouns to find candidate objects and its verbs to find responsibilities and connections; what the sentence leaves "
+    },
+    {
+      "id": "software/architecture/ood/uml-class-sequence-state-diagrams",
+      "canonical_question": "When should you use UML class, sequence and state diagrams, and what does each show?",
+      "aliases": [
+        "UML sequence diagram",
+        "UML state diagram",
+        "UML class diagram",
+        "lifeline activation",
+        "state transition guard",
+        "sơ đồ tuần tự",
+        "sơ đồ trạng thái",
+        "sơ đồ lớp",
+        "model checking"
+      ],
+      "entity_type": "reference",
+      "domain": "software > architecture > uml",
+      "last_verified": "2026-11-15",
+      "content_preview": "# UML Class, Sequence and State Diagrams  ## TL;DR Class diagrams show **structure**, sequence diagrams show **who talks to whom in what order** for one scenario, state diagrams show **how one object behaves over its lifetime**. Pick the diagram by the question you need answered.  | Diagram | Answer"
+    },
+    {
+      "id": "software/architecture/ood/entity-boundary-control-objects",
+      "canonical_question": "What are entity, boundary and control objects in object-oriented design?",
+      "aliases": [
+        "entity boundary control",
+        "ECB pattern",
+        "categories of objects",
+        "boundary object",
+        "control object",
+        "đối tượng thực thể biên điều khiển",
+        "phân loại đối tượng trong thiết kế"
+      ],
+      "entity_type": "book_chapter",
+      "domain": "software > architecture > object-oriented-design",
+      "last_verified": "2026-11-15",
+      "content_preview": "# Entity, Boundary and Control Objects  ## TL;DR When you break a problem into objects you get three kinds. **Entity** objects model things in the problem domain, **boundary** objects talk to the outside (users, other systems), **control** objects coordinate the others. Software made only of entitie"
+    },
+    {
+      "id": "software/architecture/ood/liskov-substitution-and-inheritance-pitfalls",
+      "canonical_question": "When is inheritance appropriate, and what does the Liskov Substitution Principle require?",
+      "aliases": [
+        "Liskov Substitution Principle",
+        "LSP",
+        "inheritance pitfalls",
+        "generalization principles",
+        "subtype substitution",
+        "nguyên lý thay thế Liskov",
+        "khi nào dùng kế thừa",
+        "inheritance vs composition"
+      ],
+      "entity_type": "book_chapter",
+      "domain": "software > architecture > object-oriented-design",
+      "last_verified": "2026-11-15",
+      "content_preview": "# Liskov Substitution and Inheritance Pitfalls  ## TL;DR Use inheritance only when a subclass can stand in for its base class **everywhere** without the caller noticing. If the subclass has to disable, weaken or change the meaning of inherited behaviour, the relation is not a true subtype: use decom"
+    },
+    {
+      "id": "software/architecture/ood/separation-of-concerns-information-hiding-conceptual-integrity",
+      "canonical_question": "What do separation of concerns, information hiding and conceptual integrity mean in software design?",
+      "aliases": [
+        "separation of concerns",
+        "information hiding",
+        "conceptual integrity",
+        "design consistency",
+        "tách biệt mối quan tâm",
+        "che giấu thông tin",
+        "tính nhất quán khái niệm",
+        "access modifiers"
+      ],
+      "entity_type": "book_chapter",
+      "domain": "software > architecture > object-oriented-design",
+      "last_verified": "2026-11-15",
+      "content_preview": "# Separation of Concerns, Information Hiding, Conceptual Integrity  ## TL;DR Three principles that keep a design changeable: put each concern in its own place, expose only what others need, and make the whole system look as if one mind designed it.  ## Separation of concerns A **concern** is anythin"
+    },
+    {
+      "id": "software/architecture/ood/coupling-cohesion-design-complexity",
+      "canonical_question": "How do you evaluate design complexity with coupling and cohesion?",
+      "aliases": [
+        "coupling and cohesion",
+        "loose coupling high cohesion",
+        "degree ease flexibility of coupling",
+        "design complexity",
+        "độ kết dính và độ phụ thuộc",
+        "đánh giá độ phức tạp thiết kế",
+        "module coupling"
+      ],
+      "entity_type": "book_chapter",
+      "domain": "software > architecture > object-oriented-design",
+      "last_verified": "2026-11-15",
+      "content_preview": "# Coupling and Cohesion: Evaluating Design Complexity  ## TL;DR A design is too complex when a person cannot keep the relevant part in their head. Two measures tell you where: **coupling** (how much a module depends on others — want it loose) and **cohesion** (how focused a module is on one purpose "
+    },
+    {
+      "id": "software/architecture/ood/object-oriented-analysis-and-crc-cards",
+      "canonical_question": "How do you go from requirements to a first object-oriented design using CRC cards?",
+      "aliases": [
+        "CRC cards",
+        "Class Responsibility Collaborator",
+        "object-oriented analysis and design",
+        "conceptual design vs technical design",
+        "thẻ CRC",
+        "phân tích hướng đối tượng",
+        "từ yêu cầu ra thiết kế"
+      ],
+      "entity_type": "book_chapter",
+      "domain": "software > architecture > object-oriented-design",
+      "last_verified": "2026-11-15",
+      "content_preview": "# From Requirements to Objects: OO Analysis and CRC Cards  ## TL;DR Design sits between requirements and code. Do it in two passes — **conceptual design** (what components exist, what each is responsible for, how they connect) and **technical design** (how each responsibility is fulfilled). CRC card"
+    },
+    {
+      "id": "software/architecture/ood/four-design-principles-abstraction-encapsulation-decomposition-generalization",
+      "canonical_question": "What are the four core object-oriented design principles and how do they show up in UML class diagrams?",
+      "aliases": [
+        "abstraction encapsulation decomposition generalization",
+        "four OO design principles",
+        "association aggregation composition",
+        "inheritance vs interface",
+        "bốn nguyên lý hướng đối tượng",
+        "trừu tượng đóng gói phân rã tổng quát hoá",
+        "UML class diagram"
+      ],
+      "entity_type": "book_chapter",
+      "domain": "software > architecture > object-oriented-design",
+      "last_verified": "2026-11-15",
+      "content_preview": "# The Four OO Design Principles  ## TL;DR Abstraction decides **what matters**, encapsulation decides **what is hidden**, decomposition decides **how the whole is split**, generalization decides **what is shared**. Each has a direct notation in a UML class diagram.  ## Summary table | Principle | Id"
+    },
+    {
+      "id": "software/architecture/software-architecture/atam-architecture-tradeoff-analysis-method",
+      "canonical_question": "How do you evaluate a software architecture with ATAM (Architecture Trade-off Analysis Method)?",
+      "aliases": [
+        "ATAM",
+        "Architecture Tradeoff Analysis Method",
+        "utility tree",
+        "architecturally significant requirements",
+        "ASR",
+        "sensitivity point",
+        "trade-off point",
+        "risk themes",
+        "đánh giá kiến trúc",
+        "phương pháp ATAM",
+        "cây tiện ích"
+      ],
+      "entity_type": "how_to",
+      "domain": "software > architecture > software-architecture",
+      "last_verified": "2026-11-15",
+      "content_preview": "# Evaluating an Architecture with ATAM  ## TL;DR ATAM (from the Software Engineering Institute, Carnegie Mellon) evaluates an architecture against prioritised quality scenarios. Its outputs are **risks, non-risks, sensitivity points and trade-offs**, grouped into risk themes tied to business drivers"
+    },
+    {
+      "id": "software/architecture/software-architecture/kruchten-4plus1-view-model-and-uml-architecture-diagrams",
+      "canonical_question": "What is Kruchten's 4+1 view model and which UML diagram documents each architectural view?",
+      "aliases": [
+        "4+1 view model",
+        "Kruchten",
+        "logical process development physical view",
+        "component diagram",
+        "package diagram",
+        "deployment diagram",
+        "activity diagram",
+        "mô hình 4+1",
+        "góc nhìn kiến trúc",
+        "sơ đồ thành phần triển khai"
+      ],
+      "entity_type": "book_chapter",
+      "domain": "software > architecture > software-architecture",
+      "last_verified": "2026-11-15",
+      "content_preview": "# Kruchten's 4+1 View Model and UML Architecture Diagrams  ## TL;DR No single diagram describes an architecture, because stakeholders ask different questions. The 4+1 model gives four views — **logical, process, development, physical** — tied together by **scenarios** (the \"+1\"). Pick the UML diagra"
+    },
+    {
+      "id": "software/architecture/software-architecture/architectural-styles-catalog",
+      "canonical_question": "What are the main software architectural styles and when is each appropriate?",
+      "aliases": [
+        "architectural styles",
+        "layered architecture",
+        "n-tier client server",
+        "pipes and filters",
+        "event-based architecture",
+        "repository architecture",
+        "interpreter",
+        "process control feedback loop",
+        "các kiểu kiến trúc phần mềm",
+        "kiến trúc phân lớp",
+        "chọn kiểu kiến trúc"
+      ],
+      "entity_type": "book_chapter",
+      "domain": "software > architecture > software-architecture",
+      "last_verified": "2026-11-15",
+      "content_preview": "# Catalog of Architectural Styles  ## TL;DR An architectural style is a recurring way of organising components and their interactions. Each one buys some qualities and costs others. Real systems combine several; choose per subsystem from the quality requirements, not by fashion.  ## Catalog | Family"
+    },
+    {
+      "id": "software/architecture/software-architecture/conways-law-product-lines-reference-architecture",
+      "canonical_question": "How do Conway's Law, software product lines and reference architectures affect how you organise teams and reuse architecture?",
+      "aliases": [
+        "Conway's Law",
+        "software product line",
+        "product family",
+        "reference architecture",
+        "commonalities and variations",
+        "team structure and architecture",
+        "định luật Conway",
+        "dòng sản phẩm phần mềm",
+        "kiến trúc tham chiếu",
+        "tái sử dụng kiến trúc"
+      ],
+      "entity_type": "book_chapter",
+      "domain": "software > architecture > software-architecture",
+      "last_verified": "2026-11-15",
+      "content_preview": "# Conway's Law, Product Lines and Reference Architecture  ## TL;DR Systems end up shaped like the organisations that build them, so plan the architecture first and form teams around it. When several products share most of their behaviour, treat them as a **product line** built on a **reference archi"
+    },
+    {
+      "id": "software/architecture/software-architecture/quality-attributes-and-quality-attribute-scenarios",
+      "canonical_question": "How do you specify measurable quality attributes (non-functional requirements) with quality attribute scenarios?",
+      "aliases": [
+        "quality attributes",
+        "quality attribute scenario",
+        "non-functional requirements",
+        "NFR",
+        "stimulus response measure",
+        "availability performance security usability",
+        "maintainability testability",
+        "thuộc tính chất lượng",
+        "yêu cầu phi chức năng đo được",
+        "kịch bản thuộc tính chất lượng"
+      ],
+      "entity_type": "book_chapter",
+      "domain": "software > architecture > software-architecture",
+      "last_verified": "2026-11-15",
+      "content_preview": "# Quality Attributes and Quality Attribute Scenarios  ## TL;DR An architecture is not good or bad in itself; it is right or wrong for a set of requirements in a context. Quality attributes are the **measurable** properties used to judge it. Write each one as a scenario with six parts so it can be te"
+    },
+    {
+      "id": "software/architecture/web-application/kien-truc-phan-lop-va-hexagonal-ports-adapters",
+      "canonical_question": "Kiến trúc phân lớp (Layered Architecture) và Hexagonal (Ports & Adapters) tổ chức các tầng, thư mục và chiến lược kiểm thử ra sao?",
+      "aliases": [
+        "kiến trúc phân lớp và hexagonal",
+        "layered architecture vs hexagonal architecture",
+        "ports and adapters trong ứng dụng web",
+        "domain application infrastructure layers",
+        "chiến lược kiểm thử unit test và integration test theo tầng",
+        "cấu trúc thư mục DDD và hexagonal"
+      ],
+      "entity_type": "book_chapter",
+      "domain": "software > architecture > web-application",
+      "last_verified": "2026-11-16",
+      "content_preview": "# Kiến trúc Phân lớp và Hexagonal (Ports & Adapters)  ## TL;DR **Kiến trúc phân lớp hiện đại** chia ứng dụng thành ba tầng **Domain**, **Application** và **Infrastructure** với quy tắc phụ thuộc một chiều từ ngoài vào trong. **Hexagonal Architecture (Ports & Adapters)** bổ sung cho kiến trúc phân lớ"
+    },
+    {
+      "id": "software/architecture/web-application/tach-core-code-va-infrastructure-code",
+      "canonical_question": "Làm thế nào để phân biệt và tách rời core code khỏi infrastructure code trong ứng dụng web?",
+      "aliases": [
+        "tách core code và infrastructure code",
+        "core code vs infrastructure code",
+        "tách biệt nghiệp vụ và hạ tầng",
+        "decoupling core and infrastructure",
+        "dependency inversion trong web app",
+        "nhận diện code trộn lẫn hạ tầng"
+      ],
+      "entity_type": "book_chapter",
+      "domain": "software > architecture > web-application",
+      "last_verified": "2026-11-16",
+      "content_preview": "# Tách biệt Core Code và Infrastructure Code  ## TL;DR **Core code** chứa logic nghiệp vụ thuần túy, chạy hoàn toàn trong bộ nhớ mà không cần hệ thống ngoài hay môi trường đặc thù. **Infrastructure code** đảm nhiệm kết nối với cơ sở dữ liệu, mạng, hệ thống file, đồng hồ hệ thống hoặc framework. Tách"
+    },
+    {
+      "id": "software/architecture/web-application/read-model-va-view-model",
+      "canonical_question": "Vì sao không nên dùng lại Entity của Write Model để hiển thị và cần tách riêng Read Model, View Model?",
+      "aliases": [
+        "read model và view model",
+        "tách write model và read model",
+        "vì sao không dùng entity để hiển thị",
+        "read repository trong web architecture",
+        "CQRS read model",
+        "view model DTO cho UI và API"
+      ],
+      "entity_type": "book_chapter",
+      "domain": "software > architecture > web-application",
+      "last_verified": "2026-11-16",
+      "content_preview": "# Read Model và View Model trong Kiến trúc Web  ## TL;DR Tái sử dụng **Entity** của mô hình ghi (Write Model) cho mục đích đọc và hiển thị khiến đối tượng bị phình to, lộ các phương thức thay đổi trạng thái ra tầng giao diện và làm giảm hiệu năng truy vấn. Giải pháp là tách riêng **Read Model** và *"
+    },
+    {
+      "id": "software/architecture/web-application/domain-model-entity-value-object-repository",
+      "canonical_question": "Domain Model gồm những thành phần nào và Repository kết nối tầng nghiệp vụ với cơ sở dữ liệu ra sao?",
+      "aliases": [
+        "domain model entity value object repository",
+        "phân biệt entity và value object",
+        "repository pattern trong DDD",
+        "in-memory repository cho unit test",
+        "bảo vệ invariant trong entity",
+        "aggregate và repository interface"
+      ],
+      "entity_type": "book_chapter",
+      "domain": "software > architecture > web-application",
+      "last_verified": "2026-11-16",
+      "content_preview": "# Domain Model: Entity, Value Object và Repository Pattern  ## TL;DR **Domain Model** đóng gói dữ liệu và quy tắc nghiệp vụ vào các đối tượng sống trong bộ nhớ như **Entity**, **Value Object** và **Aggregate**, thay thế cho lối viết thủ tục rải rác (Transaction Script). Để lưu trữ và khôi phục các đ"
+    },
+    {
+      "id": "software/architecture/web-application/application-service-command-va-dependency-injection",
+      "canonical_question": "Cách tổ chức Application Service, Command Pattern và Dependency Injection để giữ Controller mỏng là gì?",
+      "aliases": [
+        "application service và command pattern",
+        "giữ controller mỏng thin controller",
+        "command handler trong ứng dụng web",
+        "service locator vs dependency injection",
+        "tách logic use case khỏi controller",
+        "DTO command đầu vào"
+      ],
+      "entity_type": "book_chapter",
+      "domain": "software > architecture > web-application",
+      "last_verified": "2026-11-16",
+      "content_preview": "# Application Service, Command Pattern và Dependency Injection  ## TL;DR Để tránh tình trạng Controller phình to và gắn chặt logic nghiệp vụ vào giao thức HTTP, mỗi trường hợp sử dụng (use case) cần được tách thành một **Application Service** (hoặc **Command Handler**) nhận đầu vào là một **Command "
+    },
+    {
+      "id": "software/ai/claude-skills/mau-thiet-ke-skill-va-xu-ly-su-co",
+      "canonical_question": "Các mẫu thiết kế (design patterns) phổ biến cho Claude Skill là gì và cách xử lý sự cố thường gặp ra sao?",
+      "aliases": [
+        "mẫu thiết kế claude skill",
+        "claude skill design patterns",
+        "xử lý sự cố claude skill",
+        "troubleshooting claude skills",
+        "lỗi invalid frontmatter SKILL.md",
+        "phối hợp nhiều MCP trong skill"
+      ],
+      "entity_type": "book_chapter",
+      "domain": "software > ai > claude-skills",
+      "last_verified": "2026-11-16",
+      "content_preview": "# Các Mẫu Thiết kế Skill và Xử lý Sự cố  ## TL;DR Khi thiết kế skill, bạn có thể xuất phát từ bài toán cần giải quyết (người dùng nêu mục tiêu, skill tự điều phối công cụ) hoặc từ công cụ sẵn có (người dùng đã nối MCP, skill bổ sung quy trình chuẩn). Năm mẫu thiết kế phổ biến dưới đây giúp giải quyế"
+    },
+    {
+      "id": "software/ai/claude-skills/kiem-thu-va-cai-tien-skill",
+      "canonical_question": "Làm thế nào để kiểm thử, tinh chỉnh vòng lặp và phân phối một skill cho Claude?",
+      "aliases": [
+        "kiểm thử và cải tiến skill claude",
+        "test claude skill triggering",
+        "kích hoạt thiếu và kích hoạt thừa skill",
+        "phân phối chia sẻ claude skill",
+        "claude skills API vs claude.ai",
+        "skill-creator claude"
+      ],
+      "entity_type": "book_chapter",
+      "domain": "software > ai > claude-skills",
+      "last_verified": "2026-11-16",
+      "content_preview": "# Kiểm thử, Cải tiến và Phân phối Skill  ## TL;DR Một skill hiệu quả cần được kiểm thử trên ba khía cạnh: kích hoạt đúng lúc, thực thi đúng chức năng và mang lại hiệu quả vượt trội so với khi không có skill. Thay vì kiểm thử dàn trải ngay từ đầu, hãy tinh chỉnh trên một tác vụ khó cho tới khi chạy m"
+    },
+    {
+      "id": "software/ai/claude-skills/len-ke-hoach-va-thiet-ke-skill",
+      "canonical_question": "Làm thế nào để lên kế hoạch, chọn nhóm use case và viết SKILL.md hiệu quả cho Claude?",
+      "aliases": [
+        "lên kế hoạch và thiết kế skill claude",
+        "cách viết SKILL.md frontmatter",
+        "ba nhóm use case claude skill",
+        "viết description cho claude skill",
+        "tiêu chí thành công của skill",
+        "claude skill yaml frontmatter"
+      ],
+      "entity_type": "book_chapter",
+      "domain": "software > ai > claude-skills",
+      "last_verified": "2026-11-16",
+      "content_preview": "# Lên kế hoạch và Thiết kế Skill  ## TL;DR Trước khi viết code hay tạo thư mục, hãy chọn 2–3 tình huống sử dụng (use cases) cụ thể và xác định rõ điều kiện kích hoạt, công cụ cần dùng cùng kết quả đầu ra. Phân loại skill vào một trong ba nhóm (tạo sản phẩm, tự động hóa quy trình, hoặc tăng cường MCP"
+    },
+    {
+      "id": "software/ai/claude-skills/skill-la-gi-cau-truc-va-progressive-disclosure",
+      "canonical_question": "Skill cho Claude là gì, cấu trúc thư mục và cơ chế progressive disclosure hoạt động như thế nào?",
+      "aliases": [
+        "claude skill là gì",
+        "cấu trúc thư mục skill claude",
+        "progressive disclosure claude skill",
+        "SKILL.md structure",
+        "skill vs MCP connector",
+        "claude agent skills architecture"
+      ],
+      "entity_type": "book_chapter",
+      "domain": "software > ai > claude-skills",
+      "last_verified": "2026-11-16",
+      "content_preview": "# Skill là gì: Cấu trúc thư mục và cơ chế Progressive Disclosure  ## TL;DR Skill là một thư mục đóng gói hướng dẫn, tài liệu và script nhằm dạy Claude thực hiện lặp lại một quy trình chuyên môn một cách nhất quán. Nhờ cơ chế nạp theo từng lớp (progressive disclosure), Claude chỉ đọc metadata ở đầu p"
+    },
+    {
+      "id": "software/system-design/vi-interview-guide/nhat-quan-kha-dung-cap-replication-quorum",
+      "canonical_question": "Làm thế nào để cân bằng giữa tính nhất quán và tính khả dụng bằng định lý CAP, Replication và Quorum?",
+      "aliases": [
+        "định lý CAP theorem",
+        "strong consistency vs eventual consistency",
+        "replication failover quorum",
+        "nhất quán và khả dụng trong system design",
+        "hệ thống CP và AP",
+        "tunable consistency W R N"
+      ],
+      "entity_type": "book_chapter",
+      "domain": "software > system-design > vi-interview-guide",
+      "last_verified": "2026-11-16",
+      "content_preview": "# Tính Nhất Quán, Khả Dụng, Định Lý CAP, Replication và Quorum  ## TL;DR Trong hệ thống phân tán, tính nhất quán (Consistency - mọi node thấy cùng dữ liệu tại một thời điểm) và tính khả dụng (Availability - mọi yêu cầu hợp lệ đều được phản hồi) luôn giằng co nhau. Khi xảy ra phân vùng mạng (Partitio"
+    },
+    {
+      "id": "software/system-design/vi-interview-guide/bao-mat-monitoring-observability",
+      "canonical_question": "Cách thiết kế bảo mật nhiều lớp (Authentication, Authorization, API/Data Security) và hệ thống Monitoring, Observability (Logs, Metrics, Traces) như thế nào?",
+      "aliases": [
+        "authentication vs authorization JWT OAuth2 RBAC ABAC",
+        "bảo mật API rate limiting CORS XSS CSRF cookie",
+        "monitoring vs observability",
+        "ba trụ cột observability logs metrics traces",
+        "prometheus grafana elk jaeger opentelemetry",
+        "bảo mật và giám sát trong system design"
+      ],
+      "entity_type": "book_chapter",
+      "domain": "software > system-design > vi-interview-guide",
+      "last_verified": "2026-11-16",
+      "content_preview": "# Bảo Mật Hệ Thống, Phân Quyền, Monitoring và Observability  ## TL;DR Một thiết kế hệ thống hoàn chỉnh không dừng ở việc chạy đúng tính năng mà phải được bảo vệ theo nguyên tắc phòng thủ nhiều lớp (Defense in Depth) từ xác thực, phân quyền đến mã hóa đường truyền/lưu trữ. Song song với bảo mật, việc"
+    },
+    {
+      "id": "software/system-design/vi-interview-guide/chon-database-sharding-index",
+      "canonical_question": "Cách chọn cơ sở dữ liệu SQL/NoSQL, thiết kế Sharding và tối ưu Index cho hệ thống lớn như thế nào?",
+      "aliases": [
+        "chọn SQL hay NoSQL",
+        "sharding vs partitioning",
+        "database indexing B-Tree composite index",
+        "OLTP vs OLAP polyglot persistence",
+        "phân mảnh cơ sở dữ liệu",
+        "thiết kế database trong system design"
+      ],
+      "entity_type": "book_chapter",
+      "domain": "software > system-design > vi-interview-guide",
+      "last_verified": "2026-11-16",
+      "content_preview": "# Lựa Chọn Cơ Sở Dữ Liệu, Sharding và Tối Ưu Chỉ Mục (Index)  ## TL;DR Thiết kế tầng lưu trữ cho hệ thống lớn đòi hỏi chọn đúng loại data store theo cấu trúc dữ liệu và đặc tính truy vấn (SQL, NoSQL hay kết hợp đa cơ sở dữ liệu - polyglot persistence), thay vì dùng một công nghệ cho mọi bài toán. Kh"
+    },
+    {
+      "id": "software/system-design/vi-interview-guide/khung-tiep-can-phong-van-system-design",
+      "canonical_question": "Cách tiếp cận và trình bày trong buổi phỏng vấn System Design như thế nào?",
+      "aliases": [
+        "phỏng vấn system design",
+        "system design interview guide",
+        "khung tiếp cận thiết kế hệ thống",
+        "kinh nghiệm phỏng vấn kiến trúc hệ thống",
+        "các bước trình bày system design",
+        "kỹ năng phỏng vấn system design"
+      ],
+      "entity_type": "book_chapter",
+      "domain": "software > system-design > vi-interview-guide",
+      "last_verified": "2026-11-16",
+      "content_preview": "# Khung Tiếp Cận Phỏng Vấn System Design  ## TL;DR Phỏng vấn System Design đánh giá tư duy kiến trúc, khả năng phân rã bài toán mở và cân bằng các đánh đổi kỹ thuật (trade-offs) thay vì viết code chi tiết. Để vượt qua vòng này trong 45–60 phút, ứng viên cần một quy trình lặp lại được: làm rõ yêu cầu"
+    },
+    {
+      "id": "software/system-design/vi-interview-guide/load-balancer-va-caching",
+      "canonical_question": "Load Balancer (L4 vs L7) và các chiến lược Caching hoạt động ra sao để mở rộng hệ thống?",
+      "aliases": [
+        "load balancer layer 4 vs layer 7",
+        "thuật toán cân bằng tải round robin least connections",
+        "chiến lược cập nhật cache",
+        "cache-aside write-through write-back refresh-ahead",
+        "các tầng đặt bộ nhớ đệm caching",
+        "tối ưu hiệu suất hệ thống với cache và load balancer"
+      ],
+      "entity_type": "book_chapter",
+      "domain": "software > system-design > vi-interview-guide",
+      "last_verified": "2026-11-16",
+      "content_preview": "# Cân Bằng Tải (Load Balancer) và Bộ Nhớ Đệm (Caching)  ## TL;DR Load Balancer và Caching là bộ đôi cốt lõi giúp hệ thống mở rộng ngang và giảm độ trễ phản hồi. Trong khi Load Balancer đứng ở cửa ngõ để phân phối đều lưu lượng giữa các máy chủ và cô lập node hỏng (ở tầng mạng L4 hoặc tầng ứng dụng L"
+    },
+    {
+      "id": "software/system-design/vi-interview-guide/giao-thuc-va-thiet-ke-api",
+      "canonical_question": "Khi nào nên chọn HTTP, TCP, UDP, RPC (gRPC) hay REST trong thiết kế hệ thống và API?",
+      "aliases": [
+        "so sánh TCP và UDP",
+        "REST vs RPC gRPC",
+        "giao thức HTTP stateless",
+        "thiết kế RESTful API trong system design",
+        "các phương thức giao tiếp giữa các service",
+        "khi nào dùng UDP TCP HTTP gRPC"
+      ],
+      "entity_type": "book_chapter",
+      "domain": "software > system-design > vi-interview-guide",
+      "last_verified": "2026-11-16",
+      "content_preview": "# Các Phương Thức Giao Tiếp và Thiết Kế API (HTTP, TCP, UDP, RPC, REST)  ## TL;DR Lựa chọn giao thức truyền thông và phong cách thiết kế API quyết định trực tiếp đến độ trễ, độ tin cậy và khả năng mở rộng của hệ thống phân tán. Ở tầng giao vận, kỹ sư đánh đổi giữa tính toàn vẹn thứ tự của TCP và tốc"
+    },
+    {
+      "id": "software/system-design/vi-interview-guide/chiu-loi-phuc-hoi-va-do-tin-cay",
+      "canonical_question": "Làm thế nào để thiết kế hệ thống chịu lỗi (Resilience), phân biệt HA với Fault Tolerance và đo lường Uptime, SLA, MTBF, MTTR?",
+      "aliases": [
+        "khả năng chịu lỗi fault tolerance vs high availability",
+        "chiến lược phục hồi sự cố hệ thống phân tán",
+        "uptime SLA MTBF MTTR MTTF",
+        "graceful degradation circuit breaker retry backoff",
+        "loại bỏ single point of failure SPOF",
+        "độ tin cậy hệ thống trong system design"
+      ],
+      "entity_type": "book_chapter",
+      "domain": "software > system-design > vi-interview-guide",
+      "last_verified": "2026-11-16",
+      "content_preview": "# Khả Năng Chịu Lỗi, Phục Hồi Sự Cố và Đo Lường Độ Tin Cậy  ## TL;DR Trong hệ thống phân tán quy mô lớn, sự cố phần cứng, mạng và con người là điều tất yếu xảy ra. Thiết kế hướng tới độ bền vững (Resilience) không cố ngăn chặn 100% lỗi, mà tập trung xóa bỏ các điểm lỗi đơn (SPOF), kết hợp dự phòng, "
+    },
+    {
+      "id": "software/system-design/vi-interview-guide/khai-niem-nen-tang-va-thanh-phan-he-thong",
+      "canonical_question": "Các chỉ số nền tảng và thành phần cốt lõi trong thiết kế hệ thống gồm những gì?",
+      "aliases": [
+        "latency throughput scalability availability reliability",
+        "các thành phần trong system design",
+        "kiến trúc cấp cao high level architecture",
+        "web server app server database cache cdn queue",
+        "khái niệm cơ bản thiết kế hệ thống",
+        "vertical scaling vs horizontal scaling"
+      ],
+      "entity_type": "book_chapter",
+      "domain": "software > system-design > vi-interview-guide",
+      "last_verified": "2026-11-16",
+      "content_preview": "# Khái Niệm Nền Tảng và Các Thành Phần Hệ Thống  ## TL;DR Mọi hệ thống phân tán phức tạp đều được đánh giá qua 5 thuộc tính cốt lõi (Latency, Throughput, Scalability, Availability, Reliability) và lắp ghép từ các khối kiến trúc cơ bản. Trước khi đi vào chi tiết kỹ thuật, kỹ sư cần phác thảo kiến trú"
+    },
+    {
+      "id": "software/system-design/vi-interview-guide/message-queue-backpressure-idempotency-locking",
+      "canonical_question": "Khi nào cần dùng Message Queue, Backpressure, Idempotency Key và cơ chế khóa (Pessimistic vs Optimistic Locking)?",
+      "aliases": [
+        "message queue rabbitmq kafka sqs",
+        "cơ chế backpressure trong hàng đợi",
+        "idempotency key tính bất biến API",
+        "pessimistic locking vs optimistic locking",
+        "khóa bi quan và khóa lạc quan",
+        "xử lý bất đồng bộ và chống trùng lặp giao dịch"
+      ],
+      "entity_type": "book_chapter",
+      "domain": "software > system-design > vi-interview-guide",
+      "last_verified": "2026-11-16",
+      "content_preview": "# Message Queue, Backpressure, Idempotency và Cơ Chế Khóa  ## TL;DR Để xử lý tải cao mà không làm treo luồng người dùng hay sai lệch dữ liệu khi chạy song song, hệ thống phân tán tách các tác vụ nặng sang xử lý bất đồng bộ qua Message Queue kèm cơ chế kiểm soát tràn hàng đợi (Backpressure). Đồng thờ"
     }
   ]
 }
