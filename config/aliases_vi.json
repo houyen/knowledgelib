@@ -2877,6 +2877,42 @@
   "cách đánh giá khả năng tiếp cận giao diện",
   "mô hình đo lường năng lực thiết kế UX"
  ],
+ "business/project-delivery/discovery-and-customer-journey-roadmap-template": [
+  "quy trình discovery dự án enterprise",
+  "cách làm discovery phase và customer journey roadmap",
+  "khảo sát hiện trạng dự án ERP bắt đầu từ đâu",
+  "template khảo sát stakeholder và phân tích yêu cầu"
+ ],
+ "business/project-delivery/go-no-go-decision-matrix-template": [
+  "Ma trận tiêu chí quyết định go no-go",
+  "Cần những tiêu chí gì để quyết định go-live hệ thống?",
+  "Khi nào nên dừng cutover và kích hoạt rollback?",
+  "Mẫu go no-go decision matrix đánh giá rủi ro cutover"
+ ],
+ "business/project-delivery/post-implementation-review-template": [
+  "Báo cáo đánh giá sau triển khai PIR",
+  "Báo cáo đánh giá sau go-live gồm những nội dung gì?",
+  "Cách tổng kết sự cố và bài học kinh nghiệm sau go-live",
+  "Mẫu PIR report họp rút kinh nghiệm hypercare"
+ ],
+ "business/project-delivery/project-handover-checklist-template": [
+  "Checklist bàn giao dự án sang vận hành",
+  "Bàn giao dự án cho đội vận hành cần những gì?",
+  "Tiêu chuẩn nghiệm thu khi bàn giao hệ thống cho khách hàng",
+  "Checklist handover dự án và phân cấp support L1 L2 L3"
+ ],
+ "business/project-delivery/technical-solution-design-template": [
+  "mẫu tài liệu technical solution design",
+  "tài liệu TSD cho dự án ERP gồm những gì",
+  "viết solution design document trước khi realize thế nào",
+  "template thiết kế giải pháp kỹ thuật TSD"
+ ],
+ "business/project-delivery/test-plan-matrix-template": [
+  "Ma trận kế hoạch kiểm thử theo tính năng",
+  "Làm sao lập kế hoạch test cho từng tính năng dự án?",
+  "Khi nào cần test UAT thay vì chỉ unit test?",
+  "Mẫu test matrix phân công dev test UAT performance"
+ ],
  "business/retail-transformation/cdp-selection-for-retail/2026": [
   "lựa chọn và triển khai CDP bán lẻ",
   "nên chọn Segment mParticle Salesforce hay Tealium",
@@ -8174,18 +8210,6 @@
   "so sánh Whoop 5.0 và Oura Ring 4",
   "nên chọn Whoop hay Oura đo giấc ngủ"
  ],
- "games/mamathiendao/KHO_DO": [
-  "kho đồ game ma ma thiên đạo",
-  "hệ thống kho đồ KHO_DO hoạt động thế nào",
-  "cách quản lý vật phẩm trong kho đồ",
-  "túi đồ và lưu trữ trang bị nhân vật"
- ],
- "games/mamathiendao/NHAN_VAT": [
-  "hệ thống nhân vật game ma ma thiên đạo",
-  "thông tin thuộc tính NHAN_VAT gồm những gì",
-  "cách nâng cấp chỉ số nhân vật",
-  "hồ sơ nhân vật và kỹ năng trong game"
- ],
  "health/healthcare-domain/glossary-of-health-coverage-and-medical-terms": [
   "từ điển thuật ngữ bảo hiểm sức khỏe chuẩn liên bang",
   "medical necessity và mức khấu trừ deductible là gì",
@@ -10117,6 +10141,84 @@
   "cơ chế tự chú ý self-attention hoạt động thế nào",
   "nền tảng mô hình Transformer trong học sâu"
  ],
+ "software/architecture/ood/coupling-cohesion-design-complexity": [
+  "coupling và cohesion trong thiết kế phần mềm",
+  "đánh giá độ phức tạp hệ thống qua coupling và cohesion",
+  "làm sao để đạt loose coupling và high cohesion",
+  "phân biệt coupling và cohesion trong thiết kế"
+ ],
+ "software/architecture/ood/entity-boundary-control-objects": [
+  "mô hình entity boundary control trong OOD",
+  "ECB pattern phân chia các đối tượng như thế nào",
+  "khi nào dùng boundary object và control object",
+  "phân biệt entity boundary và control trong OOP"
+ ],
+ "software/architecture/ood/four-design-principles-abstraction-encapsulation-decomposition-generalization": [
+  "Bốn nguyên lý hướng đối tượng trong UML",
+  "4 nguyên lý OOP thể hiện thế nào trên class diagram?",
+  "Phân biệt association aggregation và composition trong UML",
+  "Vẽ quan hệ kế thừa và interface trong UML class diagram"
+ ],
+ "software/architecture/ood/liskov-substitution-and-inheritance-pitfalls": [
+  "nguyên lý thay thế Liskov trong OOP",
+  "khi nào nên dùng kế thừa thay vì composition",
+  "làm sao biết code vi phạm Liskov Substitution Principle",
+  "lỗi thường gặp khi dùng inheritance trong OOP"
+ ],
+ "software/architecture/ood/object-oriented-analysis-and-crc-cards": [
+  "Thẻ CRC và phân tích hướng đối tượng",
+  "Cách dùng CRC cards để thiết kế hướng đối tượng từ requirement?",
+  "Khác nhau giữa conceptual design và technical design là gì?",
+  "Chuyển user story sang class dùng thẻ CRC thế nào?"
+ ],
+ "software/architecture/ood/separation-of-concerns-information-hiding-conceptual-integrity": [
+  "nguyên lý separation of concerns và information hiding",
+  "làm sao để đảm bảo information hiding trong thiết kế",
+  "áp dụng separation of concerns khi chia module thế nào",
+  "che giấu thông tin và tách biệt mối quan tâm trong OOD"
+ ],
+ "software/architecture/ood/uml-class-sequence-state-diagrams": [
+  "sơ đồ UML class sequence và state",
+  "khi nào nên vẽ sequence diagram thay vì state diagram",
+  "phân biệt sơ đồ tuần tự và sơ đồ trạng thái",
+  "cách dùng sequence diagram và class diagram trong thiết kế"
+ ],
+ "software/architecture/requirements/user-stories-to-objects": [
+  "chuyển user story sang object design",
+  "cách viết user story chuẩn cấu trúc",
+  "phân tích danh từ động từ trong user story thế nào",
+  "từ user story bóc tách ra class và object"
+ ],
+ "software/architecture/software-architecture/architectural-styles-catalog": [
+  "Các architectural style phổ biến trong kiến trúc phần mềm",
+  "Có những architectural style nào và khi nào nên dùng?",
+  "So sánh layered architecture và client server n-tier",
+  "Ưu nhược điểm của repository architecture và pipes and filters"
+ ],
+ "software/architecture/software-architecture/atam-architecture-tradeoff-analysis-method": [
+  "Đánh giá kiến trúc phần mềm bằng ATAM",
+  "Cách đánh giá kiến trúc phần mềm bằng phương pháp ATAM?",
+  "Khi nào cần dùng utility tree và phân tích trade-off?",
+  "Quy trình 9 bước đánh giá rủi ro kiến trúc với ATAM"
+ ],
+ "software/architecture/software-architecture/conways-law-product-lines-reference-architecture": [
+  "Định luật Conway và software product line",
+  "Định luật Conway ảnh hưởng thế nào đến cơ cấu team dev?",
+  "Khi nào nên áp dụng reference architecture cho product line?",
+  "Tổ chức team theo kiến trúc hệ thống theo Conway's Law"
+ ],
+ "software/architecture/software-architecture/kruchten-4plus1-view-model-and-uml-architecture-diagrams": [
+  "Mô hình 4+1 view và sơ đồ UML kiến trúc",
+  "Mô hình 4+1 view của Kruchten gồm những góc nhìn nào?",
+  "Chọn UML diagram nào cho từng view trong mô hình 4+1?",
+  "Vẽ component diagram và deployment diagram theo mô hình 4+1"
+ ],
+ "software/architecture/software-architecture/quality-attributes-and-quality-attribute-scenarios": [
+  "Quality attribute scenarios cho yêu cầu phi chức năng",
+  "Cách viết quality attribute scenario để đo lường phi chức năng?",
+  "Cấu trúc 6 phần của kịch bản quality attribute gồm gì?",
+  "Viết kịch bản đo availability và performance cho hệ thống"
+ ],
  "software/coding-rules/go-code-rules": [
   "quy tắc code Go chuẩn cho service",
   "cấu hình golangci-lint kiểm tra code Go",
@@ -11563,365 +11665,191 @@
   "cách xây dựng kiểm soát truy cập vai trò",
   "mô hình bảo mật đăng nhập và cấp quyền"
  ],
- "software/system-design/book-60-days/day-01-decoupling-mobile-from-backend-services": [
-  "tách biệt ứng dụng mobile khỏi các backend service",
-  "tại sao nên dùng mô hình Backend for Frontend",
-  "cách giảm phụ thuộc giữa mobile và microservice",
-  "thiết kế tầng API BFF cho app di động"
+ "software/system-design/book-60-days/ai-agent-design": [
+  "kiến trúc AI agent production",
+  "thiết kế hệ thống multi-agent chạy production thế nào",
+  "ReAct loop hay parallel tool calling cho workflow agent",
+  "tối ưu DAG workflow và memory cho AI agent"
  ],
- "software/system-design/book-60-days/day-02-killing-the-n1-query-problem": [
-  "khắc phục triệt để lỗi truy vấn N+1",
-  "lỗi N+1 query trong database là gì",
-  "cách phát hiện và sửa lỗi N+1 query",
-  "tối ưu truy vấn bằng eager loading và dataloader"
+ "software/system-design/book-60-days/api-evolution-and-decoupling": [
+  "tiến hóa API và zero downtime migration",
+  "làm sao migrate database schema không gián đoạn dịch vụ",
+  "nên chọn API Gateway hay BFF cho mobile client",
+  "dùng cursor pagination thay offset cho dataset lớn"
  ],
- "software/system-design/book-60-days/day-03-rate-limiting-without-boundary-bursts": [
-  "rate limiting không bị burst ở ranh giới",
-  "sao fixed window rate limit bị dồn tải",
-  "cách làm rate limiting bằng sliding window",
-  "chống tăng vọt request ở mép thời gian"
+ "software/system-design/book-60-days/caching-strategies": [
+  "chiến lược cache và invalidation",
+  "làm sao tránh cache stampede khi traffic tăng đột biến",
+  "so sánh cache aside và write through cho multi writer",
+  "xử lý thundering herd và stale cache trong Redis"
  ],
- "software/system-design/book-60-days/day-04-preventing-duplicate-payment-charges": [
-  "cơ chế chống trừ tiền trùng lặp khi thanh toán",
-  "làm sao ngăn chặn thanh toán hai lần cho một đơn",
-  "cách dùng idempotency key trong hệ thống thanh toán",
-  "xử lý lỗi gọi lại giao dịch tài chính an toàn"
+ "software/system-design/book-60-days/cqrs-event-sourcing-and-streaming": [
+  "mô hình CQRS và event sourcing",
+  "khi nào nên dùng CQRS thay vì read replica",
+  "chọn SSE hay WebSocket để streaming data cho client",
+  "tách read write model bằng CQRS và event stream"
  ],
- "software/system-design/book-60-days/day-05-choosing-a-database-sharding-strategy": [
-  "chiến lược sharding cơ sở dữ liệu",
-  "nên chọn sharding key cho database như thế nào",
-  "cách chọn chiến lược phân mảnh database",
-  "các phương pháp database sharding phổ biến"
+ "software/system-design/book-60-days/database-performance-and-scaling": [
+  "tối ưu hiệu năng và scaling database",
+  "cách fix lỗi N+1 query triệt để trong ORM",
+  "dùng PgBouncer hay scale connection pool database",
+  "xử lý hot partition và sharding database lớn"
  ],
- "software/system-design/book-60-days/day-06-safe-distributed-locks-for-cron-jobs": [
-  "khóa phân tán an toàn cho cron job",
-  "làm sao cron job không chạy trùng nhau",
-  "cách dùng distributed lock với fencing token",
-  "chống chạy lặp cron job trên nhiều server"
+ "software/system-design/book-60-days/distributed-coordination-and-messaging": [
+  "distributed lock và messaging phân tán",
+  "xử lý distributed lock và thứ tự event thế nào?",
+  "orchestration hay choreography saga khi làm transaction liên service?",
+  "dùng fencing token chống race condition distributed lock"
  ],
- "software/system-design/book-60-days/day-07-event-ordering-in-a-message-queue": [
-  "đảm bảo thứ tự sự kiện trong hàng đợi tin nhắn",
-  "làm sao giữ đúng thứ tự message khi chạy phân tán",
-  "cách dùng partition key để sắp xếp sự kiện trong queue",
-  "xử lý bài toán lệch thứ tự tin nhắn bất đồng bộ"
+ "software/system-design/book-60-days/idempotency-and-payment-correctness": [
+  "idempotency và kiến trúc hệ thống thanh toán",
+  "chống trừ tiền hai lần khi client retry thế nào?",
+  "xử lý webhook payment retry tránh duplicate transaction",
+  "optimistic locking chống overspend số dư ví"
  ],
- "software/system-design/book-60-days/day-08-keeping-cache-and-database-in-sync": [
-  "đồng bộ dữ liệu giữa cache và database",
-  "làm sao tránh dữ liệu cache bị cũ",
-  "cách cập nhật cache khi database thay đổi",
-  "xử lý lệch dữ liệu giữa Redis và DB"
+ "software/system-design/book-60-days/infrastructure-storage-security-and-saas": [
+  "lựa chọn kiến trúc hạ tầng và storage",
+  "chọn S3 EBS hay EFS cho nhiều service dùng chung",
+  "modular monolith hay microservices khi làm hệ thống mới",
+  "tránh over engineering trong system design hạ tầng"
  ],
- "software/system-design/book-60-days/day-09-splitting-read-and-write-data-models": [
-  "tách biệt mô hình dữ liệu đọc và ghi CQRS",
-  "khi nào nên tách riêng luồng đọc và ghi database",
-  "cách áp dụng mẫu thiết kế CQRS trong hệ thống lớn",
-  "tối ưu hiệu năng bằng phân tách model truy vấn và lệnh"
+ "software/system-design/book-60-days/llm-application-design": [
+  "thiết kế kiến trúc ứng dụng LLM production",
+  "làm sao ép LLM trả về đúng JSON schema",
+  "dùng RAG hay fine-tuning khi dữ liệu thay đổi liên tục",
+  "chọn vector DB và xử lý embedding drift production"
  ],
- "software/system-design/book-60-days/day-10-distributed-transactions-across-services": [
-  "giao dịch phân tán xuyên suốt nhiều service",
-  "nên dùng Saga pattern hay 2PC cho microservices",
-  "cách xử lý distributed transaction khi có lỗi",
-  "đảm bảo toàn vẹn dữ liệu giữa các service"
+ "software/system-design/book-60-days/realtime-feeds-geo-and-collaboration": [
+  "kiến trúc news feed và geospatial search",
+  "xử lý fanout feed cho tài khoản triệu follow thế nào?",
+  "push hay pull khi làm feed cho celebrity?",
+  "dùng CRDT giải quyết conflict sync multi writer"
  ],
- "software/system-design/book-60-days/day-11-handling-webhook-retries-idempotently": [
-  "xử lý gửi lại webhook đảm bảo tính bất biến",
-  "làm sao tránh xử lý trùng sự kiện khi webhook retry",
-  "cách thiết kế đầu nhận webhook có tính idempotent",
-  "cơ chế chống lặp dữ liệu khi nhận thông báo webhook"
+ "software/system-design/book-60-days/resilience-and-traffic-control": [
+  "chống quá tải và kiểm soát traffic hệ thống",
+  "làm sao chặn cascading failure khi hệ thống quá tải",
+  "so sánh circuit breaker và bulkhead trong microservices",
+  "chọn token bucket hay fixed window để rate limit"
  ],
- "software/system-design/book-60-days/day-12-indexing-a-high-ingest-table": [
-  "đánh index cho bảng có lượng ghi lớn",
-  "tối ưu index khi insert dữ liệu liên tục",
-  "cách tạo chỉ mục cho bảng high-ingest",
-  "cân bằng tốc độ đọc ghi khi đánh index"
+ "software/system-design/bytebytego-archive-2025/ai-agents-mcp-a2a": [
+  "Kiến trúc AI Agent và giao thức MCP",
+  "Model Context Protocol giúp AI Agent kết nối tool thế nào?",
+  "Khác biệt giữa giao thức MCP và API truyền thống",
+  "So sánh MCP với A2A và framework build agent"
  ],
- "software/system-design/book-60-days/day-13-managing-a-shared-connection-pool": [
-  "quản lý connection pool dùng chung",
-  "cấu hình database connection pool thế nào cho đúng",
-  "cách chống cạn kiệt kết nối trong connection pool",
-  "tối ưu hóa connection pool cơ sở dữ liệu"
+ "software/system-design/bytebytego-archive-2025/api-design-rest-grpc-graphql": [
+  "Nguyên lý thiết kế API chuẩn production",
+  "Cách xử lý idempotency và pagination khi thiết kế API?",
+  "So sánh REST GraphQL và gRPC khi giao tiếp service",
+  "Best practice thiết kế API và cách chọn REST hay gRPC"
  ],
- "software/system-design/book-60-days/day-14-safely-rolling-out-a-risky-change": [
-  "triển khai thay đổi rủi ro cao an toàn",
-  "làm sao release tính năng mới không sập app",
-  "cách dùng canary deploy và feature flag khi rollout",
-  "chiến lược phát hành thay đổi lớn an toàn"
+ "software/system-design/bytebytego-archive-2025/api-security-and-performance": [
+  "Bảo mật và tối ưu hiệu năng REST API",
+  "Làm sao để debug và giảm độ trễ của API?",
+  "Nên dùng API key hay JWT token để bảo vệ API?",
+  "Cách tối ưu throughput và connection pooling REST API"
  ],
- "software/system-design/book-60-days/day-15-fast-has-the-user-seen-this-checks": [
-  "kiểm tra nhanh user đã xem nội dung chưa",
-  "làm sao biết người dùng đã xem bài viết",
-  "cách thiết kế bộ lọc nội dung đã xem",
-  "dùng bloom filter kiểm tra nội dung đã đọc"
+ "software/system-design/bytebytego-archive-2025/architecture-patterns-cqrs-ddd-clean": [
+  "Kiến trúc Clean Architecture và mô hình DDD",
+  "Áp dụng CQRS và Event Sourcing vào hệ thống thế nào",
+  "Nên chọn modular monolith hay microservices cho dự án",
+  "Cách triển khai Clean Architecture với DDD và CQRS"
  ],
- "software/system-design/book-60-days/day-16-taming-a-hot-partition-key": [
-  "xử lý điểm nóng do hot partition key",
-  "làm sao khi một partition bị quá tải",
-  "cách thêm hậu tố để phân tán hot key",
-  "giải quyết nghẽn cổ chai trên một shard"
+ "software/system-design/bytebytego-archive-2025/authentication-sessions-jwt-sso-oauth": [
+  "Xác thực và phân quyền trong hệ thống web",
+  "Hệ thống phân tán quản lý session và token như thế nào?",
+  "Nên dùng Cookie Session hay JWT cho web app?",
+  "So sánh SSO OAuth2 JWT và RBAC ABAC"
  ],
- "software/system-design/book-60-days/day-17-backpressure-on-an-overwhelmed-consumer": [
-  "cơ chế điều tiết tải khi consumer bị quá tải",
-  "backpressure hoạt động thế nào khi bên nhận xử lý chậm",
-  "cách bảo vệ dịch vụ tiêu thụ khỏi ngập lụt dữ liệu",
-  "kiểm soát tốc độ đẩy tin nhắn khi hàng đợi đầy"
+ "software/system-design/bytebytego-archive-2025/cicd-git-deployment-iac": [
+  "Quy trình CI/CD và chiến lược deploy phần mềm",
+  "Xây dựng pipeline CI/CD từ code lên production thế nào",
+  "So sánh chiến lược release blue-green và canary deployment",
+  "Quản lý Git workflow và hạ tầng với GitOps IaC"
  ],
- "software/system-design/book-60-days/day-18-surviving-a-cache-stampede": [
-  "chống sập hệ thống do hiện tượng cache stampede",
-  "cache stampede hay thundering herd là gì",
-  "cách xử lý khi hàng loạt request cache miss",
-  "dùng singleflight làm mới sớm bảo vệ database"
+ "software/system-design/bytebytego-archive-2025/cloud-services-and-data-platforms": [
+  "Hạ tầng cloud và pipeline xử lý dữ liệu",
+  "Kiến trúc data pipeline và data lake hoạt động thế nào?",
+  "Khác nhau giữa Process và Thread trong runtime backend",
+  "Lộ trình build cloud infra và big data pipeline"
  ],
- "software/system-design/book-60-days/day-19-read-your-writes-with-read-replicas": [
-  "đảm bảo read-your-writes khi dùng read replica",
-  "sao vừa lưu xong đọc lại chưa thấy",
-  "cách xử lý trễ đồng bộ primary và replica",
-  "nhất quán đọc dữ liệu vừa ghi vào DB"
+ "software/system-design/bytebytego-archive-2025/company-architectures-case-studies": [
+  "Kiến trúc scale hệ thống của các big tech",
+  "Các công ty lớn chuyển từ Monolith sang Microservices thế nào?",
+  "So sánh Microservices của Netflix và Modular Monolith của Shopify",
+  "Case study đập Monolith chia service thực tế"
  ],
- "software/system-design/book-60-days/day-20-containing-a-failing-downstream-dependency": [
-  "cô lập lỗi từ dịch vụ phụ thuộc",
-  "làm sao một service chết không sập hệ thống",
-  "cách áp dụng circuit breaker và bulkhead pattern",
-  "ngăn lỗi dây chuyền khi downstream gặp sự cố"
+ "software/system-design/bytebytego-archive-2025/concurrency-performance-memory": [
+  "Xử lý đa luồng concurrency và hiệu năng hệ thống",
+  "Concurrency khác gì parallelism trong lập trình",
+  "So sánh Java virtual threads và platform threads",
+  "Đo lường latency throughput và tối ưu QPS hệ thống"
  ],
- "software/system-design/book-60-days/day-21-choosing-a-real-time-streaming-transport": [
-  "chọn giao thức truyền tải real-time streaming",
-  "nên chọn WebSocket hay SSE cho real-time",
-  "cách chọn giao thức streaming thời gian thực",
-  "so sánh WebSocket SSE và long polling"
+ "software/system-design/bytebytego-archive-2025/design-patterns-solid-clean-code-testing": [
+  "nguyên lý SOLID design pattern và clean code",
+  "nguyên lý SOLID trong lập trình là gì?",
+  "so sánh SemVer và CalVer khi release phần mềm",
+  "tóm tắt SOLID design pattern và tháp testing"
  ],
- "software/system-design/book-60-days/day-22-reliable-messaging-across-services": [
-  "gửi message đáng tin cậy giữa các microservice",
-  "làm sao không mất message giữa các service",
-  "cách áp dụng transactional outbox pattern",
-  "giao nhận tin nhắn trong hệ thống phân tán"
+ "software/system-design/bytebytego-archive-2025/docker-kubernetes-virtualization": [
+  "ảo hóa Docker và Kubernetes",
+  "Docker và Kubernetes khác nhau thế nào?",
+  "so sánh máy ảo VM và container Docker",
+  "khác biệt Type 1 Type 2 hypervisor và K8s"
  ],
- "software/system-design/book-60-days/day-23-feed-fanout-for-celebrity-accounts": [
-  "feed fanout cho tài khoản người nổi tiếng",
-  "tài khoản nhiều follower đăng bài gây nghẽn",
-  "cách thiết kế newsfeed cho celebrity account",
-  "kết hợp push và pull trong bài toán fanout"
+ "software/system-design/bytebytego-archive-2025/http-url-dns-browser-request": [
+  "vòng đời request web từ URL đến rendering",
+  "điều gì xảy ra khi gõ URL vào trình duyệt?",
+  "so sánh WebSocket SSE và polling truyền dữ liệu",
+  "quy trình phân giải DNS và render HTML CSS"
  ],
- "software/system-design/book-60-days/day-24-paginating-large-result-sets-efficiently": [
-  "phân trang tập dữ liệu lớn hiệu quả cao",
-  "tại sao phân trang bằng cursor nhanh hơn offset",
-  "cách tối ưu truy vấn phân trang cho bảng triệu dòng",
-  "kỹ thuật keyset pagination giảm tải cơ sở dữ liệu"
+ "software/system-design/bytebytego-archive-2025/kafka-rabbitmq-messaging-streaming": [
+  "Hệ thống message queue và event streaming phân tán",
+  "Khi nào nên dùng Kafka thay vì RabbitMQ?",
+  "So sánh Batch processing và Stream processing trong hệ thống",
+  "Phân biệt message broker và event streaming log"
  ],
- "software/system-design/book-60-days/day-25-queue-backpressure-under-a-traffic-spike": [
-  "xử lý backpressure queue khi tăng tải đột biến",
-  "queue bị nghẽn khi traffic tăng phải làm sao",
-  "cách chống quá tải hàng đợi khi spike traffic",
-  "cơ chế backpressure trong message queue"
+ "software/system-design/bytebytego-archive-2025/llm-fundamentals-transformers": [
+  "Kiến trúc Transformer và mô hình LLM",
+  "Mô hình ngôn ngữ lớn LLM hoạt động như thế nào",
+  "So sánh fine-tuning LoRA và RAG cho LLM",
+  "Cơ chế attention và kiến trúc MoE trong LLM"
  ],
- "software/system-design/book-60-days/day-26-write-path-cache-consistency": [
-  "nhất quán của cache khi ghi dữ liệu",
-  "nên dùng write-through hay write-behind cho cache",
-  "cách giữ cache nhất quán trên luồng ghi",
-  "chiến lược cập nhật cache khi ghi vào database"
+ "software/system-design/bytebytego-archive-2025/networking-protocols-tcp-udp-ip": [
+  "giao thức mạng TCP UDP và thiết bị mạng",
+  "TCP và UDP khác nhau như thế nào?",
+  "phân biệt hub switch router và modem",
+  "so sánh TCP vs UDP và port phổ biến"
  ],
- "software/system-design/book-60-days/day-27-keeping-an-llms-answers-up-to-date": [
-  "cập nhật câu trả lời mới nhất cho LLM",
-  "làm sao LLM trả lời thông tin mới nhất",
-  "cách giữ dữ liệu cho LLM luôn cập nhật",
-  "chống lỗi thời thông tin trong mô hình LLM"
+ "software/system-design/bytebytego-archive-2025/nosql-databases-caching-redis": [
+  "Các loại database và chiến lược caching Redis",
+  "Khi nào nên dùng NoSQL thay vì cơ sở dữ liệu quan hệ?",
+  "So sánh RDBMS Document Key-Value và In-Memory cache",
+  "Xử lý lỗi cache stampede và cấu hình Redis"
  ],
- "software/system-design/book-60-days/day-28-choosing-a-vector-store-for-semantic-search": [
-  "tiêu chí chọn cơ sở dữ liệu vector cho tìm kiếm",
-  "nên chọn vector store nào cho semantic search",
-  "so sánh các hệ quản trị vector database phổ biến",
-  "thiết kế hệ thống tìm kiếm ngữ nghĩa với vector"
+ "software/system-design/bytebytego-archive-2025/rag-retrieval-augmented-generation": [
+  "Kiến trúc RAG và ứng dụng vector database",
+  "Hệ thống RAG tìm kiếm và sinh văn bản thế nào",
+  "Khi nào nên dùng RAG thay vì fine-tuning LLM",
+  "Triển khai Agentic RAG và chunking dữ liệu hiệu quả"
  ],
- "software/system-design/book-60-days/day-29-coordinating-a-multi-agent-workflow": [
-  "điều phối luồng công việc nhiều tác nhân AI",
-  "các agent phối hợp và bàn giao tác vụ thế nào",
-  "cách thiết kế kiến trúc điều phối hệ thống multi-agent",
-  "quản lý trạng thái và giao tiếp giữa nhiều AI agent"
+ "software/system-design/bytebytego-archive-2025/scalability-load-balancing-proxies": [
+  "Thiết kế hệ thống chịu tải và load balancing",
+  "Làm thế nào để giải quyết nghẽn cổ chai hệ thống",
+  "Phân biệt load balancer API gateway và reverse proxy",
+  "Thuật toán consistent hashing và rate limiting trong system design"
  ],
- "software/system-design/book-60-days/day-30-choosing-a-file-storage-backend": [
-  "chọn hệ thống lưu trữ file cho backend",
-  "nên chọn object storage hay block storage",
-  "cách chọn file storage backend phù hợp",
-  "so sánh các giải pháp lưu trữ tệp tin"
+ "software/system-design/bytebytego-archive-2025/sql-relational-databases-indexing": [
+  "Cơ chế đánh index và tối ưu query SQL",
+  "Database xử lý và thực thi câu lệnh SQL như thế nào",
+  "Khi nào nên chuẩn hóa hay phi chuẩn hóa dữ liệu",
+  "Cấu trúc B+ tree và tối ưu hiệu năng database"
  ],
- "software/system-design/book-60-days/day-31-cutting-cross-region-latency": [
-  "giảm độ trễ truy cập xuyên khu vực",
-  "làm sao giảm latency giữa các region",
-  "cách tối ưu tốc độ mạng toàn cầu",
-  "kiến trúc multi-region giảm độ trễ kết nối"
- ],
- "software/system-design/book-60-days/day-32-managing-secrets-and-credentials": [
-  "quản lý secrets và thông tin xác thực",
-  "lưu trữ API key và mật khẩu an toàn",
-  "cách quản lý credentials trong hệ thống phân tán",
-  "bảo mật secret key và biến môi trường"
- ],
- "software/system-design/book-60-days/day-33-reconstructing-state-with-event-sourcing": [
-  "khôi phục trạng thái hệ thống bằng event sourcing",
-  "event sourcing tái tạo lại state như thế nào",
-  "cách dùng snapshot để tăng tốc event sourcing",
-  "lưu lịch sử sự kiện thay cho trạng thái"
- ],
- "software/system-design/book-60-days/day-34-improving-llm-classification-accuracy": [
-  "cải thiện độ chính xác phân loại của LLM",
-  "làm sao để LLM gắn nhãn dữ liệu chuẩn",
-  "cách dùng few-shot prompting và fine-tuning để phân loại",
-  "nâng cao chất lượng bài toán classification bằng AI"
- ],
- "software/system-design/book-60-days/day-35-geospatial-find-nearby-drivers-at-scale": [
-  "tìm tài xế gần nhất ở quy mô lớn",
-  "hệ thống tìm xe quanh đây chạy thế nào",
-  "cách thiết kế geospatial index bằng geohash hoặc H3",
-  "định vị và tìm người ở gần real-time"
- ],
- "software/system-design/book-60-days/day-36-choosing-http3-vs-http2-at-the-edge": [
-  "so sánh giao thức HTTP3 và HTTP2 tại tầng biên",
-  "khi nào nên bật HTTP3 thay cho HTTP2 trên CDN",
-  "cách đánh giá hiệu năng QUIC trên mạng di động yếu",
-  "lựa chọn giao thức truyền tải cho máy chủ edge"
- ],
- "software/system-design/book-60-days/day-37-multi-writer-conflicts-in-collaborative-editing": [
-  "xử lý xung đột khi nhiều người cùng sửa",
-  "hệ thống sửa văn bản chung làm thế nào",
-  "so sánh thuật toán CRDT và Operational Transformation",
-  "giải quyết conflict khi cộng tác thời gian thực"
- ],
- "software/system-design/book-60-days/day-38-fitting-a-large-document-into-an-llm": [
-  "đưa tài liệu dung lượng lớn vào LLM",
-  "xử lý văn bản dài vượt quá context window",
-  "cách chia nhỏ tài liệu lớn cho LLM",
-  "chunking và tóm tắt tài liệu dài cho AI"
- ],
- "software/system-design/book-60-days/day-39-preventing-concurrent-balance-overspend": [
-  "chống chi tiêu vượt số dư khi giao dịch",
-  "tránh số dư bị âm khi rút cùng lúc",
-  "so sánh optimistic và pessimistic locking cho số dư",
-  "xử lý race condition khi trừ tiền ví"
- ],
- "software/system-design/book-60-days/day-40-offloading-heavy-work-off-the-main-thread": [
-  "tách tác vụ nặng khỏi luồng xử lý chính",
-  "làm sao tránh nghẽn main thread khi tính toán nặng",
-  "cách đẩy công việc tốn tài nguyên sang worker ngầm",
-  "thiết kế xử lý bất đồng bộ giữ phản hồi nhanh"
- ],
- "software/system-design/book-60-days/day-41-moving-from-batch-to-real-time-streaming": [
-  "chuyển từ batch sang real-time streaming",
-  "khi nào nên chuyển batch sang streaming",
-  "cách di chuyển hệ thống batch sang streaming",
-  "xử lý thời gian thực thay cho batch"
- ],
- "software/system-design/book-60-days/day-42-designing-memory-for-an-ai-agent": [
-  "thiết kế bộ nhớ cho AI agent",
-  "bộ nhớ của AI agent hoạt động thế nào",
-  "cách xây dựng short-term và long-term memory cho agent",
-  "kiến trúc lưu trữ ngữ cảnh cho AI agent"
- ],
- "software/system-design/book-60-days/day-43-reliable-cdn-cache-invalidation-on-deploy": [
-  "xóa cache CDN đáng tin cậy khi deploy",
-  "làm sao user nhận code mới ngay khi deploy",
-  "cách kết hợp cache busting và CDN invalidation",
-  "quản lý tệp tĩnh trên CDN khi phát hành"
- ],
- "software/system-design/book-60-days/day-44-syncing-offline-edits-without-data-loss": [
-  "đồng bộ chỉnh sửa ngoại tuyến không mất dữ liệu",
-  "xung đột khi đồng bộ offline giải quyết thế nào",
-  "cách dùng CRDT hoặc OT cho ứng dụng offline-first",
-  "thiết kế cơ chế lưu tạm và hợp nhất dữ liệu khi có mạng"
- ],
- "software/system-design/book-60-days/day-45-scaling-full-text-search": [
-  "mở rộng quy mô hệ thống tìm kiếm toàn văn",
-  "khi dữ liệu lớn thì tối ưu full-text search thế nào",
-  "cách phân mảnh chỉ mục đảo ngược để tăng tốc tìm kiếm",
-  "kiến trúc mở rộng công cụ tìm kiếm văn bản lớn"
- ],
- "software/system-design/book-60-days/day-46-enforcing-structured-output-from-an-llm": [
-  "ép LLM trả về kết quả đúng cấu trúc",
-  "làm sao bắt LLM trả về đúng JSON",
-  "cách kiểm soát structured output từ mô hình AI",
-  "ràng buộc JSON schema cho câu trả lời LLM"
- ],
- "software/system-design/book-60-days/day-47-incrementally-strangling-a-monolith": [
-  "tách dần hệ thống monolith bằng strangler fig pattern",
-  "làm sao chuyển từ monolith sang microservices an toàn",
-  "cách chia nhỏ hệ thống nguyên khối từng bước",
-  "di chuyển dần tính năng khỏi hệ thống legacy"
- ],
- "software/system-design/book-60-days/day-48-how-an-agent-chooses-which-tools-to-call": [
-  "cơ chế AI agent chọn công cụ để gọi",
-  "làm sao LLM biết cần gọi tool nào",
-  "cách tối ưu mô tả tool cho function calling",
-  "định tuyến và chọn công cụ trong AI agent"
- ],
- "software/system-design/book-60-days/day-49-controlling-data-warehouse-query-costs": [
-  "kiểm soát chi phí truy vấn data warehouse",
-  "làm sao giảm chi phí query trên data warehouse",
-  "cách tối ưu chi phí query kho dữ liệu",
-  "tiết kiệm tiền query trên BigQuery và Snowflake"
- ],
- "software/system-design/book-60-days/day-50-serving-ml-models-at-high-throughput": [
-  "triển khai mô hình học máy chịu tải thông lượng cao",
-  "làm sao tối ưu tốc độ suy luận ML ở quy mô lớn",
-  "cách thiết kế hạ tầng serving cho mô hình AI",
-  "kỹ thuật gom lô động tăng hiệu năng model serving"
- ],
- "software/system-design/book-60-days/day-51-isolating-noisy-tenants-in-multi-tenant-saas": [
-  "cô lập khách hàng gây nghẽn trong SaaS đa thuê bao",
-  "hiệu ứng hàng xóm ồn ào noisy neighbor xử lý thế nào",
-  "cách giới hạn tài nguyên theo từng tenant trong SaaS",
-  "thiết kế kiến trúc multi-tenant chống chiếm dụng tài nguyên"
- ],
- "software/system-design/book-60-days/day-52-versioning-an-api-without-breaking-clients": [
-  "quản lý phiên bản API không làm lỗi ứng dụng khách",
-  "nên nâng cấp API thế nào để giữ tương thích ngược",
-  "cách thiết kế chiến lược API versioning an toàn",
-  "cập nhật giao diện lập trình không gây gián đoạn client"
- ],
- "software/system-design/book-60-days/day-53-zero-downtime-schema-migrations": [
-  "migration database schema không gây downtime",
-  "làm sao đổi schema database không sập hệ thống",
-  "cách chạy zero-downtime database migration",
-  "cập nhật bảng không làm gián đoạn dịch vụ"
- ],
- "software/system-design/book-60-days/day-54-handling-embedding-drift-in-rag": [
-  "xử lý hiện tượng embedding drift trong RAG",
-  "embedding drift trong hệ thống RAG là gì",
-  "cách cập nhật vector khi đổi mô hình embedding",
-  "khắc phục lệch vector trong tìm kiếm ngữ nghĩa"
- ],
- "software/system-design/book-60-days/day-55-parallel-agents-with-shared-state": [
-  "chạy nhiều AI agent song song dùng chung state",
-  "đồng bộ trạng thái giữa các agent song song",
-  "cách quản lý shared state cho multi-agent",
-  "tránh xung đột khi nhiều agent cùng chạy"
- ],
- "software/system-design/book-60-days/day-56-tracking-long-running-async-jobs": [
-  "theo dõi tiến độ các async job chạy lâu",
-  "làm sao biết job chạy ngầm đã xong chưa",
-  "cách thiết kế API kiểm tra background job",
-  "quản lý tiến trình và kết quả async task"
- ],
- "software/system-design/book-60-days/day-57-consistency-for-payment-confirmation-reads": [
-  "nhất quán khi đọc xác nhận thanh toán",
-  "sao thanh toán xong vẫn hiện chưa trả tiền",
-  "cách xử lý consistency cho trạng thái thanh toán",
-  "đọc dữ liệu chuẩn ngay sau khi thanh toán"
- ],
- "software/system-design/book-60-days/day-58-observability-for-llm-agent-pipelines": [
-  "observability cho pipeline của LLM agent",
-  "giám sát hệ thống LLM agent như thế nào",
-  "cách theo dõi và debug LLM agent pipeline",
-  "tracing và monitoring cho AI agent"
- ],
- "software/system-design/book-60-days/day-59-designing-idempotency-keys-for-payments": [
-  "thiết kế idempotency key cho hệ thống thanh toán",
-  "làm sao chống trừ tiền hai lần khi lỗi",
-  "cách tạo và lưu idempotency key cho API",
-  "đảm bảo idempotent khi retry giao dịch thanh toán"
- ],
- "software/system-design/book-60-days/day-60-architecting-a-saas-platform-from-scratch": [
-  "thiết kế kiến trúc nền tảng SaaS từ đầu",
-  "xây dựng hệ thống multi-tenant SaaS như thế nào",
-  "cách thiết kế kiến trúc nền tảng SaaS",
-  "tách biệt dữ liệu khách hàng trong SaaS"
+ "software/system-design/bytebytego-archive-2025/web-security-https-firewall-injection": [
+  "Bảo mật web HTTPS và phòng chống tấn công",
+  "Quá trình bắt tay TLS trong HTTPS hoạt động ra sao",
+  "Phân biệt firewall mạng với firewall máy chủ host",
+  "Cách phòng chống lỗi bảo mật XSS và SQLi"
  ],
  "software/system-design/cdn-design/2026": [
   "thiết kế mạng phân phối nội dung CDN",
