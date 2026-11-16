@@ -74,7 +74,6 @@ temp/
 .system_generated/
 
 # Excluded folders
-games/
 scripts/
 
 # Local Agent & Token Optimization Configs (Temporary)
