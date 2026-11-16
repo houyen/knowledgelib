@@ -175,13 +175,21 @@ def scan_and_collect_all_markdown_units() -> list:
         'README.md',
         'LICENSE.md',
         'AGENTS.md',
+        'CLAUDE.md',
+        'GEMINI.md',
+        'MEMORY_INDEX.md',
         'PHASE5_PLAN.md',
     }
     repo_dir = _repo_dir()
     for root, dirs, files in os.walk(repo_dir):
+        # Same walk rules as sync_knowledgelib.scan_local_units: the two scanners must agree, otherwise
+        # `--sync-only` and a full sync produce different catalogs (units dropped or tool files cataloged).
+        at_top = os.path.abspath(root) == os.path.abspath(repo_dir)
         dirs[:] = [
             d for d in dirs
-            if not d.startswith('.') and d not in ('games', 'docs', 'src', 'tests', 'scripts', 'templates')
+            if not d.startswith('.') and not (at_top and d in (
+                'harness', 'docs', 'config', 'scripts', 'tests', 'src', 'llmwiki',
+                'node_modules', 'templates', 'dist', 'build', 'skills', 'addons'))
         ]
         for file in files:
             if file.endswith('.md') and file not in ignore_files:

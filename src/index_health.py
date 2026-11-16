@@ -24,6 +24,8 @@ import sys
 DEFAULT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 COLLECTION = "knowledgelib_units"
 NEAR_DUP_THRESHOLD = 0.95
+# multilingual-e5 nén similarity về vùng cao: cùng mức "gần trùng" tương ứng cosine lớn hơn.
+ML_NEAR_DUP_THRESHOLD = 0.975
 
 
 def read_body(unit_id: str, target_dir: str) -> str | None:
@@ -51,7 +53,16 @@ def open_collection(target_dir: str):
     if not os.path.isdir(db_dir):
         return None
     try:
-        return chromadb.PersistentClient(path=db_dir).get_collection(name=COLLECTION)
+        client = chromadb.PersistentClient(path=db_dir)
+        # Kiểm collection mà agent_client thực sự dùng: đa ngữ nếu đã index, không thì legacy.
+        try:
+            from embedding import ML_COLLECTION
+            ml = client.get_collection(name=ML_COLLECTION)
+            if ml.count() > 0:
+                return ml
+        except Exception:
+            pass
+        return client.get_collection(name=COLLECTION)
     except BaseException as e:
         # chromadb Rust binding có thể panic (pyo3 PanicException là BaseException): không để làm sập caller.
         if isinstance(e, (KeyboardInterrupt, SystemExit)):
@@ -135,6 +146,8 @@ def run_checks(target_dir: str, units: list, scope: str = "self-docs", threshold
 
     report["near_dup"] = []
     report["near_dup_scope"] = scope
+    if threshold == NEAR_DUP_THRESHOLD and getattr(coll, "name", "") != COLLECTION:
+        threshold = ML_NEAR_DUP_THRESHOLD
     if coll is not None and vector_ids is not None:
         indexed = set(vector_ids)
         pool = [u["id"] for u in units if u.get("id") in indexed]

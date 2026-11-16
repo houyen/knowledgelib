@@ -79,8 +79,9 @@ def scan_local_units(target_dir: str) -> list:
     local_units = []
     # MEMORY_INDEX.md là artefact sinh tự động từ chính catalog (memory_loader), không phải unit tri thức:
     # đưa vào catalog làm nó tự trỏ vào chính nó và sinh bản trùng khi bị chép sang self-docs/<domain>/.
-    ignore_files = {'SKILL.md', 'AGENT_PROMPT_SNIPPET.md', 'agent.md', 'walkthrough_index.md', 'walkthrough_index_full.md', 'README.md', 'LICENSE.md', 'MEMORY_INDEX.md'}
-    ignore_dirs = {'harness', 'docs', 'config', 'scripts', 'tests', 'src', 'llmwiki', 'node_modules', 'templates', 'dist', 'build'}
+    ignore_files = {'SKILL.md', 'AGENT_PROMPT_SNIPPET.md', 'agent.md', 'walkthrough_index.md', 'walkthrough_index_full.md', 'README.md', 'LICENSE.md', 'MEMORY_INDEX.md',
+                    'AGENTS.md', 'CLAUDE.md', 'GEMINI.md'}
+    ignore_dirs = {'harness', 'docs', 'config', 'scripts', 'tests', 'src', 'llmwiki', 'node_modules', 'templates', 'dist', 'build', 'skills', 'addons'}
     
     for root, dirs, files in os.walk(target_dir):
         # ignore_dirs chỉ áp cho thư mục cấp gốc repo (docs/, src/, tests/...). Áp ở mọi độ sâu làm rơi
@@ -125,10 +126,100 @@ def scan_local_units(target_dir: str) -> list:
     return local_units
 
 
+def _unit_doc_text(unit: dict, target_dir: str) -> tuple:
+    """Văn bản đem embed cho một unit + metadata lưu kèm."""
+    from alias_overlay import load_extra_aliases, merged_aliases
+
+    unit_id = unit.get("id")
+    canonical = unit.get("canonical_question", "")
+    aliases = " | ".join(merged_aliases(unit, load_extra_aliases(target_dir)))
+    domain = unit.get("domain", "")
+
+    local_path = os.path.join(target_dir, f"{unit_id}.md")
+    preview = unit.get("content_preview", "")
+    if os.path.exists(local_path):
+        try:
+            with open(local_path, "r", encoding="utf-8") as f:
+                content = f.read()
+                if content.startswith("---"):
+                    parts = content.split("---", 2)
+                    if len(parts) >= 3:
+                        content = parts[2]
+                preview = content.strip()[:300].replace("\n", " ")
+        except Exception:
+            pass
+
+    doc_text = f"Question: {canonical}\nAliases: {aliases}\nDomain: {domain}\nPreview: {preview}"
+    metadata = {
+        "canonical_question": canonical,
+        "domain": domain,
+        "entity_type": unit.get("entity_type", ""),
+        "last_verified": unit.get("last_verified", ""),
+    }
+    return doc_text, metadata
+
+
+def _existing_ids(collection) -> set:
+    try:
+        data = collection.get(include=[])
+        return set(data.get("ids", [])) if data else set()
+    except Exception:
+        return set()
+
+
+def _reindex_multilingual(client, embedder, rows: list) -> int:
+    """
+    Index vào collection đa ngữ (e5). Chỉ embed lại unit có văn bản thay đổi (so `doc_hash` trong
+    metadata), vì embed toàn kho mất cả phút còn sync chạy sau mỗi phiên làm việc.
+    """
+    import hashlib
+    from embedding import ML_COLLECTION
+
+    collection = client.get_or_create_collection(name=ML_COLLECTION, metadata={"hnsw:space": "cosine"})
+    stored = {}
+    try:
+        data = collection.get(include=["metadatas"])
+        for uid, meta in zip(data.get("ids", []), data.get("metadatas", []) or []):
+            stored[uid] = (meta or {}).get("doc_hash")
+    except Exception:
+        stored = {}
+
+    todo = []
+    for unit_id, doc_text, metadata in rows:
+        doc_hash = hashlib.md5(doc_text.encode("utf-8")).hexdigest()
+        if stored.get(unit_id) != doc_hash:
+            todo.append((unit_id, doc_text, {**metadata, "doc_hash": doc_hash}))
+
+    if todo:
+        print(f"🧠 Embedding {len(todo)} new/changed units ({ML_COLLECTION})...")
+    batch_size = 128
+    for i in range(0, len(todo), batch_size):
+        chunk = todo[i:i + batch_size]
+        collection.upsert(
+            ids=[c[0] for c in chunk],
+            documents=[c[1] for c in chunk],
+            metadatas=[c[2] for c in chunk],
+            embeddings=embedder.embed_passages([c[1] for c in chunk]),
+        )
+
+    stale = list(set(stored) - {r[0] for r in rows})
+    if stale:
+        print(f"🧹 Removing {len(stale)} stale/deleted units from multilingual vector store...")
+        try:
+            collection.delete(ids=stale)
+        except Exception as e:
+            print(f"⚠️ Failed to remove stale IDs: {e}")
+    return collection.count()
+
+
 def reindex_chromadb(catalog_data: dict, target_dir: str):
     """
     Re-index / Upsert units in ChromaDB vector database (.chroma_db)
     to match the updated catalog.json and local markdown files.
+
+    Hai collection:
+      - knowledgelib_units_<model>: embedding đa ngữ (ưu tiên khi nạp được model, xem src/embedding.py).
+      - knowledgelib_units   : embedding mặc định của Chroma, giữ làm fallback khi không có model.
     """
     try:
         import chromadb
@@ -151,62 +242,50 @@ def reindex_chromadb(catalog_data: dict, target_dir: str):
         print("⚠️ Catalog contains no units.")
         return
 
-    existing_ids = set()
-    try:
-        existing_data = collection.get()
-        if existing_data and "ids" in existing_data:
-            existing_ids = set(existing_data["ids"])
-    except Exception:
-        pass
-
-    current_catalog_ids = set()
-    ids_to_upsert = []
-    documents_to_upsert = []
-    metadatas_to_upsert = []
-
+    rows = []
     for unit in units:
-        unit_id = unit.get("id")
-        if not unit_id:
+        if not unit.get("id"):
             continue
+        doc_text, metadata = _unit_doc_text(unit, target_dir)
+        rows.append((unit["id"], doc_text, metadata))
+    current_catalog_ids = {r[0] for r in rows}
 
-        current_catalog_ids.add(unit_id)
-        canonical = unit.get("canonical_question", "")
-        aliases = " | ".join(unit.get("aliases", []))
-        domain = unit.get("domain", "")
-        entity_type = unit.get("entity_type", "")
-        last_verified = unit.get("last_verified", "")
+    # 1. Collection đa ngữ (nếu nạp được model)
+    ml_done = False
+    try:
+        from embedding import load_embedder
+        embedder = load_embedder()
+        if embedder is not None:
+            total = _reindex_multilingual(client, embedder, rows)
+            print(f"✅ Multilingual vector index synchronized! Total entries: {total}")
+            ml_done = True
+    except (KeyboardInterrupt, SystemExit):
+        raise
+    except BaseException as e:
+        print(f"⚠️ Multilingual index skipped ({e}). Legacy index still updated.")
 
-        local_path = os.path.join(target_dir, f"{unit_id}.md")
-        preview = unit.get("content_preview", "")
-        if os.path.exists(local_path):
-            try:
-                with open(local_path, "r", encoding="utf-8") as f:
-                    content = f.read()
-                    if content.startswith("---"):
-                        parts = content.split("---", 2)
-                        if len(parts) >= 3:
-                            content = parts[2]
-                    preview = content.strip()[:300].replace("\n", " ")
-            except Exception:
-                pass
-
-        doc_text = f"Question: {canonical}\nAliases: {aliases}\nDomain: {domain}\nPreview: {preview}"
-
-        ids_to_upsert.append(unit_id)
-        documents_to_upsert.append(doc_text)
-        metadatas_to_upsert.append({
-            "canonical_question": canonical,
-            "domain": domain,
-            "entity_type": entity_type,
-            "last_verified": last_verified
-        })
-
+    # 2. Collection legacy (fallback) — cũng chỉ embed lại unit có văn bản thay đổi.
+    import hashlib
+    legacy_hash = {}
+    try:
+        data = collection.get(include=["metadatas"])
+        for uid, meta in zip(data.get("ids", []), data.get("metadatas", []) or []):
+            legacy_hash[uid] = (meta or {}).get("doc_hash")
+    except Exception:
+        legacy_hash = {}
+    existing_ids = set(legacy_hash) or _existing_ids(collection)
+    todo = []
+    for unit_id, doc_text, metadata in rows:
+        doc_hash = hashlib.md5(doc_text.encode("utf-8")).hexdigest()
+        if legacy_hash.get(unit_id) != doc_hash:
+            todo.append((unit_id, doc_text, {**metadata, "doc_hash": doc_hash}))
     batch_size = 250
-    for i in range(0, len(ids_to_upsert), batch_size):
+    for i in range(0, len(todo), batch_size):
+        chunk = todo[i:i + batch_size]
         collection.upsert(
-            ids=ids_to_upsert[i:i+batch_size],
-            documents=documents_to_upsert[i:i+batch_size],
-            metadatas=metadatas_to_upsert[i:i+batch_size]
+            ids=[c[0] for c in chunk],
+            documents=[c[1] for c in chunk],
+            metadatas=[c[2] for c in chunk],
         )
 
     stale_ids = list(existing_ids - current_catalog_ids)
@@ -217,7 +296,8 @@ def reindex_chromadb(catalog_data: dict, target_dir: str):
         except Exception as e:
             print(f"⚠️ Failed to remove stale IDs: {e}")
 
-    print(f"✅ ChromaDB vector index synchronized! Total entries: {collection.count()}")
+    print(f"✅ ChromaDB vector index synchronized! Total entries: {collection.count()}"
+          + ("" if ml_done else " (legacy embedder only)"))
 
 
 def main():

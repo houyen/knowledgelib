@@ -1,0 +1,122 @@
+[
+  {
+    "q": "cách viết user story và acceptance criteria",
+    "gold": [
+      "software/architecture/requirements/user-stories-to-objects"
+    ]
+  },
+  {
+    "q": "tiêu chí go-live go no-go",
+    "gold": [
+      "business/project-delivery/go-no-go-decision-matrix-template"
+    ]
+  },
+  {
+    "q": "đánh giá kiến trúc ATAM utility tree",
+    "gold": [
+      "software/architecture/software-architecture/atam-architecture-tradeoff-analysis-method"
+    ]
+  },
+  {
+    "q": "coupling cohesion là gì",
+    "gold": [
+      "software/architecture/ood/coupling-cohesion-design-complexity"
+    ]
+  },
+  {
+    "q": "mẫu tài liệu thiết kế giải pháp",
+    "gold": [
+      "business/project-delivery/technical-solution-design-template"
+    ]
+  },
+  {
+    "q": "bàn giao dự án cho vận hành",
+    "gold": [
+      "business/project-delivery/project-handover-checklist-template"
+    ]
+  },
+  {
+    "q": "các kiểu kiến trúc phần mềm phân lớp, hướng sự kiện",
+    "gold": [
+      "software/architecture/software-architecture/architectural-styles-catalog"
+    ]
+  },
+  {
+    "q": "yêu cầu phi chức năng đo được viết thế nào",
+    "gold": [
+      "software/architecture/software-architecture/quality-attributes-and-quality-attribute-scenarios"
+    ]
+  },
+  {
+    "q": "khi nào nên dùng kế thừa",
+    "gold": [
+      "software/architecture/ood/liskov-substitution-and-inheritance-pitfalls"
+    ]
+  },
+  {
+    "q": "kế hoạch kiểm thử UAT regression",
+    "gold": [
+      "business/project-delivery/test-plan-matrix-template"
+    ]
+  },
+  {
+    "q": "làm sao biết một module đang ôm quá nhiều việc",
+    "gold": [
+      "software/architecture/ood/coupling-cohesion-design-complexity"
+    ]
+  },
+  {
+    "q": "lớp con ghi đè hàm rồi ném lỗi không hỗ trợ thì sai ở đâu",
+    "gold": [
+      "software/architecture/ood/liskov-substitution-and-inheritance-pitfalls"
+    ]
+  },
+  {
+    "q": "rút kinh nghiệm sau khi hệ thống chạy thật một tháng",
+    "gold": [
+      "business/project-delivery/post-implementation-review-template"
+    ]
+  },
+  {
+    "q": "tổ chức nhóm phát triển ảnh hưởng tới cấu trúc hệ thống thế nào",
+    "gold": [
+      "software/architecture/software-architecture/conways-law-product-lines-reference-architecture"
+    ]
+  },
+  {
+    "q": "vẽ sơ đồ nào để thể hiện trạng thái duyệt đơn",
+    "gold": [
+      "software/architecture/ood/uml-class-sequence-state-diagrams"
+    ]
+  },
+  {
+    "q": "how do data contracts prevent schema drift",
+    "gold": [
+      "computing/data-engineering/patterns/data-contracts-schema-evolution-and-nosql"
+    ]
+  },
+  {
+    "q": "splitting read and write data models",
+    "gold": [
+      "software/system-design/book-60-days/day-09-splitting-read-and-write-data-models"
+    ]
+  },
+  {
+    "q": "bình sữa chống đầy hơi cho bé loại nào tốt",
+    "gold": [
+      "baby/feeding/anti-colic-baby-bottles/2026"
+    ]
+  },
+  {
+    "q": "OKR là gì và đặt mục tiêu thế nào",
+    "gold": [
+      "business/frameworks/okr-framework/2026"
+    ]
+  },
+  {
+    "q": "phân tích PESTLE",
+    "gold": [
+      "business/frameworks/pestle-analysis/2026"
+    ]
+  }
+]

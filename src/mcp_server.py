@@ -18,11 +18,30 @@ from query_miss_log import log_miss
 
 mcp = MCPServer("knowledgelib")
 
+_CLIENT_CACHE = {"key": None, "client": None}
+
+
+def _client() -> KnowledgeLibClient:
+    """Reuse one client (catalog, BM25 index, embedding model) until catalog.json changes on disk."""
+    path = os.path.join(
+        os.environ.get("KNOWLEDGELIB_PATH", os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))),
+        "catalog.json",
+    )
+    try:
+        mtime = os.path.getmtime(path)
+    except OSError:
+        mtime = None
+    key = (KnowledgeLibClient, path, mtime)
+    if _CLIENT_CACHE["key"] != key:
+        _CLIENT_CACHE["client"] = KnowledgeLibClient()
+        _CLIENT_CACHE["key"] = key
+    return _CLIENT_CACHE["client"]
+
 
 @mcp.tool()
 def knowledgelib_search(query: str, top_k: int = 3) -> list[dict]:
     """Search KnowledgeLib (hybrid vector + keyword). Returns up to top_k matches with score/distance so the agent can pick among candidates, not just the top-1."""
-    client = KnowledgeLibClient()
+    client = _client()
     results = client.search(query, top_k=top_k)
     if not results:
         log_miss(query, source="mcp_search")
@@ -32,7 +51,7 @@ def knowledgelib_search(query: str, top_k: int = 3) -> list[dict]:
 @mcp.tool()
 def knowledgelib_get_content(unit_id: str) -> str:
     """Read the full Markdown content of a KnowledgeLib unit by its id."""
-    client = KnowledgeLibClient()
+    client = _client()
     return client.get_unit_content(unit_id)
 
 

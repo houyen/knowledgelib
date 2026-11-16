@@ -7,11 +7,15 @@ Dùng cho Agent chạy trên các repository khác trên cùng máy local để 
 import os
 import sys
 import json
+import math
 import re
+from collections import Counter, defaultdict
 
 sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
 
 from query_miss_log import log_miss
+from embedding import LEGACY_COLLECTION, ML_COLLECTION, load_embedder
+from alias_overlay import load_extra_aliases, merged_aliases
 
 try:
     import chromadb
@@ -38,14 +42,36 @@ KNOWLEDGE_ROUTER_KEYWORDS = {
 }
 
 # Ngưỡng vector distance (cosine) để coi câu hỏi "trong scope" khi không match whitelist.
-# Calibrated: câu hỏi liên quan tri thức trong kho -> distance ~0.25-0.55; câu hỏi ngoài scope -> ~0.7-0.85.
+# Mỗi model có thang distance riêng nên ngưỡng đi theo collection đang dùng:
+#  - legacy (all-MiniLM-L6-v2): trong scope ~0.25-0.55, ngoài scope ~0.7-0.85.
+#  - multilingual-e5-base: similarity dồn về vùng cao. Đo 5 câu mỗi loại: trong scope 0.107-0.194,
+#    ngoài scope 0.155-0.222. Tách được phần lớn nhưng còn chồng lấn, nên ngưỡng đặt chặt (ưu tiên
+#    không cho câu ngoài scope lọt qua); câu hợp lệ bị rớt vẫn còn whitelist từ khoá.
 VECTOR_SCOPE_DISTANCE_THRESHOLD = 0.6
+ML_VECTOR_SCOPE_DISTANCE_THRESHOLD = 0.14
 
-# Reciprocal Rank Fusion constant cho hybrid search (giá trị chuẩn theo paper RRF, ít nhạy với k).
+# Hybrid fusion: điểm = ALPHA * vector_norm + (1 - ALPHA) * bm25_norm (min-max trong pool ứng viên).
+# Đo trên golden set: fusion theo điểm tốt hơn RRF theo hạng, vì RRF đẩy unit chỉ xuất hiện ở một
+# nguồn xuống dù nguồn đó rất chắc chắn.
+FUSION_ALPHA = 0.4
+FUSION_POOL = 50
+
+# Giữ lại để tương thích (templates/web UI đọc khoá rrf_score).
 RRF_K = 60
 
-# Hệ số ưu tiên (Tiered Boost) cho tài liệu nội bộ / quy chuẩn dự án (self-docs).
-SELF_DOCS_BOOST = 1.4
+# Hệ số ưu tiên cho tài liệu nội bộ (self-docs). Chỉ ở mức phân định khi hai unit ngang điểm:
+# hệ số lớn (1.4 trước đây) làm self-docs lấn át câu hỏi kiến thức chung.
+SELF_DOCS_BOOST = 1.03
+
+# BM25
+BM25_K1 = 1.2
+BM25_B = 0.75
+
+
+def _tokens(text: str) -> list:
+    """Unigram + bigram. Bigram giữ được từ ghép tiếng Việt ("thiết kế", "bàn giao")."""
+    words = re.findall(r"\w+", (text or "").lower())
+    return words + [a + "_" + b for a, b in zip(words, words[1:])]
 
 
 class KnowledgeLibClient:
@@ -55,13 +81,16 @@ class KnowledgeLibClient:
         self.db_dir = os.path.join(self.data_path, ".chroma_db")
         self.catalog = self._load_catalog()
         
+        self._bm25 = None
+
         # Cấu hình ChromaDB Vector Search Persistent
         self.chroma_client = None
         self.collection = None
+        self.embedder = None  # None -> collection legacy tự embed bằng model mặc định của Chroma
         if CHROMADB_AVAILABLE and os.path.exists(self.db_dir):
             try:
                 self.chroma_client = chromadb.PersistentClient(path=self.db_dir)
-                self.collection = self.chroma_client.get_collection(name="knowledgelib_units")
+                self.collection = self._open_best_collection()
             except BaseException as e:
                 # Rust binding của chromadb có thể panic (pyo3 PanicException kế thừa BaseException,
                 # `except Exception` không bắt được) -> vẫn phải rơi về keyword search thay vì sập process.
@@ -69,7 +98,21 @@ class KnowledgeLibClient:
                     raise
                 self.chroma_client = None
                 self.collection = None
+                self.embedder = None
                 print(f"Warning: ChromaDB initialization error ({e}). Falling back to catalog keyword search.")
+
+    def _open_best_collection(self):
+        """Ưu tiên collection đa ngữ (e5) nếu đã index và nạp được model; không thì dùng legacy."""
+        try:
+            ml = self.chroma_client.get_collection(name=ML_COLLECTION)
+        except Exception:
+            ml = None
+        if ml is not None and ml.count() > 0:
+            embedder = load_embedder()
+            if embedder is not None:
+                self.embedder = embedder
+                return ml
+        return self.chroma_client.get_collection(name=LEGACY_COLLECTION)
 
     def _load_catalog(self) -> dict:
         if not os.path.exists(self.catalog_path):
@@ -88,7 +131,8 @@ class KnowledgeLibClient:
             return True
 
         vec_results = self.vector_search(query, top_k=1)
-        if vec_results and vec_results[0]["distance"] < VECTOR_SCOPE_DISTANCE_THRESHOLD:
+        threshold = ML_VECTOR_SCOPE_DISTANCE_THRESHOLD if self.embedder else VECTOR_SCOPE_DISTANCE_THRESHOLD
+        if vec_results and vec_results[0]["distance"] < threshold:
             return True
 
         return False
@@ -98,10 +142,16 @@ class KnowledgeLibClient:
         if not self.collection:
             return []
         try:
-            results = self.collection.query(
-                query_texts=[query],
-                n_results=top_k
-            )
+            if self.embedder is not None:
+                results = self.collection.query(
+                    query_embeddings=self.embedder.embed_queries([query]),
+                    n_results=top_k
+                )
+            else:
+                results = self.collection.query(
+                    query_texts=[query],
+                    n_results=top_k
+                )
             matched_units = []
             if results and results.get("ids") and len(results["ids"]) > 0:
                 ids = results["ids"][0]
@@ -126,64 +176,100 @@ class KnowledgeLibClient:
             print(f"Vector search failed: {e}")
             return []
 
+    def _build_bm25(self) -> dict:
+        """Chỉ mục BM25 trong bộ nhớ trên câu hỏi (x3), alias (x2), domain và content_preview."""
+        units = [u for u in self.catalog.get("units", []) if u.get("id")]
+        extra = load_extra_aliases(self.data_path)  # alias tiếng Việt cho unit tiếng Anh (config/aliases_vi.json)
+        docs = []
+        for unit in units:
+            toks = _tokens(unit.get("canonical_question", "")) * 3
+            for alias in merged_aliases(unit, extra):
+                toks += _tokens(str(alias)) * 2
+            toks += _tokens(re.sub(r"[>_\-/]", " ", unit.get("domain", "") or ""))
+            toks += _tokens(unit.get("content_preview", ""))
+            docs.append(Counter(toks))
+        n = len(docs)
+        lengths = [sum(d.values()) for d in docs]
+        avg_len = (sum(lengths) / n) if n else 0.0
+        df = Counter()
+        postings = defaultdict(list)
+        for idx, doc in enumerate(docs):
+            df.update(doc.keys())
+            for tok, freq in doc.items():
+                postings[tok].append((idx, freq))
+        # IDF theo ngôn ngữ: kho chủ yếu tiếng Anh nên từ tiếng Việt rất phổ biến ("phân tích", "cho")
+        # vẫn hiếm trên toàn kho và được IDF cao, lấn át từ khoá thật (vd "PESTLE"). Token có dấu
+        # được tính IDF trên tập unit có chứa token có dấu, không phải trên toàn kho.
+        n_accented = sum(1 for doc in docs if any(not tok.isascii() for tok in doc)) or n
+        idf = {}
+        for tok, cnt in df.items():
+            total = n if tok.isascii() else max(n_accented, cnt)
+            idf[tok] = math.log(1 + (total - cnt + 0.5) / (cnt + 0.5))
+        return {"units": units, "lengths": lengths, "avg_len": avg_len, "postings": postings, "idf": idf}
+
     def keyword_search(self, query: str, top_k: int = 3) -> list:
-        """Tìm kiếm khớp từ khóa (Keyword/Alias Search)."""
-        query_words = set(re.findall(r'\w+', query.lower()))
+        """Tìm kiếm từ khoá bằng BM25 (khớp nguyên token, có IDF) thay cho so khớp chuỗi con."""
+        if self._bm25 is None:
+            self._bm25 = self._build_bm25()
+        index = self._bm25
+        scores = defaultdict(float)
+        for tok in set(_tokens(query)):
+            if len(tok) < 2:
+                continue
+            idf = index["idf"].get(tok)
+            if idf is None:
+                continue
+            for idx, freq in index["postings"][tok]:
+                norm = freq + BM25_K1 * (1 - BM25_B + BM25_B * index["lengths"][idx] / (index["avg_len"] or 1.0))
+                scores[idx] += idf * freq * (BM25_K1 + 1) / norm
+
+        ranked = sorted(scores, key=lambda i: scores[i], reverse=True)[:top_k]
         results = []
-
-        for unit in self.catalog.get("units", []):
-            score = 0
-            canonical = unit.get("canonical_question", "").lower()
-            aliases = [a.lower() for a in unit.get("aliases", [])]
-            domain = unit.get("domain", "").lower()
-            
-            for word in query_words:
-                if len(word) < 2:
-                    continue
-                if word in canonical:
-                    score += 3
-                for alias in aliases:
-                    if word in alias:
-                        score += 2
-                if word in domain:
-                    score += 1
-
-            if score > 0:
-                unit_copy = dict(unit)
-                unit_copy["search_type"] = "keyword"
-                unit_copy["score"] = score
-                results.append((score, unit_copy))
-
-        results.sort(key=lambda x: x[0], reverse=True)
-        return [unit for score, unit in results[:top_k]]
+        for idx in ranked:
+            unit_copy = dict(index["units"][idx])
+            unit_copy["search_type"] = "keyword"
+            unit_copy["score"] = round(scores[idx], 4)
+            results.append(unit_copy)
+        return results
 
     def search(self, query: str, top_k: int = 3) -> list:
         """
-        Hybrid Search thật: chạy song song Vector + Keyword search, kết hợp điểm
-        bằng Reciprocal Rank Fusion (RRF) thay vì chỉ OR (vector trước, rỗng mới fallback).
-        RRF không cần chuẩn hoá thang điểm giữa 2 nguồn khác nhau (distance vs keyword score).
+        Hybrid Search: Vector (ngữ nghĩa, đa ngữ) + BM25 (từ khoá), trộn theo ĐIỂM đã chuẩn hoá
+        min-max trong pool ứng viên: fused = ALPHA * vector + (1 - ALPHA) * bm25.
+        Chỉ có một nguồn (vd chưa có vector index) thì dùng điểm của nguồn đó.
         """
-        pool_size = max(top_k * 3, 10)
+        pool_size = max(top_k * 5, FUSION_POOL)
         vec_results = self.vector_search(query, top_k=pool_size)
         kw_results = self.keyword_search(query, top_k=pool_size)
 
-        rrf_scores = {}
-        merged = {}
+        def _normalize(pairs):
+            if not pairs:
+                return {}
+            values = [v for _, v in pairs]
+            hi, lo = max(values), min(values)
+            span = hi - lo
+            return {uid: ((v - lo) / span if span else 1.0) for uid, v in pairs}
 
-        for rank, r in enumerate(vec_results):
-            unit_id = r["id"]
-            rrf_scores[unit_id] = rrf_scores.get(unit_id, 0.0) + 1.0 / (RRF_K + rank + 1)
-            d = merged.setdefault(unit_id, {"id": unit_id, "sources": set()})
+        vec_norm = _normalize([(r["id"], 1.0 - (r.get("distance") or 0.0)) for r in vec_results])
+        # BM25 chuẩn hoá theo điểm cao nhất (giữ tỉ lệ, pool nhỏ không bị kéo về 0);
+        # vector phải min-max vì cosine của e5 dồn trong một dải hẹp.
+        kw_top = max((r.get("score") or 0.0 for r in kw_results), default=0.0)
+        kw_norm = {r["id"]: ((r.get("score") or 0.0) / kw_top if kw_top else 0.0) for r in kw_results}
+        if vec_norm and kw_norm:
+            w_vec, w_kw = FUSION_ALPHA, 1.0 - FUSION_ALPHA
+        else:
+            w_vec, w_kw = (1.0, 0.0) if vec_norm else (0.0, 1.0)
+
+        merged = {}
+        for r in vec_results:
+            d = merged.setdefault(r["id"], {"id": r["id"], "sources": set()})
             d["canonical_question"] = r.get("canonical_question", "")
             d["domain"] = r.get("domain", "")
             d["entity_type"] = r.get("entity_type", "")
             d["distance"] = r.get("distance")
             d["sources"].add("vector")
-
-        for rank, r in enumerate(kw_results):
-            unit_id = r["id"]
-            rrf_scores[unit_id] = rrf_scores.get(unit_id, 0.0) + 1.0 / (RRF_K + rank + 1)
-            d = merged.setdefault(unit_id, {"id": unit_id, "sources": set()})
+        for r in kw_results:
+            d = merged.setdefault(r["id"], {"id": r["id"], "sources": set()})
             d["canonical_question"] = r.get("canonical_question", d.get("canonical_question", ""))
             d["domain"] = r.get("domain", d.get("domain", ""))
             d["entity_type"] = r.get("entity_type", d.get("entity_type", ""))
@@ -191,21 +277,23 @@ class KnowledgeLibClient:
             d["score"] = r.get("score")
             d["sources"].add("keyword")
 
-        # Tiered Retrieval Boost: Ưu tiên tài liệu nội bộ / quy chuẩn dự án (self-docs)
-        for unit_id in rrf_scores:
-            domain = merged[unit_id].get("domain", "")
-            if domain and domain.startswith("self-docs"):
-                rrf_scores[unit_id] *= SELF_DOCS_BOOST
+        fused = {}
+        for unit_id, d in merged.items():
+            value = w_vec * vec_norm.get(unit_id, 0.0) + w_kw * kw_norm.get(unit_id, 0.0)
+            # Tiered Retrieval Boost: ưu tiên nhẹ tài liệu nội bộ (self-docs) khi ngang điểm.
+            if (d.get("domain") or "").startswith("self-docs"):
+                value *= SELF_DOCS_BOOST
+            fused[unit_id] = value
 
-        ranked_ids = sorted(rrf_scores, key=lambda uid: rrf_scores[uid], reverse=True)[:top_k]
-
+        ranked_ids = sorted(fused, key=lambda uid: fused[uid], reverse=True)[:top_k]
 
         results = []
         for unit_id in ranked_ids:
             d = merged[unit_id]
             sources = d.pop("sources")
             d["search_type"] = "hybrid" if len(sources) > 1 else next(iter(sources))
-            d["rrf_score"] = rrf_scores[unit_id]
+            d["fused_score"] = fused[unit_id]
+            d["rrf_score"] = fused[unit_id]  # tên cũ, giữ cho web UI / client hiện có
             d.setdefault("distance", None)
             d.setdefault("score", None)
             d.setdefault("aliases", [])

@@ -128,7 +128,7 @@ def test_tiered_retrieval_boost_prioritizes_self_docs(tmp_path):
             },
             {
                 "id": "self-docs/api/internal-auth",
-                "canonical_question": "Authentication guide for internal services",
+                "canonical_question": "Authentication guide for services",
                 "aliases": ["auth", "login"],
                 "domain": "self-docs > api > auth",
                 "entity_type": "runbook",
@@ -144,7 +144,8 @@ def test_tiered_retrieval_boost_prioritizes_self_docs(tmp_path):
     c = KnowledgeLibClient(data_path=str(tmp_path))
     results = c.search("auth", top_k=2)
     assert len(results) == 2
-    # Self-docs unit receives 1.4x boost and ranks first despite similar keyword match
+    # Equal keyword match: the self-docs boost is a tie-breaker that puts the internal unit first.
+    # (It is deliberately small; a large boost made self-docs crowd out general-knowledge queries.)
     assert results[0]["id"] == "self-docs/api/internal-auth"
     assert results[0]["rrf_score"] > results[1]["rrf_score"]
 
