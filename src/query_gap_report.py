@@ -18,27 +18,25 @@ DEFAULT_LOG_PATH = os.path.join(DEFAULT_REPO_ROOT, "query_misses.jsonl")
 
 
 def load_misses(log_path: str) -> list[dict]:
-    """Đọc query_misses.jsonl, trả list dict. File không tồn tại -> trả []. Dòng lỗi JSON -> bỏ qua dòng đó, không crash."""
-    if not os.path.exists(log_path):
-        return []
-
+    """Đọc query_misses.jsonl và bản đã rotate <log_path>.1 (cũ trước), trả list dict. File không tồn tại -> bỏ qua. Dòng lỗi JSON -> bỏ qua dòng đó, không crash."""
     entries = []
-    try:
-        with open(log_path, "r", encoding="utf-8") as f:
-            for line in f:
-                line_str = line.strip()
-                if not line_str:
-                    continue
-                try:
-                    data = json.loads(line_str)
-                    if isinstance(data, dict):
-                        entries.append(data)
-                except (json.JSONDecodeError, ValueError):
-                    continue
-    except Exception as e:
-        print(f"Warning: Failed to read log file ({e})", file=sys.stderr)
-        return []
-
+    for path in (log_path + ".1", log_path):
+        if not os.path.exists(path):
+            continue
+        try:
+            with open(path, "r", encoding="utf-8") as f:
+                for line in f:
+                    line_str = line.strip()
+                    if not line_str:
+                        continue
+                    try:
+                        data = json.loads(line_str)
+                        if isinstance(data, dict):
+                            entries.append(data)
+                    except (json.JSONDecodeError, ValueError):
+                        continue
+        except Exception as e:
+            print(f"Warning: Failed to read log file ({e})", file=sys.stderr)
     return entries
 
 

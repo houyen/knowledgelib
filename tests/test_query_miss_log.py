@@ -54,3 +54,29 @@ def test_log_miss_never_raises_on_unwritable_path(tmp_path, monkeypatch):
     # Also test when open raises OSError via monkeypatch
     with patch("builtins.open", side_effect=OSError("Permission denied")):
         log_miss("another test query", "source_err", repo_dir=str(tmp_path))
+
+
+def test_rotates_when_over_limit(tmp_path, monkeypatch):
+    monkeypatch.setenv("KNOWLEDGELIB_MISS_LOG_MAX_BYTES", "200")
+    for i in range(20):
+        log_miss(f"query number {i}", "t", repo_dir=str(tmp_path))
+    log_file = tmp_path / "query_misses.jsonl"
+    old = tmp_path / "query_misses.jsonl.1"
+    assert old.exists()
+    assert log_file.stat().st_size < 400
+    assert old.stat().st_size < 400
+    assert not (tmp_path / "query_misses.jsonl.2").exists()
+    # dòng mới nhất luôn nằm ở file hiện tại
+    assert "query number 19" in log_file.read_text(encoding="utf-8")
+
+
+def test_no_rotation_under_limit(tmp_path):
+    for i in range(5):
+        log_miss(f"q{i}", "t", repo_dir=str(tmp_path))
+    assert not (tmp_path / "query_misses.jsonl.1").exists()
+
+
+def test_invalid_limit_env_falls_back_to_default(tmp_path, monkeypatch):
+    monkeypatch.setenv("KNOWLEDGELIB_MISS_LOG_MAX_BYTES", "abc")
+    log_miss("q", "t", repo_dir=str(tmp_path))
+    assert (tmp_path / "query_misses.jsonl").exists()

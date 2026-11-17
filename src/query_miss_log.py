@@ -10,6 +10,23 @@ import sys
 from datetime import datetime, timezone
 
 
+DEFAULT_MAX_BYTES = 1_000_000
+
+
+def _max_bytes() -> int:
+    try:
+        return int(os.environ.get("KNOWLEDGELIB_MISS_LOG_MAX_BYTES", DEFAULT_MAX_BYTES))
+    except ValueError:
+        return DEFAULT_MAX_BYTES
+
+
+def _rotate_if_needed(log_file: str) -> None:
+    """File vượt ngưỡng -> đổi thành <file>.1 (ghi đè bản cũ), file mới bắt đầu lại. Tối đa ~2x ngưỡng."""
+    limit = _max_bytes()
+    if limit > 0 and os.path.exists(log_file) and os.path.getsize(log_file) >= limit:
+        os.replace(log_file, log_file + ".1")
+
+
 def log_miss(query: str, source: str, repo_dir: str | None = None) -> None:
     """
     Append 1 dòng JSON vào <repo_dir>/query_misses.jsonl.
@@ -30,6 +47,7 @@ def log_miss(query: str, source: str, repo_dir: str | None = None) -> None:
             "query": query,
             "source": source,
         }
+        _rotate_if_needed(log_file)
         with open(log_file, "a", encoding="utf-8") as f:
             f.write(json.dumps(entry, ensure_ascii=False) + "\n")
     except Exception as e:

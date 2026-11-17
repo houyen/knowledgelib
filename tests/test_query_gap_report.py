@@ -70,3 +70,10 @@ def test_main_cli_empty_file(tmp_path, capsys):
     main(["--log-path", str(empty_file)])
     captured = capsys.readouterr().out
     assert "Không có query miss nào" in captured
+
+
+def test_load_misses_reads_rotated_file_first(tmp_path):
+    log = tmp_path / "query_misses.jsonl"
+    (tmp_path / "query_misses.jsonl.1").write_text('{"query": "old"}\n', encoding="utf-8")
+    log.write_text('{"query": "new"}\n', encoding="utf-8")
+    assert [m["query"] for m in load_misses(str(log))] == ["old", "new"]
