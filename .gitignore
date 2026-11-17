@@ -48,7 +48,7 @@ credentials.json
 # Runtime State & Logs
 *.log
 scripts/triage_state.json
-query_misses.jsonl
+query_misses.jsonl*
 .claude/audit/
 .claude/skills/
 
