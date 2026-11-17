@@ -2,7 +2,8 @@
 """
 KnowledgeLib Local Web UI (FastAPI + HTMX).
 No build step: HTMX loaded from CDN, Jinja2 server-rendered fragments.
-Binds to 127.0.0.1 only — not meant to be exposed on the network.
+Binds to 127.0.0.1:8000 by default (KNOWLEDGELIB_WEB_HOST / KNOWLEDGELIB_WEB_PORT override).
+To expose, use Cloudflare Tunnel + Access; set CF_ACCESS_TEAM/CF_ACCESS_AUD to enforce the Access JWT.
 """
 
 import os
@@ -15,13 +16,16 @@ from fastapi import FastAPI, Header, HTTPException, Query, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 
-from agent_client import KnowledgeLibClient
+from access_auth import AccessMiddleware
+from agent_client import KnowledgeLibClient, is_excluded
 from query_miss_log import log_miss
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 templates = Jinja2Templates(directory=os.path.join(BASE_DIR, "templates"))
 
 app = FastAPI(title="KnowledgeLib")
+# Middleware đọc env lúc khởi động; không đặt CF_ACCESS_* thì là no-op.
+app.add_middleware(AccessMiddleware)
 
 
 def get_client() -> KnowledgeLibClient:
@@ -61,7 +65,8 @@ def unit_detail(
 
     client = get_client()
     file_path = os.path.join(client.data_path, f"{unit_id}.md")
-    if not os.path.exists(file_path):
+    inside = os.path.abspath(file_path).startswith(client.data_path + os.sep)
+    if is_excluded(unit_id) or not inside or not os.path.exists(file_path):
         raise HTTPException(status_code=404, detail=f"Unit not found: {unit_id}")
 
     raw_content = client.get_unit_content(unit_id)
@@ -76,4 +81,8 @@ def unit_detail(
 if __name__ == "__main__":
     import uvicorn
 
-    uvicorn.run(app, host="127.0.0.1", port=8000)
+    uvicorn.run(
+        app,
+        host=os.environ.get("KNOWLEDGELIB_WEB_HOST", "127.0.0.1"),
+        port=int(os.environ.get("KNOWLEDGELIB_WEB_PORT", "8000")),
+    )

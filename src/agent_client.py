@@ -68,6 +68,25 @@ BM25_K1 = 1.2
 BM25_B = 0.75
 
 
+def excluded_domains() -> list:
+    """Domain/thư mục bị ẩn (KNOWLEDGELIB_EXCLUDE_DOMAINS, phân tách bằng dấu phẩy). Đọc mỗi lần gọi để test và đổi env có hiệu lực ngay."""
+    raw = os.environ.get("KNOWLEDGELIB_EXCLUDE_DOMAINS", "")
+    return [d.strip().strip("/").lower() for d in raw.split(",") if d.strip().strip("/")]
+
+
+def is_excluded(unit_id: str = "", domain: str = "") -> bool:
+    """True nếu unit nằm dưới một domain bị loại. Khớp theo đoạn đầu của id (thư mục) hoặc domain ("a > b")."""
+    ex = excluded_domains()
+    if not ex:
+        return False
+    uid = os.path.normpath((unit_id or "").strip().lstrip("/")).replace("\\", "/").lower()
+    dom = (domain or "").strip().lower()
+    for d in ex:
+        if uid == d or uid.startswith(d + "/") or dom == d or dom.startswith(d + " >") or dom.startswith(d + "/"):
+            return True
+    return False
+
+
 def _tokens(text: str) -> list:
     """Unigram + bigram. Bigram giữ được từ ghép tiếng Việt ("thiết kế", "bàn giao")."""
     words = re.findall(r"\w+", (text or "").lower())
@@ -285,7 +304,10 @@ class KnowledgeLibClient:
                 value *= SELF_DOCS_BOOST
             fused[unit_id] = value
 
-        ranked_ids = sorted(fused, key=lambda uid: fused[uid], reverse=True)[:top_k]
+        ranked_ids = [
+            uid for uid in sorted(fused, key=lambda uid: fused[uid], reverse=True)
+            if not is_excluded(uid, merged[uid].get("domain", ""))
+        ][:top_k]
 
         results = []
         for unit_id in ranked_ids:
@@ -301,9 +323,12 @@ class KnowledgeLibClient:
         return results
 
     def get_unit_content(self, unit_id: str) -> str:
-        """Đọc toàn bộ nội dung tệp Markdown của Unit."""
+        """Đọc toàn bộ nội dung tệp Markdown của Unit. Unit bị loại báo y hệt unit không tồn tại (không lộ sự tồn tại)."""
+        if is_excluded(unit_id):
+            return f"Error: Unit file not found at {os.path.join(self.data_path, f'{unit_id}.md')}"
         file_path = os.path.join(self.data_path, f"{unit_id}.md")
-        if not os.path.exists(file_path):
+        inside = os.path.abspath(file_path).startswith(self.data_path + os.sep)
+        if not inside or not os.path.exists(file_path):
             return f"Error: Unit file not found at {file_path}"
         with open(file_path, "r", encoding="utf-8") as f:
             return f.read()
